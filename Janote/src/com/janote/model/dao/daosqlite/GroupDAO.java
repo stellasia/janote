@@ -10,7 +10,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import com.janote.model.dao.DAO;
-import com.janote.model.entities_new.Group;
+import com.janote.model.entities.Group;
+import com.janote.model.entities.Student;
 
 /**
  * Group sqlite DAO
@@ -29,18 +30,48 @@ public class GroupDAO extends DAO<Group> {
 	public boolean add(Group obj) {
 		if (obj.getId() != null)
 			throw new IllegalArgumentException("Object id is not null ("+obj.getId().toString()+"); group may already exist");
+		
 		String query = "INSERT INTO Groups (name, description) VALUES(?, ?)";
+		PreparedStatement prepare;
 		try {
-			PreparedStatement prepare = this.connect.prepareStatement(query);
+			prepare = this.connect.prepareStatement(query);
 			prepare.setString(1, obj.getName());
 			prepare.setString(2, obj.getDescription());
 			prepare.executeUpdate();
-			return true;
+			//return true;
 		} 
 		catch (SQLException e) {
 			e.printStackTrace();
 			return false;
 		}
+		
+		// get the ID of the newly created group
+		Integer groupID = null;
+		try  {
+			ResultSet generatedKeys = prepare.getGeneratedKeys() ;
+			if (generatedKeys.next()) {
+				groupID = generatedKeys.getInt(1);
+			}
+			else {
+				throw new SQLException("Creating user failed, no ID obtained.");
+	       }
+	    }
+		catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+		 
+		// insert students into DB
+		ArrayList<Student> students = obj.getStudents();
+		if ( students != null) {
+			StudentDAO studentDAO = new StudentDAO(this.connect);
+			for (Student s : students) {
+				s.setGroup_id(groupID); // set the correct groupID for the students
+				studentDAO.add(s); // TODO : check for duplicate Student ? 
+			}	
+		}
+
+		return true;
 	}
 
 	@Override
@@ -81,7 +112,9 @@ public class GroupDAO extends DAO<Group> {
 	public Group find(Integer id) {
 		Group gr = null;
 		try {
-			String query = "SELECT id, name, description FROM Groups WHERE id = ?";
+			String query = "SELECT G.*, S.* FROM Groups G" +
+					"JOIN Students S on S.groupID = G.id" +
+					"WHERE G.id = ?";
 			PreparedStatement statement = this.connect.prepareStatement(query);
 			ResultSet resultSet = statement.executeQuery();
 			if (resultSet.next()) {
@@ -106,12 +139,11 @@ public class GroupDAO extends DAO<Group> {
 
 	@Override
 	public ArrayList<Group> findAll() {
-
 		return null;
 	}
 
     /**
-     * Map the current row of the	 ResultSet to an Student object.
+     * Map the current row of the ResultSet to an Student object.
 	 *
      * @param resultSet The ResultSet of which the current row is to be mapped to an User.
      * @return The instantiated Student from the current row parameter values of the passed ResultSet

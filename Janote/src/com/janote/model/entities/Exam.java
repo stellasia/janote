@@ -1,4 +1,4 @@
-package com.janote.model.entities_new;
+package com.janote.model.entities;
 
 public class Exam {
 

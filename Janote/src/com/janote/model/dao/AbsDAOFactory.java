@@ -3,9 +3,9 @@
  */
 package com.janote.model.dao;
 
-import com.janote.model.entities_new.Exam;
-import com.janote.model.entities_new.Group;
-import com.janote.model.entities_new.Student;
+import com.janote.model.entities.Exam;
+import com.janote.model.entities.Group;
+import com.janote.model.entities.Student;
 
 /**
  * DAOFactory generic class 

@@ -8,7 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import com.janote.model.dao.DAO;
-import com.janote.model.entities_new.Exam;
+import com.janote.model.entities.Exam;
 
 /**
  * @author Estelle Scifo

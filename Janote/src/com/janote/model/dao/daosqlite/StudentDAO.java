@@ -14,8 +14,8 @@ import java.util.Hashtable;
 import java.util.Map;
 
 import com.janote.model.dao.DAO;
-import com.janote.model.entities_new.Gender;
-import com.janote.model.entities_new.Student;
+import com.janote.model.entities.Gender;
+import com.janote.model.entities.Student;
 
 /**
  * The student DAO. 
@@ -56,13 +56,13 @@ public class StudentDAO extends DAO<Student> {
 			prepare.setInt(6, obj.getGender().getValue());
 			prepare.setInt(7, obj.getGroup_id());
 			prepare.executeUpdate();
-			return true;
 		} 
 		catch (SQLException e) {
 			e.printStackTrace(System.out);
 	        System.err.println(e.getMessage());
+			return false;
 		}
-		return false;
+		return true;
 	}
 
 	@Override

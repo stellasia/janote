@@ -12,9 +12,9 @@ import com.janote.model.dao.DAO;
 import com.janote.model.dao.DAOFactorySQLite;
 import com.janote.model.dao.daosqlite.GroupDAO;
 import com.janote.model.dao.daosqlite.StudentDAO;
-import com.janote.model.entities_new.Gender;
-import com.janote.model.entities_new.Group;
-import com.janote.model.entities_new.Student;
+import com.janote.model.entities.Gender;
+import com.janote.model.entities.Group;
+import com.janote.model.entities.Student;
 import com.janote.model.managers.GroupManager;
 
 /**
@@ -118,7 +118,7 @@ public class QuickTests {
 
 		ArrayList<Student> list1 = new ArrayList<Student>();
 		list1.add(s1); list1.add(s2); list1.add(s3);
-		Group g1 = new Group(1, "G1", "Ceci est la description du groupe 1. Par exemple : '1èreS 1'", list1 );
+		Group g1 = new Group(null, "G1", "Ceci est la description du groupe 1. Par exemple : '1èreS 1'", list1 );
 		System.out.println(g1);
 		dao.add(g1);
 		
@@ -133,7 +133,7 @@ public class QuickTests {
 		
 		ArrayList<Student> list2 = new ArrayList<Student>();
 		list2.add(s4); list2.add(s5);
-		Group g2 = new Group(2, "G2", "Ceci est la description du groupe 2. Par exemple : 'TS 13'", list2 );
+		Group g2 = new Group(null, "G2", "Ceci est la description du groupe 2. Par exemple : 'TS 13'", list2 );
 		System.out.println(g2);
 		dao.add(g2);
 		/*
@@ -165,8 +165,8 @@ public class QuickTests {
 //		StudentDAO sdao = (StudentDAO) adf.getStudentDAO();
 //		this.test_students(sdao);
 		
-//		GroupDAO gdao = (GroupDAO) adf.getGroupDAO();
-//		this.test_groups(gdao);
+		GroupDAO gdao = (GroupDAO) adf.getGroupDAO();
+		this.test_groups(gdao);
 		
 		System.out.println("Exit.");
 	}

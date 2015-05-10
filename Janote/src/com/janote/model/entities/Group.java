@@ -1,4 +1,4 @@
-package com.janote.model.entities_new;
+package com.janote.model.entities;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -20,7 +20,7 @@ import java.util.Iterator;
  */
 public class Group {
 
-	protected int id;
+	protected Integer id;
 	protected String name;
 	protected String description;
 	

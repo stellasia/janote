@@ -1,4 +1,4 @@
-package com.janote.model.entities_new;
+package com.janote.model.entities;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
