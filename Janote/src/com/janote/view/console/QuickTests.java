@@ -166,7 +166,9 @@ public class QuickTests {
 //		this.test_students(sdao);
 		
 		GroupDAO gdao = (GroupDAO) adf.getGroupDAO();
-		this.test_groups(gdao);
+		//this.test_groups(gdao);
+		Group g = gdao.find(3);
+		System.out.println(g);
 		
 		System.out.println("Exit.");
 	}

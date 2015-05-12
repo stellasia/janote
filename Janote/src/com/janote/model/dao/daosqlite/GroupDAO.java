@@ -6,6 +6,7 @@ package com.janote.model.dao.daosqlite;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -107,20 +108,51 @@ public class GroupDAO extends DAO<Group> {
 		return false;
 	}
 
+	
+	/**
+	 * Check that a resultset contains some students information. 
+	 * 
+	 * @param rs a ResultSet instance
+	 * @return boolean
+	 * @throws SQLException
+	 */
+	private boolean hasStudent(ResultSet rs) throws SQLException {
+		ResultSetMetaData rsMetaData = rs.getMetaData();
+		int numberOfColumns = rsMetaData.getColumnCount();
+
+		// get the column names; column indexes start from 1
+		for (int i = 1; i < numberOfColumns + 1; i++) {
+		    String columnName = rsMetaData.getColumnName(i);
+		    // Get the name of the column's table name
+		    if ("student_id".equals(columnName) && rs.getInt(i) > 0 )  {
+		        return true;
+		    }
+		}
+		return false;
+	}
 
 	@Override
 	public Group find(Integer id) {
 		Group gr = null;
 		try {
-			String query = "SELECT G.*, S.* FROM Groups G" +
-					"JOIN Students S on S.student_group_id = G.group_id" +
+			String query = "SELECT G.*, S.* FROM Groups G " +
+					"LEFT JOIN Students S ON S.student_group_id = G.group_id " +
 					"WHERE G.group_id = ?";
-			PreparedStatement statement = this.connect.prepareStatement(query);
+			PreparedStatement statement = this.connect.prepareStatement(query); //, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+			statement.setInt(1, id);
 			ResultSet resultSet = statement.executeQuery();
 			if (resultSet.next()) {
 				gr = map(resultSet);
+				if (hasStudent(resultSet)) {
+					ArrayList <Student> listStudents = new ArrayList<Student> (); 
+					listStudents.add(StudentDAO.map(resultSet));
+					while(resultSet.next() && resultSet.getInt("student_id") != 0)
+						listStudents.add(StudentDAO.map(resultSet)); // static ? 
+					gr.setStudents(listStudents);
+				}	
 			}
 		} catch (SQLException e) {
+            e.printStackTrace();
 		}
 		return gr;
 
