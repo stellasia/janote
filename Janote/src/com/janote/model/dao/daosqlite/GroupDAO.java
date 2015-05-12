@@ -31,7 +31,7 @@ public class GroupDAO extends DAO<Group> {
 		if (obj.getId() != null)
 			throw new IllegalArgumentException("Object id is not null ("+obj.getId().toString()+"); group may already exist");
 		
-		String query = "INSERT INTO Groups (name, description) VALUES(?, ?)";
+		String query = "INSERT INTO Groups (group_name, group_description) VALUES(?, ?)";
 		PreparedStatement prepare;
 		try {
 			prepare = this.connect.prepareStatement(query);
@@ -76,7 +76,7 @@ public class GroupDAO extends DAO<Group> {
 
 	@Override
 	public boolean delete(Group obj) {
-		String query = "DELETE FROM Groups WHERE id = ?";
+		String query = "DELETE FROM Groups WHERE group_id = ?";
 		try {
 			PreparedStatement prepare = this.connect.prepareStatement(query);
 			prepare.setInt( 1, obj.getId());
@@ -92,7 +92,7 @@ public class GroupDAO extends DAO<Group> {
 	public boolean update(Group obj) {
 		if (obj.getId() == null)
 			return false;
-		String query = "UPDATE Groups SET name=?, description=? WHERE id = ?";
+		String query = "UPDATE Groups SET group_name=?, group_description=? WHERE group_id = ?";
 		try {
 			PreparedStatement prepare = this.connect.prepareStatement(query);
 			prepare.setString(1, obj.getName());
@@ -113,8 +113,8 @@ public class GroupDAO extends DAO<Group> {
 		Group gr = null;
 		try {
 			String query = "SELECT G.*, S.* FROM Groups G" +
-					"JOIN Students S on S.groupID = G.id" +
-					"WHERE G.id = ?";
+					"JOIN Students S on S.student_group_id = G.group_id" +
+					"WHERE G.group_id = ?";
 			PreparedStatement statement = this.connect.prepareStatement(query);
 			ResultSet resultSet = statement.executeQuery();
 			if (resultSet.next()) {
@@ -151,9 +151,9 @@ public class GroupDAO extends DAO<Group> {
      */
     private static Group map(ResultSet resultSet) throws SQLException {
         Group gr = new Group();
-        gr.setId(resultSet.getInt("id"));
-        gr.setName(resultSet.getString("name"));
-        gr.setDescription(resultSet.getString("description"));
+        gr.setId(resultSet.getInt("group_id"));
+        gr.setName(resultSet.getString("group_name"));
+        gr.setDescription(resultSet.getString("group_description"));
         return gr;
     }
 	

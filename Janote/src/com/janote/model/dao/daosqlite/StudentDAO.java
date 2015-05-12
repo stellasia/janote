@@ -44,7 +44,7 @@ public class StudentDAO extends DAO<Student> {
 	 * @see Student
 	 */
 	public boolean add(Student obj) {
-		String query = "INSERT INTO Students (name, surname, email, birthday, repeating, gender, groupID) VALUES(?, ?, ?, ?, ?,?,?)";
+		String query = "INSERT INTO Students (student_name, student_surname, student_email, student_birthday, student_repeating, student_gender, student_group_id) VALUES(?, ?, ?, ?, ?,?,?)";
 		try {
 			PreparedStatement prepare = this.connect.prepareStatement(query);
 			//prepare.setInt(1, obj.getID()); // no, do not set the ID, will be set automatically
@@ -68,7 +68,7 @@ public class StudentDAO extends DAO<Student> {
 	@Override
 	public boolean delete(Student obj) {
 		try {
-			String query = "DELETE FROM Students WHERE id = ? ";
+			String query = "DELETE FROM Students WHERE student_id = ? ";
 			PreparedStatement prepare = this.connect.prepareStatement(query);
 			prepare.setInt(1, obj.getId());
 			if (prepare.executeUpdate() != 1)
@@ -84,7 +84,7 @@ public class StudentDAO extends DAO<Student> {
 	@Override
 	public boolean update(Student obj) {
 		try {
-			String query = "UPDATE Students SET name=?, surname=?, email=? , birthday=?, gender=?, repeating=?, groupID=? WHERE id = ? ";
+			String query = "UPDATE Students SET student_name=?, student_surname=?, student_email=? , student_birthday=?, student_gender=?, student_repeating=?, student_group_id=? WHERE student_id = ? ";
 			PreparedStatement prepare = this.connect.prepareStatement(query);
 			prepare.setString(1, obj.getName());
 			prepare.setString(2, obj.getSurname());
@@ -160,13 +160,13 @@ public class StudentDAO extends DAO<Student> {
      */
     private static Student map(ResultSet resultSet) throws SQLException {
         Student stu = new Student();
-        stu.setId(resultSet.getInt("id"));
-        stu.setName(resultSet.getString("name"));
-        stu.setSurname(resultSet.getString("surname"));
-        stu.setGender(Gender.values()[resultSet.getInt("gender")]);
-        stu.setEmail(resultSet.getString("email"));
-        stu.setBirthday(resultSet.getString("birthday"));
-        stu.setRepeating(resultSet.getBoolean("repeating"));
+        stu.setId(resultSet.getInt("student_id"));
+        stu.setName(resultSet.getString("student_name"));
+        stu.setSurname(resultSet.getString("student_surname"));
+        stu.setGender(Gender.values()[resultSet.getInt("student_gender")]);
+        stu.setEmail(resultSet.getString("student_email"));
+        stu.setBirthday(resultSet.getString("student_birthday"));
+        stu.setRepeating(resultSet.getBoolean("student_repeating"));
         return stu;
     }
     
