@@ -9,17 +9,19 @@ Provide a simple graphical interface for teachers to handle small group of stude
 
 Application developed using java/swing and the sqlite databases. Packages include: 
 
-Need to add sqlite-jdbc-3.8.5-pre1.jar to the ckasspath.
-
-- model
-    - entities
-    - db
-        - connection
+- src
+	- model
+    	- entities
+     	- connection
         - dao
-        - managers
-- view 
-    - gui 
-    
+	- view 
+		- console
+    	- gui 
+- data
+    - table_schema_v1.sql : sqlite table creation for new files
+- lib 
+	- add sqlite-jdbc-3.8.5-pre1.jar and lib folder to the ckasspath.
+	
     
 ## Use guide
 
