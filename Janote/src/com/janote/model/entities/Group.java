@@ -124,7 +124,7 @@ public class Group {
 				+ ", exams="
 //				+ (exams != null ? toString(exams.entrySet(), maxLen) : null)
 				+ (exams != null ? toString(exams, maxLen) : null)
-				+ "]";
+				+ "] \n";
 	}
 
 	private String toString(Collection<?> collection, int maxLen) {

@@ -138,8 +138,8 @@ public class GroupDAO extends DAO<Group> {
 		Group gr = null;
 		try {
 			String query = "SELECT G.*, S.* FROM Groups G " +
-					"LEFT JOIN Students S ON S.student_group_id = G.group_id " +
-					"WHERE G.group_id = ?";
+							"LEFT JOIN Students S ON S.student_group_id = G.group_id " +
+							"WHERE G.group_id = ?";
 			PreparedStatement statement = this.connect.prepareStatement(query); //, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 			statement.setInt(1, id);
 			ResultSet resultSet = statement.executeQuery();
@@ -181,7 +181,40 @@ public class GroupDAO extends DAO<Group> {
 
 	@Override
 	public ArrayList<Group> findAll() {
-		return null;
+		ArrayList<Group> grs = new ArrayList<Group>();
+		
+		Group gr = null;
+		try {
+			String query = "SELECT G.*, S.* FROM Groups G " +
+							"LEFT JOIN Students S ON S.student_group_id = G.group_id" ;
+			PreparedStatement statement = this.connect.prepareStatement(query); //, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+			ResultSet resultSet = statement.executeQuery();
+			ArrayList <Student> listStudents = null; //new ArrayList<Student> (); 
+			ArrayList <Exam> listExams = null; //new ArrayList<Exam> (); 
+			//do 
+			while (resultSet.next()) {
+				if (gr == null || resultSet.getInt("group_id") != gr.getId()) {
+					if (listStudents != null && !listStudents.isEmpty())
+						gr.setStudents(listStudents);
+					if (listExams != null && !listExams.isEmpty())
+						gr.setExams(listExams);
+					if (gr != null)
+						grs.add(gr);
+					gr = map(resultSet);
+					listStudents = new ArrayList<Student> (); 
+					listExams = new ArrayList<Exam> ();
+				}
+				if (resultSet.getInt("student_id") > 0)
+					listStudents.add(StudentDAO.map(resultSet));		
+					/*
+					if (resultSet.getInt("exam_id") > 0)
+						listExams.add(ExamDAO.map(resultSet));
+					*/
+			}
+		} catch (SQLException e) {
+            e.printStackTrace();
+		}
+		return grs;
 	}
 
     /**
