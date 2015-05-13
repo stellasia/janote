@@ -11,6 +11,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import com.janote.model.dao.DAO;
+import com.janote.model.entities.Exam;
 import com.janote.model.entities.Group;
 import com.janote.model.entities.Student;
 
@@ -116,6 +117,7 @@ public class GroupDAO extends DAO<Group> {
 	 * @return boolean
 	 * @throws SQLException
 	 */
+	@Deprecated
 	private boolean hasStudent(ResultSet rs) throws SQLException {
 		ResultSetMetaData rsMetaData = rs.getMetaData();
 		int numberOfColumns = rsMetaData.getColumnCount();
@@ -143,13 +145,21 @@ public class GroupDAO extends DAO<Group> {
 			ResultSet resultSet = statement.executeQuery();
 			if (resultSet.next()) {
 				gr = map(resultSet);
-				if (hasStudent(resultSet)) {
-					ArrayList <Student> listStudents = new ArrayList<Student> (); 
-					listStudents.add(StudentDAO.map(resultSet));
-					while(resultSet.next() && resultSet.getInt("student_id") != 0)
-						listStudents.add(StudentDAO.map(resultSet)); // static ? 
+				ArrayList <Student> listStudents = new ArrayList<Student> (); 
+				ArrayList <Exam> listExams = new ArrayList<Exam> (); 
+				do {
+					if (resultSet.getInt("student_id") > 0)
+						listStudents.add(StudentDAO.map(resultSet));		
+					/*
+					if (resultSet.getInt("exam_id") > 0)
+						listExams.add(ExamDAO.map(resultSet));
+					*/
+				} while(resultSet.next());
+				if (!listStudents.isEmpty())
 					gr.setStudents(listStudents);
-				}	
+				if (!listExams.isEmpty())
+					gr.setExams(listExams);
+				//}	
 			}
 		} catch (SQLException e) {
             e.printStackTrace();
