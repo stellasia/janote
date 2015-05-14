@@ -21,9 +21,11 @@ public class ChangeDisplayedGroupListener implements ActionListener {
 	public void actionPerformed (ActionEvent arg0) {
 		 //GroupSelector combo = (GroupSelector) arg0.getSource();
          //String currentQuantity = (String)combo.getSelectedItem();
-         Group currentGroup = (Group) combo.getSelectedItem();
-         int newGroupID = currentGroup.getId();
-         gtab.updateStudentList(newGroupID);
+		if (combo.getSelectedIndex() > 0) {
+			Group currentGroup = (Group) combo.getSelectedItem();
+			int newGroupID = currentGroup.getId();
+			gtab.updateStudentList(newGroupID);
+		}
 	}
 }
 

@@ -107,8 +107,10 @@ public class Group {
 	//public void setExams(HashMap<Exam, Float> exams) {
 	public void setExams(Set<Exam> exams) {
 		this.exams = exams;
-		for (Student s : this.getStudents()) {
-			s.setExams(exams);
+		if (this.getStudents() != null ) {
+			for (Student s : this.getStudents()) {
+				s.setExams(exams);
+			}
 		}
 	}
 
@@ -146,7 +148,11 @@ public class Group {
 	
 	@Override
 	public String toString() {
-		return this.name + " (" + this.description.substring(0, 50) + "... )";
+		String short_description = this.description;
+		if (this.description.length() > 60 ) {
+			short_description = short_description.substring(0, 57) + "...";
+		}
+		return this.name + " (" + short_description + ")";
 	}	
 	
 }

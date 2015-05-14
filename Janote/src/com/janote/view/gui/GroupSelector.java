@@ -29,7 +29,9 @@ public class GroupSelector extends JPanel {
 		this.add(chooseGroup);
 		combo = new JComboBox<Group>(groups);
 		combo.setPreferredSize(new Dimension(50, 30));
-
+		combo.insertItemAt(new Group(null, "------", "", null, null), 0);
+		combo.setSelectedIndex(0);
+		
 //		for (Group gr : groups) {
 //			combo.addItem((String) gr.getVal("name"));
 //		}
