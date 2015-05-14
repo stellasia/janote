@@ -1,0 +1,45 @@
+p, ul, ol {
+	font-size: 12px;
+}
+
+h1 {
+ 	font-size: 18px;
+    color: red;
+    text-align: center;
+    border: 3px outset red;
+   	background-color: #dddddd;
+}
+
+h2 {
+	margin-top: 30px;
+	font-size: 16px;
+	color: red;
+}
+
+h3 {
+	margin-top: 20px;
+	font-size: 14px;
+	color: orange;
+}
+
+
+p.nb {
+	border: 2px solid orange;
+	background-color: #F9966B;
+	font-weight: bold;
+	width: 80%;
+}
+
+p.astuce {
+	border: 2px solid #348017;
+	background-color:  #99C68E;
+	font-weight: bold;
+	position: relative;
+	width: 80%;
+}
+
+p.astuce:before {
+	content: "A";
+	position: fixed;
+	left:1Opx;
+}
