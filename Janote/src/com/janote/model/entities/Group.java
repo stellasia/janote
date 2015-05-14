@@ -42,10 +42,10 @@ public class Group {
 	public Group(Integer id, String name, String description,
 			ArrayList<Student> students) { //, HashMap<Exam, Float> exams) {
 		super();
-		this.id = id;
-		this.name = name;
-		this.description = description;
-		this.students = students;
+		this.setId(id);
+		this.setName(name);
+		this.setDescription(description);
+		this.setStudents(students);
 		//this.exams = exams;
 	}
 	

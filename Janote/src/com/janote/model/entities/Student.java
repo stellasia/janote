@@ -62,7 +62,7 @@ public class Student {
 	public Student(Integer id, String name, String surname, Gender gender, String email,
 			String birthday, Boolean repeating, Integer groupID) {
 		super();
-		this.id = id;
+		this.setId(id);
 		this.setName(name);
 		this.setSurname(surname);
 		this.setGender(gender);

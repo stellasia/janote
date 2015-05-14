@@ -6,7 +6,7 @@ public class Exam {
 	protected String name;
 	protected String description;
 	protected float coefficient;
-	
+	protected Integer group_id;
 	
 	public Exam() {};
 	
@@ -16,12 +16,13 @@ public class Exam {
 	 * @param description
 	 * @param coefficient
 	 */
-	public Exam(Integer id, String name, String description, float coefficient) {
+	public Exam(Integer id, String name, String description, float coefficient, Integer group_id) {
 		super();
-		this.id = id;
-		this.name = name;
-		this.description = description;
-		this.coefficient = coefficient;
+		this.setId(id);
+		this.setName(name);
+		this.setDescription(description);
+		this.setCoefficient(coefficient);
+		this.setGroup_id(group_id);
 	}
 	
 	/**
@@ -71,6 +72,20 @@ public class Exam {
 	 */
 	public void setCoefficient(float coefficient) {
 		this.coefficient = coefficient;
+	}
+
+	/**
+	 * @return the group_id
+	 */
+	public Integer getGroup_id() {
+		return group_id;
+	}
+
+	/**
+	 * @param group_id the group_id to set
+	 */
+	public void setGroup_id(Integer group_id) {
+		this.group_id = group_id;
 	}
 	
 	
