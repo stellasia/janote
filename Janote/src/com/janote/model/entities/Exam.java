@@ -2,10 +2,13 @@ package com.janote.model.entities;
 
 public class Exam {
 
-	protected int id;
+	protected Integer id;
 	protected String name;
 	protected String description;
 	protected float coefficient;
+	
+	
+	public Exam() {};
 	
 	/**
 	 * @param id
@@ -13,7 +16,7 @@ public class Exam {
 	 * @param description
 	 * @param coefficient
 	 */
-	public Exam(int id, String name, String description, float coefficient) {
+	public Exam(Integer id, String name, String description, float coefficient) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -24,7 +27,7 @@ public class Exam {
 	/**
 	 * @return the id
 	 */
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 	/**
@@ -48,7 +51,7 @@ public class Exam {
 	/**
 	 * @param id the id to set
 	 */
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 	/**
