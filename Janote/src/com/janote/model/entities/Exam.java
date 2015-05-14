@@ -88,5 +88,11 @@ public class Exam {
 		this.group_id = group_id;
 	}
 	
-	
+	@Override
+	public String toString() {
+		final int maxLen = 10;
+		return "Exam [id=" + id + ", name=" + name + ", description="
+				+ description + ", coefficent=" + coefficient
+				+ "] ";
+	}
 }

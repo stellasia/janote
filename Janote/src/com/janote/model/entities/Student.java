@@ -169,11 +169,15 @@ public class Student {
 		return  exams.keySet();
 	}
 	
+	public HashMap<Exam, Float> getExamsGrades() {
+		return exams;
+	}
+	
 	/**
 	 * @return a list of all grades
 	 */
 	public List<Float> getGrades() {
-		return  new ArrayList<Float> (exams.values());
+		return new ArrayList<Float> (exams.values());
 	}
 	
 	/**
@@ -256,8 +260,14 @@ public class Student {
 	/**
 	 * @param exams the exams to set
 	 */
-	public void setExams(HashMap<Exam, Float> exams) {
-		this.exams = exams;
+	public void setExams(Set<Exam> exams) {
+		if (exams == null) 
+			return;
+		if (this.exams == null)
+			this.exams = new HashMap<Exam, Float>();
+		for (Exam e : exams) {
+			this.exams.put(e, (float) -1);
+		}
 	}
 
 	/**
@@ -274,6 +284,16 @@ public class Student {
 		this.group_id = group_id;
 	}
 
+	/**
+	 * Set the grade of a Student to a specific Exam. 
+	 * 
+	 * @param e the exam
+	 * @param val the grade value obtained by the Student to that Exam
+	 */
+	public void setGrade(Exam e, Float val)  {
+		this.exams.put(e, val);
+	}
+	
 	@Override
 	public String toString() {
 		final int maxLen = 10;

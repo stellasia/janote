@@ -5,13 +5,17 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Scanner;
+import java.util.Set;
 
 import com.janote.model.dao.AbsDAOFactory;
 import com.janote.model.dao.DAO;
 import com.janote.model.dao.DAOFactorySQLite;
+import com.janote.model.dao.daosqlite.ExamDAO;
 import com.janote.model.dao.daosqlite.GroupDAO;
 import com.janote.model.dao.daosqlite.StudentDAO;
+import com.janote.model.entities.Exam;
 import com.janote.model.entities.Gender;
 import com.janote.model.entities.Group;
 import com.janote.model.entities.Student;
@@ -110,15 +114,15 @@ public class QuickTests {
 	 * @param dao
 	 */
 	public void test_groups(GroupDAO dao) {
-		Student s1  = new Student(2,  "Ford", "Shanon", Gender.GIRL, "sford@somewhere.com", "11-01-1999", false, null);
-		Student s2  = new Student(3,  "Thomson", "John", Gender.BOY, "j.thomson@elsewhere.com", "14-11-1998", false, null);
-		Student s3  = new Student(4,  "Smith", "Albert", Gender.BOY, "albert.smith@usa.com", "21-06-1997", true, null);
-		Student s4  = new Student(5,  "Alabama", "Anna", Gender.GIRL, "aaaa@lala.com", "07-02-1999", true, null);
-		Student s5  = new Student(6,  "Ingals", "Mary", Gender.GIRL, "ming@farm.com", "31-08-1999", false, null);
+		Student s1  = new Student(null,  "Ford", "Shanon", Gender.GIRL, "sford@somewhere.com", "11-01-1999", false, null);
+		Student s2  = new Student(null,  "Thomson", "John", Gender.BOY, "j.thomson@elsewhere.com", "14-11-1998", false, null);
+		Student s3  = new Student(null,  "Smith", "Albert", Gender.BOY, "albert.smith@usa.com", "21-06-1997", true, null);
+		Student s4  = new Student(null,  "Alabama", "Anna", Gender.GIRL, "aaaa@lala.com", "07-02-1999", true, null);
+		Student s5  = new Student(null,  "Ingals", "Mary", Gender.GIRL, "ming@farm.com", "31-08-1999", false, null);
 
-		ArrayList<Student> list1 = new ArrayList<Student>();
+		Set<Student> list1 = new HashSet<Student>();
 		list1.add(s1); list1.add(s2); list1.add(s3);
-		Group g1 = new Group(null, "G1", "Ceci est la description du groupe 1. Par exemple : '1èreS 1'", list1 );
+		Group g1 = new Group(null, "G1", "Ceci est la description du groupe 1. Par exemple : '1èreS 1'", list1, null );
 		System.out.println(g1);
 		dao.add(g1);
 		
@@ -131,9 +135,9 @@ public class QuickTests {
 		}
 		*/
 		
-		ArrayList<Student> list2 = new ArrayList<Student>();
+		Set<Student> list2 = new HashSet<Student>();
 		list2.add(s4); list2.add(s5);
-		Group g2 = new Group(null, "G2", "Ceci est la description du groupe 2. Par exemple : 'TS 13'", list2 );
+		Group g2 = new Group(null, "G2", "Ceci est la description du groupe 2. Par exemple : 'TS 13'", list2, null );
 		System.out.println(g2);
 		dao.add(g2);
 		/*
@@ -147,6 +151,22 @@ public class QuickTests {
 		
 	}
 	
+	public void test_exams(ExamDAO examDAO, GroupDAO groupDAO) {
+		Group gr = groupDAO.find(1);
+
+		Exam e1 = new Exam(null, "DS1", "", 1, gr.getId());
+		Exam e2 = new Exam(null, "DS2", "", 2, gr.getId());
+
+		Set<Exam> exams = new HashSet<Exam>();
+		exams.add(e1); exams.add(e2);
+		
+		gr.setExams(exams);
+		
+		//System.out.println(gr);
+		
+		groupDAO.update(gr);
+	}
+	
 	/**
 	 * Main method of the class
 	 */
@@ -156,21 +176,31 @@ public class QuickTests {
 			System.out.println("Failed to create connection.");
 			return ;
 		}
-		System.out.println("Connection create successfully. Continue... ");
+		System.out.println("Connection created successfully. Continue... ");
 
 		System.out.println("Test ongoing... ");
+				
+		/*
+		StudentDAO sdao = (StudentDAO) adf.getStudentDAO();
+		this.test_students(sdao);
+		*/
 		
-		GroupManager gm = new GroupManager();
+		/*
+		GroupDAO gdao = (GroupDAO) adf.getGroupDAO();
+		this.test_groups(gdao);
+		*/
 		
-//		StudentDAO sdao = (StudentDAO) adf.getStudentDAO();
-//		this.test_students(sdao);
 		
 		GroupDAO gdao = (GroupDAO) adf.getGroupDAO();
-		//this.test_groups(gdao);
-		Group g = gdao.find(3);
-		System.out.println(g);
+		ExamDAO edao = (ExamDAO) adf.getExamDAO();
+		//this.test_exams(edao, gdao);
+
+		Set<Group> grs = gdao.findAll();
+		System.out.println(grs);
+		
 		
 		System.out.println("Exit.");
+		
 	}
 	
 }

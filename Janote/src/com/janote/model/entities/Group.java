@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Set;
 
 //import com.janote.model.managers.GroupManager;
 
@@ -24,9 +25,9 @@ public class Group {
 	protected String name;
 	protected String description;
 	
-	protected ArrayList<Student> students;
+	protected Set<Student> students;
 	//protected HashMap<Exam, Float> exams;
-	protected ArrayList<Exam> exams;
+	protected Set<Exam> exams;
 	
 //	protected static GroupManager objects = new GroupManager();
 
@@ -40,13 +41,13 @@ public class Group {
 	 * @param students : list of Student in the group
 	 */
 	public Group(Integer id, String name, String description,
-			ArrayList<Student> students) { //, HashMap<Exam, Float> exams) {
+			Set<Student> students, Set<Exam> exams) {
 		super();
 		this.setId(id);
 		this.setName(name);
 		this.setDescription(description);
 		this.setStudents(students);
-		//this.exams = exams;
+		this.setExams(exams);
 	}
 	
 	/**
@@ -70,14 +71,14 @@ public class Group {
 	/**
 	 * @return the list of students in the group
 	 */
-	public ArrayList<Student> getStudents() {
+	public Set<Student> getStudents() {
 		return students;
 	}
 	/**
 	 * @return the list of exams taken by the group
 	 */
 	//public HashMap<Exam, Float> getExams() {
-	public ArrayList<Exam> getExams() {
+	public Set<Exam> getExams() {
 		return exams;
 	}
 	/**
@@ -101,15 +102,18 @@ public class Group {
 	/**
 	 * @param students the students to set
 	 */
-	public void setStudents(ArrayList<Student> students) {
+	public void setStudents(Set<Student> students) {
 		this.students = students;
 	}
 	/**
 	 * @param exams the exams to set
 	 */
 	//public void setExams(HashMap<Exam, Float> exams) {
-	public void setExams(ArrayList<Exam> exams) {
+	public void setExams(Set<Exam> exams) {
 		this.exams = exams;
+		for (Student s : this.getStudents()) {
+			s.setExams(exams);
+		}
 	}
 
 	/* (non-Javadoc)

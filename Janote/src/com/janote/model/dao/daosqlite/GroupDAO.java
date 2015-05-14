@@ -9,6 +9,8 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 import com.janote.model.dao.DAO;
 import com.janote.model.entities.Exam;
@@ -64,17 +66,27 @@ public class GroupDAO extends DAO<Group> {
 		}
 		 
 		// insert students into DB
-		ArrayList<Student> students = obj.getStudents();
+		Set<Student> students = obj.getStudents();
 		if ( students != null) {
 			StudentDAO studentDAO = new StudentDAO(this.connect);
-			for (Student s : students) {
-				s.setGroup_id(groupID); // set the correct groupID for the students
-				studentDAO.add(s); // TODO : check for duplicate Student ? 
-			}	
+			studentDAO.add(students, groupID); // TODO : check for duplicate Student ? 
 		}
-
+		
+		Set<Exam> exams = obj.getExams();
+		if ( exams != null) {
+			ExamDAO examDAO = new ExamDAO(this.connect);
+			examDAO.add(exams, groupID); // TODO : check for duplicate Student ? 
+		}
 		return true;
 	}
+	
+
+	@Override
+	public boolean add(Set<Group> objs, Integer to_id) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	
 
 	@Override
 	public boolean delete(Group obj) {
@@ -101,12 +113,33 @@ public class GroupDAO extends DAO<Group> {
 			prepare.setString(2, obj.getDescription());
 			prepare.setInt(3, obj.getId());
 			prepare.executeUpdate();
-			return true;
 		} 
 		catch (SQLException e) {
 			e.printStackTrace();
+			return false;
 		}
-		return false;
+		
+		// TODO add protections against errors here
+		if (obj.getStudents() != null) {
+			StudentDAO sDAO = new StudentDAO(this.connect);
+			for (Student s : obj.getStudents() ) {
+				if (s.getId() == null)
+					sDAO.add(s);
+				else
+					sDAO.update(s);
+			}
+		}
+		
+		if (obj.getExams() != null) {
+			ExamDAO eDAO = new ExamDAO(this.connect);
+			for (Exam e : obj.getExams() ) {
+				if (e.getId() == null)
+					eDAO.add(e);
+				else
+					eDAO.update(e);
+			}
+		}
+		return true;
 	}
 
 	
@@ -137,29 +170,19 @@ public class GroupDAO extends DAO<Group> {
 	public Group find(Integer id) {
 		Group gr = null;
 		try {
-			String query = "SELECT G.*, S.* FROM Groups G " +
-							"LEFT JOIN Students S ON S.student_group_id = G.group_id " +
+			String query = "SELECT G.* FROM Groups G " +
 							"WHERE G.group_id = ?";
 			PreparedStatement statement = this.connect.prepareStatement(query); //, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 			statement.setInt(1, id);
 			ResultSet resultSet = statement.executeQuery();
 			if (resultSet.next()) {
-				gr = map(resultSet);
-				ArrayList <Student> listStudents = new ArrayList<Student> (); 
-				ArrayList <Exam> listExams = new ArrayList<Exam> (); 
-				do {
-					if (resultSet.getInt("student_id") > 0)
-						listStudents.add(StudentDAO.map(resultSet));		
-					/*
-					if (resultSet.getInt("exam_id") > 0)
-						listExams.add(ExamDAO.map(resultSet));
-					*/
-				} while(resultSet.next());
-				if (!listStudents.isEmpty())
-					gr.setStudents(listStudents);
-				if (!listExams.isEmpty())
-					gr.setExams(listExams);
-				//}	
+				StudentDAO sdao = new StudentDAO(this.connect);
+				ExamDAO edao = new ExamDAO(this.connect);
+				gr = map(resultSet); 
+				Set<Student> students = sdao.findAll(gr.getId());
+				gr.setStudents(students);
+				Set<Exam> exams = edao.findAll(gr.getId());
+				gr.setExams(exams);
 			}
 		} catch (SQLException e) {
             e.printStackTrace();
@@ -180,36 +203,23 @@ public class GroupDAO extends DAO<Group> {
 
 
 	@Override
-	public ArrayList<Group> findAll() {
-		ArrayList<Group> grs = new ArrayList<Group>();
+	public Set<Group> findAll() {
+		Set<Group> grs = new HashSet<Group>();
 		
 		Group gr = null;
 		try {
-			String query = "SELECT G.*, S.* FROM Groups G " +
-							"LEFT JOIN Students S ON S.student_group_id = G.group_id" ;
+			String query = "SELECT G.* FROM Groups G ;";
 			PreparedStatement statement = this.connect.prepareStatement(query); //, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 			ResultSet resultSet = statement.executeQuery();
-			ArrayList <Student> listStudents = null; //new ArrayList<Student> (); 
-			ArrayList <Exam> listExams = null; //new ArrayList<Exam> (); 
-			//do 
+			StudentDAO sdao = new StudentDAO(this.connect);
+			ExamDAO edao = new ExamDAO(this.connect);
 			while (resultSet.next()) {
-				if (gr == null || resultSet.getInt("group_id") != gr.getId()) {
-					if (listStudents != null && !listStudents.isEmpty())
-						gr.setStudents(listStudents);
-					if (listExams != null && !listExams.isEmpty())
-						gr.setExams(listExams);
-					if (gr != null)
-						grs.add(gr);
-					gr = map(resultSet);
-					listStudents = new ArrayList<Student> (); 
-					listExams = new ArrayList<Exam> ();
-				}
-				if (resultSet.getInt("student_id") > 0)
-					listStudents.add(StudentDAO.map(resultSet));		
-					/*
-					if (resultSet.getInt("exam_id") > 0)
-						listExams.add(ExamDAO.map(resultSet));
-					*/
+				gr = map(resultSet);
+				Set<Student> students = sdao.findAll(gr.getId());
+				gr.setStudents(students);
+				Set<Exam> exams = edao.findAll(gr.getId());
+				gr.setExams(exams);
+				grs.add( gr );
 			}
 		} catch (SQLException e) {
             e.printStackTrace();
@@ -218,9 +228,9 @@ public class GroupDAO extends DAO<Group> {
 	}
 
     /**
-     * Map the current row of the ResultSet to an Student object.
+     * Map the current row of the ResultSet to a Group object.
 	 *
-     * @param resultSet The ResultSet of which the current row is to be mapped to an User.
+     * @param resultSet The ResultSet of which the current row is to be mapped to a Group.
      * @return The instantiated Student from the current row parameter values of the passed ResultSet
      * @throws SQLException if operation fails.
      */
@@ -231,6 +241,6 @@ public class GroupDAO extends DAO<Group> {
         gr.setDescription(resultSet.getString("group_description"));
         return gr;
     }
-	
+
 }
 
