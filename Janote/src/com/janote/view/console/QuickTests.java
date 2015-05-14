@@ -1,16 +1,11 @@
 package com.janote.view.console;
 
 import java.io.File;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Scanner;
 import java.util.Set;
 
 import com.janote.model.dao.AbsDAOFactory;
-import com.janote.model.dao.DAO;
 import com.janote.model.dao.DAOFactorySQLite;
 import com.janote.model.dao.daosqlite.ExamDAO;
 import com.janote.model.dao.daosqlite.GroupDAO;
@@ -19,7 +14,6 @@ import com.janote.model.entities.Exam;
 import com.janote.model.entities.Gender;
 import com.janote.model.entities.Group;
 import com.janote.model.entities.Student;
-import com.janote.model.managers.GroupManager;
 
 /**
  * This class is used as a basic test for the models and DAO methods. 

@@ -1,17 +1,8 @@
-import java.io.FileNotFoundException;
-import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
-import java.util.Calendar;
-import java.util.Date;
-
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.UnsupportedLookAndFeelException;
 
 import com.janote.controller.MainController;
-import com.janote.model.entities.Exam;
-import com.janote.model.entities.Student;
-import com.janote.view.console.QuickTests;
 import com.janote.view.gui.MainWindow;
 
 /**

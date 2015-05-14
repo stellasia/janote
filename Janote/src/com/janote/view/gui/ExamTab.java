@@ -5,18 +5,14 @@ package com.janote.view.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
 
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
 import com.janote.model.entities.Group;
 import com.janote.observer.Observer;
-import com.janote.view.gui.GroupTab.MoreListener;
 
 /**
  * @author estelle

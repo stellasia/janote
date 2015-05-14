@@ -5,8 +5,6 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -28,7 +26,6 @@ import javax.swing.table.TableCellRenderer;
 
 import com.janote.model.entities.Group;
 import com.janote.model.entities.Student;
-import com.janote.observer.Observer;
 
 
 @SuppressWarnings("serial")

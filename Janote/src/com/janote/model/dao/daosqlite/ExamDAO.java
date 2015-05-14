@@ -7,13 +7,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
 import com.janote.model.dao.DAO;
 import com.janote.model.entities.Exam;
-import com.janote.model.entities.Student;
 
 /**
  * @author Estelle Scifo
