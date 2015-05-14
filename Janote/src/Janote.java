@@ -9,8 +9,8 @@ import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.UnsupportedLookAndFeelException;
 
 import com.janote.controller.MainController;
-import com.janote.model.entities_new.Exam;
-import com.janote.model.entities_new.Student;
+import com.janote.model.entities.Exam;
+import com.janote.model.entities.Student;
 import com.janote.view.console.QuickTests;
 import com.janote.view.gui.MainWindow;
 
@@ -51,14 +51,13 @@ public class Janote {
 		}
 
 
-		QuickTests qt = new QuickTests(); // no need to create an instance that will not be used and will issue a WARNING
-		qt.run();
+//		QuickTests qt = new QuickTests(); // no need to create an instance that will not be used and will issue a WARNING
+//		qt.run();
 		
 		// Create the controler
-		//MainController controller = new MainController();
+		MainController controller = new MainController();
 		// Create the main window and link it to the controller
-		//MainWindow window = 
-		//new MainWindow(controller);
+		MainWindow window = new MainWindow(controller);
 
 	}
 

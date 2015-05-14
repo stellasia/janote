@@ -119,6 +119,7 @@ public class Group {
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
+	/*
 	@Override
 	public String toString() {
 		final int maxLen = 10;
@@ -130,7 +131,7 @@ public class Group {
 				+ (exams != null ? toString(exams, maxLen) : null)
 				+ "] \n";
 	}
-
+	
 	private String toString(Collection<?> collection, int maxLen) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("[\n ");
@@ -144,6 +145,12 @@ public class Group {
 		builder.append("]");
 		return builder.toString();
 	}
+
+	*/
 	
+	@Override
+	public String toString() {
+		return this.name + " (" + this.description.substring(0, 50) + "... )";
+	}	
 	
 }
