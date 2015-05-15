@@ -214,7 +214,7 @@ public class GroupDAO extends DAO<Group> {
 			ExamDAO edao = new ExamDAO(this.connect);
 			while (resultSet.next()) {
 				gr = map(resultSet);
-				Set<Student> students = sdao.findAll(gr.getId());
+				Set<Student> students = sdao.findAll(gr.getId());			
 				gr.setStudents(students);
 				Set<Exam> exams = edao.findAll(gr.getId());
 				gr.setExams(exams);

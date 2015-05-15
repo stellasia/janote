@@ -103,11 +103,12 @@ public class GroupTab extends JPanel //implements Observer
 		JComboBox<String> comboSex = new JComboBox<String>(comboData);
 		tabData.getColumn("Sexe").setCellEditor(new DefaultCellEditor(comboSex));
 
+		/*
 		tabData.getColumn("Modifier").setCellRenderer(new TabColumnButtonRenderer()); // button style
 		tabData.getColumn("Modifier").setCellEditor(new TabColumnButtonEditor(new JCheckBox())); // button action
 		tabData.getColumn("Supprimer").setCellRenderer(new TabColumnButtonRenderer()); // button style
 		tabData.getColumn("Supprimer").setCellEditor(new TabColumnButtonEditor(new JCheckBox())); // button action
-
+		 */
 		
 		JTableHeader header = tabData.getTableHeader();
 		header.setDefaultRenderer(new HeaderRenderer(tabData));
@@ -123,8 +124,7 @@ public class GroupTab extends JPanel //implements Observer
 				//System.out.println("GroupTab clicked -> numberOfClicks " + numberOfClicks + ", row " + row + ",col " + column);	    		   
 				int stud_id = (int) target.getModel().getValueAt(row, GroupTableModel.COL_ID);
 				//System.out.println("GroupTab -> mouseListener -> " + stud_id);
-				// FIXME tmp empty Student declaration
-				Student stu = new Student(); //parent.getController().getStudent(stud_id);
+				Student stu = parent.getController().getStudent(stud_id);
 				//GroupTableModel model = (GroupTableModel) target.getModel();
 				if (numberOfClicks == 2 && !target.isCellEditable(row, column)) { // double clic and cell not editable !
 					//JOptionPane.showMessageDialog(null, "Description plus longue de l'étudiant d'id " + stud_id + "\n avec détail de ses notes.", "Coming soon", JOptionPane.WARNING_MESSAGE);
@@ -185,14 +185,14 @@ public class GroupTab extends JPanel //implements Observer
 
 		Object[][] newData = new Object[nbStudents][this.titles.length];
 		for (int i=0; i<nbStudents; i++) {
-			for (int j=0; j<this.titles.length-2; j++) {
+			for (int j=0; j<this.titles.length; j++) {
 				//System.out.println("GroupTable.update -> In loop " + i + ", " + j);
 				newData[i][j] = studentData[i][j];
 			}
-			newData[i][this.titles.length-2] = "Modifier";
-			newData[i][this.titles.length-1] = "Supprimer";
+			//newData[i][this.titles.length-2] = "Modifier";
+			//newData[i][this.titles.length-1] = "Supprimer";
 		}
-		this.data = new Object[newData.length][titles.length+2];
+		this.data = new Object[newData.length][titles.length];
 		this.data = newData;
 //		model = new GroupTableModel(this.data, this.titles);
 		model.changeData(newData); // = new GroupTableModel(this.data, this.titles);

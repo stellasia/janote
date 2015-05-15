@@ -34,10 +34,12 @@ public class TabRowRenderer  extends DefaultTableCellRenderer { //implements Tab
         }
         
         boolean isEditable = table.getModel().isCellEditable(row, column);
+        /*
         if (isEditable) {
             cellComponent.setBackground(new Color(255, 100, 0));
         }
-        else if(isSelected) {
+        else */
+        if (isSelected) {
         	cellComponent.setBackground(Color.darkGray);
         }
         else {

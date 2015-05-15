@@ -28,10 +28,11 @@ public class GroupTableModel extends AbstractTableModel {
 		this.data = data;
 		this.title = title;
 		//		this.editableCellState = new boolean[this.getRowCount()][this.getColumnCount()];
-		initEditableStates();
+		//initEditableStates();
 	}
 
 
+	/*
 	//*****************************************
 	protected void initEditableStates() {
 		boolean[][] tmp = new boolean[this.getRowCount()][this.getColumnCount()];
@@ -39,7 +40,7 @@ public class GroupTableModel extends AbstractTableModel {
 		this.setColEditable(true, COL_EDIT);
 		this.setColEditable(true, COL_DELETE);
 	}
-
+	 */
 
 	//*****************************************
 	/**
@@ -104,6 +105,7 @@ public class GroupTableModel extends AbstractTableModel {
 	 * @return the boolean true it is possible to edit the cell, false otherwise.
 	 */
 	public boolean isCellEditable(int row, int col){
+		/*
 		try {
 			return editableCellState[row][col];
 		}
@@ -111,7 +113,10 @@ public class GroupTableModel extends AbstractTableModel {
 			e.printStackTrace();
 			return false;
 		}
-
+		 */
+		if (col == 0) 
+			return false;
+		return true;
 	}
 
 
@@ -125,7 +130,7 @@ public class GroupTableModel extends AbstractTableModel {
 	public void setCellEditable(boolean editableStatus, int row, int col) {
 		//		System.out.println("GroupTableModel.setCellEditable row:"+row+", col:"+col);
 		if (row < this.getRowCount() && col < this.getColumnCount()) {
-			editableCellState[row][col] = editableStatus;
+			//editableCellState[row][col] = editableStatus;
 			fireTableCellUpdated(row, col); // fire signal for the TabRowRenderer to do its job and colour the cell with the right color (depending on its editable and selection status)
 		}
 	}
@@ -228,7 +233,7 @@ public class GroupTableModel extends AbstractTableModel {
 		this.data[indice] = data;
 		temp = null;
 
-		initEditableStates();
+		//initEditableStates();
 		this.setRowEditable(true, nbRow);
 
 		//	      System.out.println("Nombre de lignes arpès ajout :" + this.getRowCount());

@@ -1,5 +1,6 @@
 package com.janote.model.entities;
 
+import java.util.HashSet;
 import java.util.Set;
 
 //import com.janote.model.managers.GroupManager;
@@ -114,6 +115,12 @@ public class Group {
 		}
 	}
 
+	public void addStudent(Student s) {
+		if (this.students == null)
+			this.students = new HashSet<Student>();
+		this.students.add(s);
+	}
+	
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
