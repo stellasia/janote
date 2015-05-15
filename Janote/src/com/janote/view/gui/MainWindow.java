@@ -204,7 +204,6 @@ public class MainWindow extends JFrame {
 		// File menu
 		JMenu file = new JMenu("Fichier");
 		file.setMnemonic('F');
-
 		JMenuItem newFile = new JMenuItem("Nouveau fichier");
 		newFile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, KeyEvent.CTRL_MASK));
 		newFile.addActionListener(welcomeTab.new NewFile());
@@ -226,8 +225,33 @@ public class MainWindow extends JFrame {
 		
 		this.menuBar.add(file);
 	
+		JMenu edit = new JMenu("Edition");
+		edit.setMnemonic('E');
+		JMenu newObject = new JMenu("Nouveau");
+		JMenuItem newGroup = new JMenuItem("Groupe");
+		newObject.add(newGroup);
+		JMenuItem newStudent = new JMenuItem("Etudiant");
+		newObject.add(newStudent);
+		JMenuItem newExam = new JMenuItem("Examen");
+		newObject.add(newExam);
+		edit.add(newObject);
+		JMenu delObject = new JMenu("Supprimer");
+		JMenuItem delGroup = new JMenuItem("Groupe");
+		delObject.add(delGroup);
+		JMenuItem delStudent = new JMenuItem("Etudiant");
+		delObject.add(delStudent);
+		JMenuItem delExam = new JMenuItem("Examen");
+		delObject.add(delExam);
+		edit.add(delObject);
+		this.menuBar.add(edit);
+
+		JMenu tools = new JMenu("Outils");
+		JMenuItem settings = new JMenuItem("Préférences");
+		tools.add(settings);
+		this.menuBar.add(tools);
+		
 		// About menu
-		JMenu about = new JMenu("A propos");
+		JMenu about = new JMenu(" ? ");
 		about.setMnemonic('A');
 
 		JMenuItem helpTab = new JMenuItem("Aide");
