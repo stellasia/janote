@@ -9,7 +9,12 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URISyntaxException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.List;
+import java.util.Scanner;
 
 import javax.swing.JEditorPane;
 import javax.swing.JPanel;
@@ -40,40 +45,15 @@ public class HelpTab extends JPanel
 
 		// add some styles to the html
 		StyleSheet styleSheet = kit.getStyleSheet();
-		// styleSheet.addRule("body {color:#000; font-family:times; margin: 4px; }");
-		String pathname = "data/help.css"; 
-		BufferedReader reader;
-		StringBuilder feuilleCSS = new StringBuilder();
-		try {
-			reader = new BufferedReader(new FileReader(pathname));
-			String tmp;
-			while((tmp=reader.readLine())!=null){
-				feuilleCSS.append(tmp);
-			}
-		} catch (FileNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		styleSheet.addRule(feuilleCSS.toString());
+		InputStream path = this.getClass().getClassLoader().getResourceAsStream("help.css");
+		String text = new Scanner(path, "UTF-8").useDelimiter("\\A").next();
+		styleSheet.addRule(text);
 
 		// create some html as a string
 		String htmlString = "";
-		try {
-			File file = new File(getClass().getResource("/help.html").getFile());
-			FileInputStream fis = new FileInputStream(file);
-			byte[] data = new byte[(int)file.length()];
-			fis.read(data);
-			fis.close();
-			htmlString = new String(data, "UTF-8");
-		}
-		catch(Exception e) {
-			e.printStackTrace();
-			System.out.println("I could not find the file to be displayed in the help tab "+e.getMessage());
-		}	
-
+		path = this.getClass().getClassLoader().getResourceAsStream("help.html");
+		htmlString = new Scanner(path, "UTF-8").useDelimiter("\\A").next();
+		
 		JEditorPane jEditorPane = new JEditorPane("text/html", htmlString);
 		jEditorPane.setEditable(false);
 		//jEditorPane.setOpaque(false);
