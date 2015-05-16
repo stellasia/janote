@@ -19,7 +19,7 @@ public class GroupTableModel extends AbstractTableModel {
 	private Object[][] data;
 	private String[] title;
 
-	private boolean[][] editableCellState;
+	//private boolean[][] editableCellState;
 
 
 	//*****************************************
@@ -202,6 +202,7 @@ public class GroupTableModel extends AbstractTableModel {
 
 	//*****************************************
 	public void editRow(int row) {
+		/*
 		//		System.out.println("GroupTableModel.editRow --> idRow = " + row);	
 		if (this.isCellEditable(row, 1)) {
 			//			this.button.setText("Editer");
@@ -216,6 +217,7 @@ public class GroupTableModel extends AbstractTableModel {
 			//			this.setValueAt("Enregistrer", row, GroupTableModel.COL_EDIT);
 		}
 		//		this.fireTableCellUpdated(row, 7);
+		 */
 	}
 
 
@@ -234,7 +236,7 @@ public class GroupTableModel extends AbstractTableModel {
 		temp = null;
 
 		//initEditableStates();
-		this.setRowEditable(true, nbRow);
+		//this.setRowEditable(true, nbRow);
 
 		//	      System.out.println("Nombre de lignes arpès ajout :" + this.getRowCount());
 
