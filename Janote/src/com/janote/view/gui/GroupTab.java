@@ -15,6 +15,7 @@ import javax.swing.DefaultCellEditor;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
@@ -87,6 +88,10 @@ public class GroupTab extends JPanel //implements Observer
 		btnNewStudent.setBackground(Color.ORANGE);
 		btnNewStudent.addActionListener(new MoreListener());
 		groupActions.add(btnNewStudent);
+		JButton btnDelStudent = new JButton("Supprimer l'étudiant sélectionné");
+		btnDelStudent.setBackground(Color.RED);
+		btnDelStudent.addActionListener(new DelStudentListener());
+		groupActions.add(btnDelStudent);
         JSeparator separator = new JSeparator(SwingConstants.VERTICAL);
         groupActions.add(separator);		
 		groupActions.setLayout(new BoxLayout(groupActions, BoxLayout.LINE_AXIS));
@@ -130,7 +135,6 @@ public class GroupTab extends JPanel //implements Observer
 				int stud_id = (int) target.getModel().getValueAt(row, GroupTableModel.COL_ID);
 				//System.out.println("GroupTab -> mouseListener -> " + stud_id);
 				Student stu = parent.getController().getStudent(stud_id);
-				//GroupTableModel model = (GroupTableModel) target.getModel();
 				if (numberOfClicks == 2 && !target.isCellEditable(row, column)) { // double clic and cell not editable !
 					DialogStudent new_student = new DialogStudent(stu, parent.getController());
 					DialogStatus st = new_student.showDialog();
@@ -142,12 +146,6 @@ public class GroupTab extends JPanel //implements Observer
 		});
 
 	
-//		TableColumn tcol = tabData.getColumnModel().getColumn(tabData.getColumnModel().getColumnIndex("id"));
-//		if ((tcol != null)) 
-//			tabData.removeColumn(tcol);
-		
-		//tabData.removeColumn(tabData.getColumnModel().getColumn(1));
-		
 		JScrollPane scroll = new JScrollPane(tabData);
 		this.setLayout(new BorderLayout());
 		this.add(groupSelection, BorderLayout.NORTH);
@@ -176,6 +174,33 @@ public class GroupTab extends JPanel //implements Observer
 		}
 	}
 
+	class DelStudentListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			JTable target = tabData; //(JTable)e.getSource();
+			int row = target.getSelectedRow();
+			int column = target.getSelectedColumn();
+			//System.out.println("GroupTab clicked -> numberOfClicks " + numberOfClicks + ", row " + row + ",col " + column);	    		   
+			int stud_id = (int) target.getModel().getValueAt(row, GroupTableModel.COL_ID);
+			//System.out.println("GroupTab -> mouseListener -> " + stud_id);
+			Student stu = parent.getController().getStudent(stud_id);
+			
+			int option = JOptionPane.showConfirmDialog(null, "Voulez-vous vraiment supprimer cet élément ? \nCette action est irréversible.", "Suppression", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+			if (option == JOptionPane.OK_OPTION) {
+				if (parent.getController().delStudent(stu)) {
+					JOptionPane.showMessageDialog(null, "Element supprimé", "Attention", JOptionPane.WARNING_MESSAGE);
+					updateStudentList(groupID);
+				}
+				else
+					JOptionPane.showMessageDialog(null, "Un erreur est survenue. \n Element non supprimé.", "Attention", JOptionPane.ERROR_MESSAGE);
+			}
+			else { // clicked No or Close button
+				JOptionPane.showMessageDialog(null, "Action annulée", "Information", JOptionPane.INFORMATION_MESSAGE);
+			}
+
+		}
+	}
 	
 	//*****************************************
 	//@Override 

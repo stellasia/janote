@@ -157,15 +157,6 @@ public class GroupTableModel extends AbstractTableModel {
 
 	//*****************************************
 	public void removeRow(int row) {
-		int option = JOptionPane.showConfirmDialog(null, "Voulez-vous vraiment supprimer cet élément ? \nCette action est irréversible.", "Suppression", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-
-		if (option == JOptionPane.OK_OPTION) {
-			//JOptionPane.showMessageDialog(null, "Element supprimé", "Attention", JOptionPane.WARNING_MESSAGE);
-		}
-		else { // clicked No or Close button
-			JOptionPane.showMessageDialog(null, "Action annulée", "Information", JOptionPane.INFORMATION_MESSAGE);
-		}
-
 	}
 
 

@@ -97,6 +97,10 @@ public class MainController {
 		return null;
 	}
 	
+	public boolean delStudent(Student s) {
+		return studentDAO.delete(s);
+	}
+	
 	public void start(String name) {
 		//System.out.println("MainController.start");
 		// first call, first call to the DB to initialize the view
