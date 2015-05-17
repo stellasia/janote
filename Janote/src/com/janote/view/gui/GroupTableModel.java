@@ -1,6 +1,5 @@
 package com.janote.view.gui;
 
-import javax.swing.JOptionPane;
 import javax.swing.table.AbstractTableModel;
 
 /**
@@ -13,8 +12,6 @@ public class GroupTableModel extends AbstractTableModel {
 
 	//*****************************************
 	public static int COL_ID = 0;
-	public static int COL_EDIT = 7;
-	public static int COL_DELETE = 8;
 
 	private Object[][] data;
 	private String[] title;
@@ -41,7 +38,9 @@ public class GroupTableModel extends AbstractTableModel {
 	 * @return the number of rows in the table
 	 */
 	public int getRowCount() {
-		return this.data.length;
+		if (this.data != null)
+			return this.data.length;
+		return 0;
 	}
 
 
@@ -50,7 +49,12 @@ public class GroupTableModel extends AbstractTableModel {
 	 * @return the value in the cell with indices row, col
 	 */
 	public Object getValueAt(int row, int col) {
-		return this.data[row][col];
+		try {
+			return this.data[row][col];
+		}
+		catch (NullPointerException e) {
+			return null;
+		}
 	}            
 
 

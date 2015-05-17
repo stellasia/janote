@@ -149,7 +149,7 @@ public class StudentDAO extends DAO<Student> {
 	public Student find(Integer id) {
 		Student student = null;
 		try {
-			ResultSet result = this.connect.createStatement().executeQuery(" SELECT S.* FROM Students S WHERE id = " + id + ";");
+			ResultSet result = this.connect.createStatement().executeQuery(" SELECT S.* FROM Students S WHERE student_id = " + id + ";");
 			while ( result.next() ) {		
 				student = map(result);
 			}

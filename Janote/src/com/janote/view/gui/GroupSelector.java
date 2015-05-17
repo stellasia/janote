@@ -31,10 +31,9 @@ public class GroupSelector extends JPanel {
 		this.add(chooseGroup);
 		combo = new JComboBox<Group>(groups);
 		combo.setPreferredSize(new Dimension(50, 30));
-		combo.insertItemAt(new Group(null, "------", "", null, null), 0);
-		combo.setSelectedIndex(0);
 	    combo.addActionListener(new GroupChangeListener());
-	      
+	    this.setItems(groups, 0);
+	    
 //		for (Group gr : groups) {
 //			combo.addItem((String) gr.getVal("name"));
 //		}
@@ -66,18 +65,28 @@ public class GroupSelector extends JPanel {
 		return selectedGroup;	
 	}
 	
+	public void setItems(Group[] groups, int selected_index) {
+		combo.removeAllItems();
+		for (Group g : groups)
+			combo.addItem(g);
+		combo.insertItemAt(new Group(null, "------", "", null, null), 0);
+		combo.setSelectedIndex(selected_index);
+		combo.revalidate();
+	}
+	
 	//*****************************************
 	class NewGroupListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
 			//JOptionPane.showMessageDialog(null, "Add group action.", "Temporary", JOptionPane.INFORMATION_MESSAGE);
-			DialogGroup zd = new DialogGroup(null, "Nouveau groupe", true);
+			DialogGroup zd = new DialogGroup(null, parent.getController());
 			boolean option = zd.showGroupDialog();
 			if (option) {
 //				System.out.println("GroupTab.NewGroupListener.actionPerformed --> ok");
-				//parent.getControler().addGroup(data);
+//				parent.getController().addOrUpdate();
+				parent.getGroupTab().updateGroupList();
 			}
-		} 
+		}
 	}
 	
 	 private class GroupChangeListener implements ActionListener {

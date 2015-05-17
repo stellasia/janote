@@ -51,11 +51,7 @@ public class GroupTab extends JPanel //implements Observer
 	//********************
 	public GroupTab(int pGroupID, String[] titles, MainWindow Pparent) {
 		this.titles = titles;
-		// TODO IMPORTANT temporary data size !!
-		this.data = new Object[100][titles.length+2];
-		for (int i=0; i<titles.length+2; i++) {
-			this.data[0][i] = "";
-		}
+		this.data = null;
 		this.groupID = pGroupID;
 		this.parent = Pparent;
 	}
@@ -68,13 +64,15 @@ public class GroupTab extends JPanel //implements Observer
 		
 		//this.updateStudentList(null); // should update the data table
 		//this.updateGroupList(); // should update the group list
-		
-		groupSelection = new GroupSelector(parent, parent.getController().getGroupList(), true);
+				
+		groupSelection = new GroupSelector(parent, this.parent.getController().getGroupList(), true);
 		groupSelection.addPropertyChangeListener(new PropertyChangeListener() {
 			@Override
 			public void propertyChange(PropertyChangeEvent evt) {
 				if (evt.getPropertyName().equals(GroupSelector.COMBO_CHANGED)) {
 		            Group g = (Group) evt.getNewValue();
+		            if (g.getId() == null)
+		            	return;
 		            parent.getController().changeSelectedGroup(g);
 		            int group_id = g.getId();
 		            groupID = group_id;
@@ -135,6 +133,7 @@ public class GroupTab extends JPanel //implements Observer
 				int stud_id = (int) target.getModel().getValueAt(row, GroupTableModel.COL_ID);
 				//System.out.println("GroupTab -> mouseListener -> " + stud_id);
 				Student stu = parent.getController().getStudent(stud_id);
+				//System.out.println(stu);
 				if (numberOfClicks == 2 && !target.isCellEditable(row, column)) { // double clic and cell not editable !
 					DialogStudent new_student = new DialogStudent(stu, parent.getController());
 					DialogStatus st = new_student.showDialog();
@@ -232,6 +231,7 @@ public class GroupTab extends JPanel //implements Observer
 	//@Override
 	public void updateGroupList() {
 		this.groups =  parent.getController().getGroupList();
+		((GroupSelector) groupSelection).setItems(this.groups, this.groups.length - 1);
 	}
 
 	
