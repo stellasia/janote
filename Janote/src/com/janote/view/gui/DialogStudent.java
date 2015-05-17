@@ -22,11 +22,11 @@ import com.janote.model.entities.Student;
  *
  */
 @SuppressWarnings("serial")
-public class DialogStudentInfo extends JDialog {
+public class DialogStudent extends JDialog {
 
 	private Student student;
 	
-	public DialogStudentInfo(Student stu){
+	public DialogStudent(Student stu){
 		super();
 		this.student = stu;
 	    this.setTitle("Informations sur l'étudiant  " + student.getId());
@@ -54,7 +54,7 @@ public class DialogStudentInfo extends JDialog {
 
 		JLabel picture = new JLabel();
 		Icon icon;
-//		System.out.println("DialogStudentInfo -> initComponent -> student sex = " + student.getVal("sex"));
+//		System.out.println("DialogStudent -> initComponent -> student sex = " + student.getVal("sex"));
 /*
 		if (student.getVal("sex").equals("F"))
 			icon = new ImageIcon(getClass().getResource("/graduate_female.png"));  

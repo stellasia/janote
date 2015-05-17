@@ -18,13 +18,13 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 @SuppressWarnings("serial")
-public class DialogNewGroup extends JDialog {
+public class DialogGroup extends JDialog {
 	private boolean sendData;
 	//private JLabel nomLabel, descLabel;
 	private JTextField name;
 	private JTextArea desc;
 
-	public DialogNewGroup(JFrame parent, String title, boolean modal){
+	public DialogGroup(JFrame parent, String title, boolean modal){
 		super(parent, title, modal);
 		this.setSize(500, 400);
 		this.setLocationRelativeTo(null);
