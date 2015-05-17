@@ -186,6 +186,7 @@ public class QuickTests {
 		
 		
 		GroupDAO gdao = (GroupDAO) adf.getGroupDAO();
+		this.test_groups(gdao);
 		ExamDAO edao = (ExamDAO) adf.getExamDAO();
 		//this.test_exams(edao, gdao);
 

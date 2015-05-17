@@ -27,8 +27,6 @@ public class MainController {
 	protected ExamDAO examDAO;
 	protected Set<Group> allGroups;
 	
-//	protected ExamDAO examDAO;
-
 	/**
 	 * Information about the columns in the group tab
 	 */
@@ -62,6 +60,7 @@ public class MainController {
 	}
 	
 	public boolean addOrUpdateGroup(Group gr) {
+		//System.out.println("MainController.addOrUpdateGroup -> " + gr);
 		if (gr.getId() == null)
 			return groupDAO.add(gr);
 		else
@@ -88,17 +87,26 @@ public class MainController {
 		return this.groupColTitlesView;
 	}
 	
-	public Group[] getGroupList() {
-		return this.allGroups.toArray(new Group[this.allGroups.size()]);
+	public Set<Group> getGroupList() {
+		return groupDAO.findAll();
 	}
 	
 	public Student getStudent(int id) {
 		return studentDAO.find(id);
 	}
 	
+	public Group getGroup(int id) {
+		return groupDAO.find(id);
+	}
+	
 	public boolean delStudent(Student s) {
 		return studentDAO.delete(s);
 	}
+
+	public boolean delGroup (Group g) {
+		return groupDAO.delete(g);
+	}
+
 	
 	public void start(String name) {
 		//System.out.println("MainController.start");

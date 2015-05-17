@@ -5,6 +5,7 @@ package com.janote.view.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.util.Set;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -42,7 +43,9 @@ public class ExamTab extends JPanel implements Observer {
 
 	public void init() {
 		//System.out.println("GroupTabs.init");
-		groupSelection = new GroupSelector(parent, parent.getController().getGroupList(), false);
+		Set<Group> grset = this.parent.getController().getGroupList();
+		this.groups = grset.toArray(new Group[grset.size()]);
+		groupSelection = new GroupSelector(parent, this.groups, false);
 		
 		JScrollPane scroll = new JScrollPane(tabData);
 		this.setLayout(new BorderLayout());

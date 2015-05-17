@@ -23,7 +23,7 @@ import com.janote.model.entities.Group;
 
 @SuppressWarnings("serial")
 public class DialogGroup extends JDialog {
-	private boolean sendData;
+	private boolean sendData = false;
 	//private JLabel nomLabel, descLabel;
 	private JTextField name;
 	private JTextArea desc;
@@ -41,7 +41,7 @@ public class DialogGroup extends JDialog {
 		
 		this.setModal(true);
 		
-		if (group == null) {
+		if (g == null) {
 			this.group = new Group();
 			this.setTitle("Enregistrer un nouveau groupe");
 		}
@@ -54,7 +54,7 @@ public class DialogGroup extends JDialog {
 		this.initComponent();
 	}
 
-	public boolean showGroupDialog(){
+	public boolean showDialog(){
 		this.setVisible(true);      
 		return this.sendData;      
 	}
@@ -68,6 +68,7 @@ public class DialogGroup extends JDialog {
 		panName.setPreferredSize(new Dimension(400, 70));
 		name = new JTextField();
 		name.setPreferredSize(new Dimension(350, 25));
+	    name.setText(this.group.getName());
 		panName.setBorder(BorderFactory.createTitledBorder("Nom du nouveau groupe"));
 		//    nomLabel = new JLabel("Saisir un nom :");
 		//    panNom.add(nomLabel);
@@ -76,6 +77,8 @@ public class DialogGroup extends JDialog {
 		// groups description
 		desc = new JTextArea();
 		desc.setPreferredSize(new Dimension(350, 200));
+	    desc.setText(this.group.getDescription());
+
 		JScrollPane panDesc = new JScrollPane(desc, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		panDesc.setPreferredSize(new Dimension(400, 400));
 		panDesc.setBorder(BorderFactory.createTitledBorder("Description (optionel)"));
@@ -102,6 +105,7 @@ public class DialogGroup extends JDialog {
 				JOptionPane mess = new JOptionPane();
 				if (cont.addOrUpdateGroup(gr)) {
 					mess.showMessageDialog(null, "Le groupe a bien été ajouté.", "Succès", JOptionPane.INFORMATION_MESSAGE);
+					sendData = true;
 					setVisible(false);
 					dispose();
 				}
@@ -117,7 +121,6 @@ public class DialogGroup extends JDialog {
 		JButton cancelBouton = new JButton("Annuler");
 		cancelBouton.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0) {
-				sendData = false;
 				setVisible(false);
 			}      
 		});

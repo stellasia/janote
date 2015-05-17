@@ -9,6 +9,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.Arrays;
+import java.util.Set;
 
 import javax.swing.BoxLayout;
 import javax.swing.DefaultCellEditor;
@@ -64,13 +66,16 @@ public class GroupTab extends JPanel //implements Observer
 		
 		//this.updateStudentList(null); // should update the data table
 		//this.updateGroupList(); // should update the group list
-				
-		groupSelection = new GroupSelector(parent, this.parent.getController().getGroupList(), true);
+		Set<Group> grset = this.parent.getController().getGroupList();
+		this.groups = grset.toArray(new Group[grset.size()]);
+		groupSelection = new GroupSelector(parent, this.groups, true);
 		groupSelection.addPropertyChangeListener(new PropertyChangeListener() {
 			@Override
 			public void propertyChange(PropertyChangeEvent evt) {
 				if (evt.getPropertyName().equals(GroupSelector.COMBO_CHANGED)) {
 		            Group g = (Group) evt.getNewValue();
+		            if (g == null)
+		            	return;
 		            if (g.getId() == null)
 		            	return;
 		            parent.getController().changeSelectedGroup(g);
@@ -82,23 +87,26 @@ public class GroupTab extends JPanel //implements Observer
 		});
 		
 		groupActions = new JPanel();
+		groupActions.setLayout(new BoxLayout(groupActions, BoxLayout.LINE_AXIS));
+
 		JButton btnNewStudent = new JButton("Ajouter un étudiant");
-		btnNewStudent.setBackground(Color.ORANGE);
+		btnNewStudent.setBackground(Color.GREEN);
 		btnNewStudent.addActionListener(new MoreListener());
 		groupActions.add(btnNewStudent);
 		JButton btnDelStudent = new JButton("Supprimer l'étudiant sélectionné");
 		btnDelStudent.setBackground(Color.RED);
 		btnDelStudent.addActionListener(new DelStudentListener());
 		groupActions.add(btnDelStudent);
+		
         JSeparator separator = new JSeparator(SwingConstants.VERTICAL);
         groupActions.add(separator);		
-		groupActions.setLayout(new BoxLayout(groupActions, BoxLayout.LINE_AXIS));
 		JButton btnModGroup = new JButton("Modifier le nom/la description");
+		btnModGroup.setBackground(Color.ORANGE);
+		btnModGroup.addActionListener(new ModGroupListener());
 		groupActions.add(btnModGroup);
-		JButton btnExportGroup = new JButton("Exporter le groupe");
-		groupActions.add(btnExportGroup);
 		JButton btnDelGroup = new JButton("Supprimer le groupe");
 		btnDelGroup.setBackground(Color.RED);
+		btnDelGroup.addActionListener(new DelGroupListener());
 		groupActions.add(btnDelGroup);
 
 
@@ -172,7 +180,8 @@ public class GroupTab extends JPanel //implements Observer
 			}
 		}
 	}
-
+	
+	//*****************************************
 	class DelStudentListener implements ActionListener {
 
 		@Override
@@ -202,6 +211,43 @@ public class GroupTab extends JPanel //implements Observer
 	}
 	
 	//*****************************************
+	class DelGroupListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			int group_id = groupID;
+			Group gr = parent.getController().getGroup(group_id);
+			
+			int option = JOptionPane.showConfirmDialog(null, "Voulez-vous vraiment supprimer cet élément ? \nCette action est irréversible.", "Suppression", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+			if (option == JOptionPane.OK_OPTION) {
+				if (parent.getController().delGroup(gr)) {
+					JOptionPane.showMessageDialog(null, "Element supprimé", "Attention", JOptionPane.WARNING_MESSAGE);
+					updateGroupList();
+				}
+				else
+					JOptionPane.showMessageDialog(null, "Un erreur est survenue. \n Element non supprimé.", "Attention", JOptionPane.ERROR_MESSAGE);
+			}
+			else { // clicked No or Close button
+				JOptionPane.showMessageDialog(null, "Action annulée", "Information", JOptionPane.INFORMATION_MESSAGE);
+			}
+		}
+	}
+	
+	//*****************************************
+	class ModGroupListener implements ActionListener {
+		public void actionPerformed(ActionEvent event) {
+			Group current_group = parent.getController().getGroup(groupID);
+			System.out.println(current_group);
+			DialogGroup dgroup = new DialogGroup(current_group, parent.getController());
+			boolean option = dgroup.showDialog();
+			if (option) {
+				updateGroupList();
+			}
+		}
+	}
+	
+	
+	//*****************************************
 	//@Override 
 	public void updateStudentList(Integer groupID) {
 		//System.out.println("GroupTab.updateStudentList --> " + this.groupID);
@@ -216,8 +262,6 @@ public class GroupTab extends JPanel //implements Observer
 				//System.out.println("GroupTable.update -> In loop " + i + ", " + j);
 				newData[i][j] = studentData[i][j];
 			}
-			//newData[i][this.titles.length-2] = "Modifier";
-			//newData[i][this.titles.length-1] = "Supprimer";
 		}
 		this.data = new Object[newData.length][titles.length];
 		this.data = newData;
@@ -230,7 +274,9 @@ public class GroupTab extends JPanel //implements Observer
 	//*****************************************
 	//@Override
 	public void updateGroupList() {
-		this.groups =  parent.getController().getGroupList();
+		Set<Group> grset = this.parent.getController().getGroupList();
+		this.groups = grset.toArray(new Group[grset.size()]);
+		//System.out.println(Arrays.toString(this.groups));
 		((GroupSelector) groupSelection).setItems(this.groups, this.groups.length - 1);
 	}
 

@@ -34,21 +34,6 @@ public class GroupSelector extends JPanel {
 	    combo.addActionListener(new GroupChangeListener());
 	    this.setItems(groups, 0);
 	    
-//		for (Group gr : groups) {
-//			combo.addItem((String) gr.getVal("name"));
-//		}
-/*
-		combo.addActionListener(new ActionListener(){
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				selectedGroup = (Group) combo.getSelectedItem();
-				parent.getController().changeSelectedGroup(selectedGroup);
-				//parent.getGroupTab().
-			}
-        });
-  */
-		//combo.addActionListener(new ChangeDisplayedGroupListener(combo, parent.getGroupTab()));
-		
 		this.add(combo);
 		if (allowAddingNew) {
 			JLabel orNewGroup = new JLabel(" ou ");
@@ -80,10 +65,8 @@ public class GroupSelector extends JPanel {
 		public void actionPerformed(ActionEvent arg0) {
 			//JOptionPane.showMessageDialog(null, "Add group action.", "Temporary", JOptionPane.INFORMATION_MESSAGE);
 			DialogGroup zd = new DialogGroup(null, parent.getController());
-			boolean option = zd.showGroupDialog();
+			boolean option = zd.showDialog();
 			if (option) {
-//				System.out.println("GroupTab.NewGroupListener.actionPerformed --> ok");
-//				parent.getController().addOrUpdate();
 				parent.getGroupTab().updateGroupList();
 			}
 		}

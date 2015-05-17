@@ -93,7 +93,9 @@ public class GroupDAO extends DAO<Group> {
 		try {
 			PreparedStatement prepare = this.connect.prepareStatement(query);
 			prepare.setInt( 1, obj.getId());
-			return prepare.execute();
+			if (prepare.executeUpdate() != 1)
+				return false;
+			return true;
 		}
 		catch (SQLException e) {
 			e.printStackTrace();
@@ -187,17 +189,6 @@ public class GroupDAO extends DAO<Group> {
             e.printStackTrace();
 		}
 		return gr;
-
-		/*
-		 sqlite> select G.id , S.name from Groups G join Students S on S.groupID = G.id;
-			id          name      
-			----------  ----------
-			1           Ford      
-			1           Thomson   
-			1           Smith     
-			2           Alabama   
-			2           Ingals    
-		 */
 	}
 
 
