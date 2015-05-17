@@ -65,10 +65,12 @@ public class DialogStudentInfo extends JDialog {
 	    JLabel nomLabel = new JLabel(student.getSurname() + " " + student.getName());
 	    nomLabel.setFont(new Font(nomLabel.getFont().getName(), Font.BOLD, 25));
 		
-//	    System.out.println(student.toString());
+	    System.out.println(student);
 	    
-//	    JLabel meanLabel = new JLabel(student.getVal("average").toString());
-	    JLabel meanLabel = new JLabel(student.getAverage_grade().toString());
+	    String displayed_grade = "ND";
+	    if (student.getAverage_grade() != null) 
+	    	displayed_grade = student.getAverage_grade().toString();
+	    JLabel meanLabel = new JLabel(displayed_grade);
 	    meanLabel.setForeground(Color.RED);
 	    meanLabel.setFont(new Font(meanLabel.getFont().getName(), Font.BOLD, 25));
 
@@ -88,7 +90,7 @@ public class DialogStudentInfo extends JDialog {
 		panPersonalDetails.setPreferredSize(new Dimension(250, 200));
 		panPersonalDetails.setBorder(BorderFactory.createTitledBorder("Détails personnels"));
 	    panPersonalDetails.setLayout(new BoxLayout(panPersonalDetails, BoxLayout.PAGE_AXIS));
-	    JLabel birthLabel = new JLabel("Anniversaire : " + student.getBirthday().toString());
+	    JLabel birthLabel = new JLabel("Anniversaire : " + student.getBirthdayAsString());
 	    JLabel emailLabel = new JLabel("Email        : " + student.getEmail());
 	    JLabel repeatingLabel = new JLabel("Redoublant    : " + student.isRepeating());
 

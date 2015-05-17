@@ -41,12 +41,14 @@ public class TabRowRenderer  extends DefaultTableCellRenderer { //implements Tab
         else */
         if (isSelected) {
         	cellComponent.setBackground(Color.darkGray);
+        	cellComponent.setForeground(Color.orange);        	
         }
         else {
         	if (row % 2 == 0)
         		cellComponent.setBackground(Color.WHITE);
         	else 
         		cellComponent.setBackground(Color.lightGray);
+        	cellComponent.setForeground(Color.BLACK);        	
         }
 		return cellComponent;
 	}
