@@ -142,7 +142,7 @@ public class GroupTab extends JPanel //implements Observer
 				//GroupTableModel model = (GroupTableModel) target.getModel();
 				if (numberOfClicks == 2 && !target.isCellEditable(row, column)) { // double clic and cell not editable !
 					//JOptionPane.showMessageDialog(null, "Description plus longue de l'étudiant d'id " + stud_id + "\n avec détail de ses notes.", "Coming soon", JOptionPane.WARNING_MESSAGE);
-					DialogStudentInfo info = new DialogStudentInfo(stu);
+					DialogStudent info = new DialogStudent(stu);
 					info.showDialog();
 				}
 			}
