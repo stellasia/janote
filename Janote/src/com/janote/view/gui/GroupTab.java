@@ -5,8 +5,6 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
@@ -15,10 +13,8 @@ import java.beans.PropertyChangeListener;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultCellEditor;
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
@@ -28,6 +24,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableCellRenderer;
 
+import com.janote.model.entities.Gender;
 import com.janote.model.entities.Group;
 import com.janote.model.entities.Student;
 
@@ -42,10 +39,10 @@ public class GroupTab extends JPanel //implements Observer
 	protected JPanel groupActions;
 	
 	private Group[] groups;
-	protected int groupID=1; // 
+	protected int groupID=0; // 
 	protected Object data[][];
 	private	String  titles[];  // column titles
-	private String[] comboData = {"M", "F"}; // student sex
+	private Gender[] comboData = {Gender.BOY, Gender.GIRL}; // student sex
 
 	
 //	protected MainController cont = new MainController();
@@ -79,6 +76,7 @@ public class GroupTab extends JPanel //implements Observer
 		            Group g = (Group) evt.getNewValue();
 		            parent.getController().changeSelectedGroup(g);
 		            int group_id = g.getId();
+		            groupID = group_id;
 					updateStudentList(group_id);
 		         }
 			}			
@@ -103,7 +101,7 @@ public class GroupTab extends JPanel //implements Observer
 
 
 		//****************************
-		// TODO Disable for the time being, need to consider the id instead of the row number for the other operations,
+		// TODO Disabled for the time being, need to consider the id instead of the row number for the other operations,
 //		TableRowSorter sorter = new TableRowSorter<GroupTableModel>(this.model);
 //		tabData.setRowSorter(sorter);
 //		sorter.setSortsOnUpdates(true);
@@ -114,15 +112,8 @@ public class GroupTab extends JPanel //implements Observer
 		TableCellRenderer renderer = new TabRowRenderer();
 		tabData.setDefaultRenderer(Object.class, renderer); // row colors 
 		
-		JComboBox<String> comboSex = new JComboBox<String>(comboData);
+		JComboBox<Gender> comboSex = new JComboBox<Gender>(comboData);
 		tabData.getColumn("Sexe").setCellEditor(new DefaultCellEditor(comboSex));
-
-		/*
-		tabData.getColumn("Modifier").setCellRenderer(new TabColumnButtonRenderer()); // button style
-		tabData.getColumn("Modifier").setCellEditor(new TabColumnButtonEditor(new JCheckBox())); // button action
-		tabData.getColumn("Supprimer").setCellRenderer(new TabColumnButtonRenderer()); // button style
-		tabData.getColumn("Supprimer").setCellEditor(new TabColumnButtonEditor(new JCheckBox())); // button action
-		 */
 		
 		JTableHeader header = tabData.getTableHeader();
 		header.setDefaultRenderer(new HeaderRenderer(tabData));
@@ -141,9 +132,11 @@ public class GroupTab extends JPanel //implements Observer
 				Student stu = parent.getController().getStudent(stud_id);
 				//GroupTableModel model = (GroupTableModel) target.getModel();
 				if (numberOfClicks == 2 && !target.isCellEditable(row, column)) { // double clic and cell not editable !
-					//JOptionPane.showMessageDialog(null, "Description plus longue de l'étudiant d'id " + stud_id + "\n avec détail de ses notes.", "Coming soon", JOptionPane.WARNING_MESSAGE);
-					DialogStudent info = new DialogStudent(stu);
-					info.showDialog();
+					DialogStudent new_student = new DialogStudent(stu, parent.getController());
+					DialogStatus st = new_student.showDialog();
+					if (st == DialogStatus.OBJECT_UPDATED) {
+						updateStudentList(groupID);
+					}
 				}
 			}
 		});
@@ -175,14 +168,10 @@ public class GroupTab extends JPanel //implements Observer
 	//*****************************************
 	class MoreListener implements ActionListener{
 		public void actionPerformed(ActionEvent event) {
-			Object[] donnee = null;
-			try {
-				donnee = new Object[]
-						{-1, "Name", "", "2001-11-11", "M", new Boolean(false), "", "Modifier", "Supprimer"};
-				((GroupTableModel)tabData.getModel()).addRow(donnee);
-			} catch (Exception e) {
-				JOptionPane.showMessageDialog(null, "L'ajout d'un étudiant a échoué.", "Erreur", JOptionPane.ERROR_MESSAGE);
-				e.printStackTrace();
+			DialogStudent new_student = new DialogStudent(null, parent.getController());
+			DialogStatus st = new_student.showDialog();
+			if (st == DialogStatus.OBJECT_UPDATED) {
+				updateStudentList(groupID);
 			}
 		}
 	}

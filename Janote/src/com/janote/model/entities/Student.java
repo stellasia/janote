@@ -108,6 +108,8 @@ public class Student {
 	 * @return the birthday date "dd-MM-YYYY" 
 	 */
 	public String getBirthdayAsString() {
+		if (this.birthday == null)
+			return null;
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-YYYY");
         return sdf.format(this.birthday);
 	}
@@ -229,6 +231,10 @@ public class Student {
 	 * @param date the birthday date as a string with format "dd-MM-YYYY"
 	 */
 	public void setBirthday(String date) {
+		if (date == null || date.equals("")) {
+			this.birthday = null;
+			return;
+		}
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-YYYY");
         try {
 			this.birthday = sdf.parse(date);

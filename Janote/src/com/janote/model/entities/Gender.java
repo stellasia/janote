@@ -8,20 +8,31 @@ package com.janote.model.entities;
  *
  */
 public enum Gender {
-	BOY (1),
-	GIRL (0);
+	BOY ("H"),
+	GIRL ("F");
 	
-	private Integer value;
+	private String value;
 
-    Gender(int value){
+    Gender(String value){
 	    this.value = value;  
     }
     
-    public int getValue() {
+    public String getValue() {
         return value;
     }
     
     public String toString(){
 	    return value.toString();
+    }
+    
+    public static Gender fromString(String value) {
+        if (value != null) {
+          for (Gender b : Gender.values()) {
+            if (value.equalsIgnoreCase(b.value)) {
+              return b;
+            }
+          }
+        }
+        throw new IllegalArgumentException("No constant with text " + value + " found");
     }
 }

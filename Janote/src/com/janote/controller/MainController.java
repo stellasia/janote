@@ -22,7 +22,7 @@ public class MainController {
 	 * DAO for groups, students and exams
 	 */
 	protected AbsDAOFactory adf;
-	//protected StudentDAO studentDAO;
+	protected StudentDAO studentDAO;
 	protected GroupDAO groupDAO;
 	protected Set<Group> allGroups;
 	
@@ -32,7 +32,6 @@ public class MainController {
 	 * Information about the columns in the group tab
 	 */
 	private	String groupColTitlesView[] = {"id", "Nom", "Prénom", "Naissance", "Sexe", "Redoublant", "Email"};       // column titles
-	//private	String groupColTitlesModel[]   = {"id", "name", "surname", "birthday", "sex", "repeating", "email"};       // column titles
 
 	/**
 	 * The currently displayed group.
@@ -53,8 +52,12 @@ public class MainController {
 		this.selectedGroup = selectedGroup;
 	}
 	
-	public void addStudent(Student stu) {
-		this.selectedGroup.addStudent(stu);
+	public boolean addOrUpdateStudent(Student stu) {
+		//this.selectedGroup.addStudent(stu);
+		if (stu.getId() == null)
+			return studentDAO.add(stu);
+		else
+			return studentDAO.update(stu);
 	}
 	
 	public void addGroup(Group gr) {
@@ -64,13 +67,7 @@ public class MainController {
 	public Object[][] getStudentList(int groupID) {
 //		System.out.println("MainController.getStudentList");
 //		return null; //studentDAO.getAllData(groupID, this.groupColTitlesModel);
-		Set<Student> students = null ;
-		for (Group g : allGroups){
-			if (g.getId() == groupID) {
-				students = g.getStudents();
-				break;
-			}
-		}
+		Set<Student> students = studentDAO.findAll(groupID); //g.getStudents();
 		if (students == null) 
 			return null;
 		Object[][] result = new Object[students.size()][11]; // TODO remove magic number
@@ -82,12 +79,6 @@ public class MainController {
 		}
 		return result;
 	}
-	
-	/*
-	public String[] getGroupColTitlesModel() {
-		return this.groupColTitlesModel;
-	}
-	*/
 	
 	public String[] getGroupColTitlesView() {
 		return this.groupColTitlesView;
@@ -112,6 +103,7 @@ public class MainController {
 		adf = AbsDAOFactory.getFactory(AbsDAOFactory.SQLITE_DAO_FACTORY, name);
 		// now, initialize the models
 		groupDAO = (GroupDAO) adf.getGroupDAO();
+		studentDAO = (StudentDAO) adf.getStudentDAO();
 		allGroups = groupDAO.findAll();
 	}
 }

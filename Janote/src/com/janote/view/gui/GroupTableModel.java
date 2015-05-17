@@ -19,28 +19,13 @@ public class GroupTableModel extends AbstractTableModel {
 	private Object[][] data;
 	private String[] title;
 
-	//private boolean[][] editableCellState;
-
 
 	//*****************************************
 	public GroupTableModel(Object[][] data, String[] title) {
 		//System.out.println("GroupTableModel");
 		this.data = data;
 		this.title = title;
-		//		this.editableCellState = new boolean[this.getRowCount()][this.getColumnCount()];
-		//initEditableStates();
 	}
-
-
-	/*
-	//*****************************************
-	protected void initEditableStates() {
-		boolean[][] tmp = new boolean[this.getRowCount()][this.getColumnCount()];
-		this.editableCellState = tmp;
-		this.setColEditable(true, COL_EDIT);
-		this.setColEditable(true, COL_DELETE);
-	}
-	 */
 
 	//*****************************************
 	/**
@@ -105,18 +90,7 @@ public class GroupTableModel extends AbstractTableModel {
 	 * @return the boolean true it is possible to edit the cell, false otherwise.
 	 */
 	public boolean isCellEditable(int row, int col){
-		/*
-		try {
-			return editableCellState[row][col];
-		}
-		catch (Exception e) {
-			e.printStackTrace();
-			return false;
-		}
-		 */
-		if (col == 0) 
-			return false;
-		return true;
+		return false;
 	}
 
 
@@ -170,13 +144,9 @@ public class GroupTableModel extends AbstractTableModel {
 		//		System.out.println("setValueAt " + aValue);
 		try {
 			//			if (this.isCellEditable(rowIndex, columnIndex)) {
-			if(this.isCellEditable(rowIndex, columnIndex)
-					//					&& !this.getColumnName(columnIndex).equals("Modifier")
-					//					&& !this.getColumnName(columnIndex).equals("Supprimer")
-					) {	
-
+			if(this.isCellEditable(rowIndex, columnIndex)) {	
 				data[rowIndex][columnIndex] = aValue;
-				fireTableCellUpdated(rowIndex, columnIndex);
+				fireTableCellUpdated(rowIndex, columnIndex); // TODO : is this necessary ?
 			}
 		} 
 		catch (Exception e) {
@@ -189,35 +159,13 @@ public class GroupTableModel extends AbstractTableModel {
 	public void removeRow(int row) {
 		int option = JOptionPane.showConfirmDialog(null, "Voulez-vous vraiment supprimer cet élément ? \nCette action est irréversible.", "Suppression", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 
-		if(option == JOptionPane.OK_OPTION) {
-			JOptionPane.showMessageDialog(null, "Element supprimé", "Attention", JOptionPane.WARNING_MESSAGE);
+		if (option == JOptionPane.OK_OPTION) {
+			//JOptionPane.showMessageDialog(null, "Element supprimé", "Attention", JOptionPane.WARNING_MESSAGE);
 		}
 		else { // clicked No or Close button
-			//JOptionPane.showMessageDialog(null, "Action annulée", "Information", JOptionPane.INFORMATION_MESSAGE);
-			;
+			JOptionPane.showMessageDialog(null, "Action annulée", "Information", JOptionPane.INFORMATION_MESSAGE);
 		}
 
-	}
-
-
-	//*****************************************
-	public void editRow(int row) {
-		/*
-		//		System.out.println("GroupTableModel.editRow --> idRow = " + row);	
-		if (this.isCellEditable(row, 1)) {
-			//			this.button.setText("Editer");
-			this.setRowEditable(false, row); 
-			this.setCellEditable(true, row, GroupTableModel.COL_EDIT);
-			this.setCellEditable(true, row, GroupTableModel.COL_DELETE);
-			//			this.setValueAt("Modifier", row, GroupTableModel.COL_EDIT);
-		}
-		else {
-			//			this.button.setText("Enregistrer");
-			this.setRowEditable(true, row); 
-			//			this.setValueAt("Enregistrer", row, GroupTableModel.COL_EDIT);
-		}
-		//		this.fireTableCellUpdated(row, 7);
-		 */
 	}
 
 
@@ -251,6 +199,8 @@ public class GroupTableModel extends AbstractTableModel {
 		if (newData == null) {
 			System.out.println("newData is null");
 		}
+		//System.out.println(this.data.length);
+		//System.out.println(newData.length);
 		this.data = newData;		
 		this.fireTableDataChanged();
 	}

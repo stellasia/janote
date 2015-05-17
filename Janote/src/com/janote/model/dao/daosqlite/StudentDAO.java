@@ -55,7 +55,7 @@ public class StudentDAO extends DAO<Student> {
 			prepare.setString(3, obj.getEmail());
 			prepare.setString(4, obj.getBirthdayAsString());
 			prepare.setBoolean(5, obj.isRepeating());
-			prepare.setInt(6, obj.getGender().getValue());
+			prepare.setString(6, obj.getGender().getValue());
 			prepare.setInt(7, obj.getGroup_id());
 			if (prepare.executeUpdate() == 0)
 				return false;
@@ -132,7 +132,7 @@ public class StudentDAO extends DAO<Student> {
 			prepare.setString(2, obj.getSurname());
 			prepare.setString(3, obj.getEmail());
 			prepare.setString(4, obj.getBirthdayAsString());
-			prepare.setInt(5, obj.getGender().getValue());
+			prepare.setString(5, obj.getGender().getValue());
 			prepare.setBoolean(6, obj.isRepeating());
 			prepare.setInt(7, obj.getGroup_id());
 			prepare.setInt(8, obj.getId());
@@ -204,7 +204,7 @@ public class StudentDAO extends DAO<Student> {
         stu.setId(resultSet.getInt("student_id"));
         stu.setName(resultSet.getString("student_name"));
         stu.setSurname(resultSet.getString("student_surname"));
-        stu.setGender(Gender.values()[resultSet.getInt("student_gender")]);
+        stu.setGender(Gender.fromString(resultSet.getString("student_gender")));
         stu.setEmail(resultSet.getString("student_email"));
         stu.setBirthday(resultSet.getString("student_birthday"));
         stu.setRepeating(resultSet.getBoolean("student_repeating"));
