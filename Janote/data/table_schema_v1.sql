@@ -20,7 +20,7 @@ student_surname     TEXT,
 student_email 	    TEXT,
 student_birthday    TEXT,
 student_repeating   INTEGER,
-student_gender      INTEGER,
+student_gender      TEXT,
 student_group_id    INTEGER NOT NULL
 #,
 #FOREIGN KEY(groupID) REFERENCES Groups(id)
