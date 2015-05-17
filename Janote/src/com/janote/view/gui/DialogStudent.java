@@ -169,7 +169,7 @@ public class DialogStudent extends JDialog {
 										 email.getText(),
 										 birth.getText(),
 										 student.isRepeating(),
-										 student.getGroup_id());
+										 cont.getSelectedGroup().getId());
 
 				JOptionPane mess = new JOptionPane();
 				if (cont.addOrUpdateStudent(stu)) {
