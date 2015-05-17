@@ -16,6 +16,8 @@ import com.janote.model.entities.Group;
 @SuppressWarnings("serial")
 public class GroupSelector extends JPanel {
 
+	public static final String COMBO_CHANGED = "Combo Changed";
+	   
 	protected Group selectedGroup;
 	protected JComboBox<Group> combo;
 	protected MainWindow parent;
@@ -31,7 +33,8 @@ public class GroupSelector extends JPanel {
 		combo.setPreferredSize(new Dimension(50, 30));
 		combo.insertItemAt(new Group(null, "------", "", null, null), 0);
 		combo.setSelectedIndex(0);
-		
+	    combo.addActionListener(new GroupChangeListener());
+	      
 //		for (Group gr : groups) {
 //			combo.addItem((String) gr.getVal("name"));
 //		}
@@ -45,7 +48,7 @@ public class GroupSelector extends JPanel {
 			}
         });
   */
-		combo.addActionListener(new ChangeDisplayedGroupListener(combo, parent.getGroupTab()));
+		//combo.addActionListener(new ChangeDisplayedGroupListener(combo, parent.getGroupTab()));
 		
 		this.add(combo);
 		if (allowAddingNew) {
@@ -76,5 +79,15 @@ public class GroupSelector extends JPanel {
 			}
 		} 
 	}
+	
+	 private class GroupChangeListener implements ActionListener {
+	      @Override
+	      public void actionPerformed(ActionEvent ae) {
+	    	  Group newSelectedGroup = (Group) combo.getSelectedItem();
+	    	  firePropertyChange(COMBO_CHANGED, selectedGroup, newSelectedGroup);
+	          selectedGroup = newSelectedGroup;
+	          //System.out.println("GroupSelector.GroupChangeListener -> group changed");
+	      }
+	   }
 	
 }

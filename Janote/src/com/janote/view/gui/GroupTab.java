@@ -5,8 +5,12 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 import javax.swing.BoxLayout;
 import javax.swing.DefaultCellEditor;
@@ -68,8 +72,18 @@ public class GroupTab extends JPanel //implements Observer
 		//this.updateGroupList(); // should update the group list
 		
 		groupSelection = new GroupSelector(parent, parent.getController().getGroupList(), true);
-		//groupSelection.addActionListener((ComponentListener) new ChangeDisplayedGroup());
-
+		groupSelection.addPropertyChangeListener(new PropertyChangeListener() {
+			@Override
+			public void propertyChange(PropertyChangeEvent evt) {
+				if (evt.getPropertyName().equals(GroupSelector.COMBO_CHANGED)) {
+		            Group g = (Group) evt.getNewValue();
+		            parent.getController().changeSelectedGroup(g);
+		            int group_id = g.getId();
+					updateStudentList(group_id);
+		         }
+			}			
+		});
+		
 		groupActions = new JPanel();
 		JButton btnNewStudent = new JButton("Ajouter un étudiant");
 		btnNewStudent.setBackground(Color.ORANGE);
@@ -223,7 +237,7 @@ public class GroupTab extends JPanel //implements Observer
 	    public HeaderRenderer(JTable table) {
 	        renderer = (DefaultTableCellRenderer)table.getTableHeader().getDefaultRenderer();
 	        renderer.setHorizontalAlignment(JLabel.CENTER);
-//	        renderer.setBackground(Color.orange);
+	        renderer.setBackground(Color.orange);
 	    }
 
 	    @Override
