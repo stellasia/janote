@@ -5,8 +5,10 @@ package com.janote.model.dao;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.Statement;
+import java.util.Scanner;
 
 import com.janote.model.connection.SQLiteConnection;
 import com.janote.model.dao.daosqlite.ExamDAO;
@@ -27,11 +29,12 @@ import com.janote.model.entities.Student;
 public class DAOFactorySQLite extends AbsDAOFactory {
 	protected final Connection conn;
 
-	public DAOFactorySQLite(String path) {
+	public DAOFactorySQLite(String path) throws Exception {
 		 conn = SQLiteConnection.getInstance(path); 
 		 //ClassLoader cl = this.getClass().getClassLoader();
 		 //this.createTables(cl.getResource("../data/table_schema_v1.sql").toString());
-		 this.createTables("data/table_schema_v1.sql");
+		 if (this.createTables(this.getClass().getResourceAsStream("/table_schema_v1.sql")) == false)
+			 throw new Exception("Ici");
 	}
 	
 	public DAO<Group> getGroupDAO(){
@@ -46,14 +49,18 @@ public class DAOFactorySQLite extends AbsDAOFactory {
 		return new ExamDAO(conn);
 	}
 
-	public boolean createTables(String filepath) {
+	public boolean createTables(InputStream inputStream) {
 		try {
 			Statement st = conn.createStatement();
+			String text = new Scanner(inputStream, "UTF-8").useDelimiter("\\A").next();
 
-			BufferedReader in = new BufferedReader(new FileReader(filepath));
+			/*
+			BufferedReader in = new BufferedReader(new FileReader(inputStream));
+
 			String str;
 			StringBuffer sb = new StringBuffer();
-
+			
+			
 			while ((str = in.readLine()) != null) {
 				if (str.startsWith("#")) {
 					continue;
@@ -61,12 +68,13 @@ public class DAOFactorySQLite extends AbsDAOFactory {
 				sb.append(str + "\n ");
 			}
 			in.close();
-						
-			st.executeUpdate(sb.toString());
+			*/
+			//System.out.println(text);
+			st.executeUpdate(text);
 			return true;
 		} 
 		catch (Exception e) {
-			System.err.println("Failed to Execute" + filepath +". The error is"+ e.getMessage());
+			System.err.println("Failed to Execute" + inputStream +". The error is"+ e.getMessage());
 			return false;
 		}
 	}

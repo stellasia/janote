@@ -77,7 +77,13 @@ public class QuickTests {
 	public AbsDAOFactory get_connection() {
 		String filename = this.ChooseFile();
 		if (filename != null) {
-			DAOFactorySQLite adf = (DAOFactorySQLite) AbsDAOFactory.getFactory(AbsDAOFactory.SQLITE_DAO_FACTORY, filename);
+			DAOFactorySQLite adf = null;
+			try {
+				adf = (DAOFactorySQLite) AbsDAOFactory.getFactory(AbsDAOFactory.SQLITE_DAO_FACTORY, filename);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			return adf;
 		}		
 		return null;

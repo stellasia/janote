@@ -42,8 +42,9 @@ public abstract class AbsDAOFactory {
 	 * @param type (int) 
 	 * 			one of the above defined (public static final int) parameters  *_DAO_FACTORY
 	 * @return a DAOFactory object
+	 * @throws Exception 
 	 */
-	public static AbsDAOFactory getFactory(int type, String name){
+	public static AbsDAOFactory getFactory(int type, String name) throws Exception{
 		switch(type){
 		case SQLITE_DAO_FACTORY:
 			return new DAOFactorySQLite(name);

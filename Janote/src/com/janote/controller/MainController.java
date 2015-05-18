@@ -108,7 +108,7 @@ public class MainController {
 	}
 
 	
-	public void start(String name) {
+	public void start(String name) throws Exception {
 		//System.out.println("MainController.start");
 		// first call, first call to the DB to initialize the view
 		adf = AbsDAOFactory.getFactory(AbsDAOFactory.SQLITE_DAO_FACTORY, name);

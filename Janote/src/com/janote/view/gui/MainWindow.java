@@ -294,7 +294,11 @@ public class MainWindow extends JFrame {
 
 	public void setDBName(String name) {
 		//System.out.println("MainWindow.setDBName");
-		this.cont.start(name);
+		try {
+			this.cont.start(name);
+		} catch (Exception e) {
+			System.out.println("Error starting sqlite");
+		}
 	}
 	
 	public MainController getController() {

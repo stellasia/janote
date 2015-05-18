@@ -1,5 +1,3 @@
-
-# Group table 
 CREATE TABLE IF NOT EXISTS Groups
 (
 group_id 	        INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -11,7 +9,6 @@ CREATE INDEX IF NOT EXISTS index_groups_id
 ON Groups (group_id);
 
 
-# Student table
 CREATE TABLE IF NOT EXISTS Students
 (
 student_id 	        INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -22,8 +19,6 @@ student_birthday    TEXT,
 student_repeating   INTEGER,
 student_gender      TEXT,
 student_group_id    INTEGER NOT NULL
-#,
-#FOREIGN KEY(groupID) REFERENCES Groups(id)
 );
 
 CREATE INDEX IF NOT EXISTS index_students_id
@@ -33,7 +28,6 @@ CREATE INDEX IF NOT EXISTS index_students_group_id
 ON Students (student_group_id);
 
 
-# Exam table 
 CREATE TABLE IF NOT EXISTS Exams
 (
 exam_id				INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -51,7 +45,6 @@ CREATE INDEX IF NOT EXISTS index_exams_group_id
 ON Exams (exam_group_id);
 
 
-# Grade 
 CREATE TABLE IF NOT EXISTS Grades
 (
 grade_id           INTEGER PRIMARY KEY AUTOINCREMENT,
