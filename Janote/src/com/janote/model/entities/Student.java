@@ -110,7 +110,8 @@ public class Student {
 	public String getBirthdayAsString() {
 		if (this.birthday == null)
 			return null;
-        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-YYYY");
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+        //System.out.println("Get birthday as string " + this.birthday.toString() + " " + sdf.format(this.birthday));
         return sdf.format(this.birthday);
 	}
 	
@@ -220,6 +221,7 @@ public class Student {
 	 * @param birthday the birthday to set
 	 */
 	public void setBirthday(Date birthday) {
+		//System.out.println("Student.setBirthday " + birthday.toString());
 		this.birthday = birthday;
 	}
 	
@@ -231,11 +233,12 @@ public class Student {
 	 * @param date the birthday date as a string with format "dd-MM-YYYY"
 	 */
 	public void setBirthday(String date) {
+		//System.out.println("Student.setBirthday (string)  " + date);
 		if (date == null || date.equals("")) {
 			this.birthday = null;
 			return;
 		}
-        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-YYYY");
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
         try {
 			this.birthday = sdf.parse(date);
 		} catch (ParseException e) {
