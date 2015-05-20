@@ -112,12 +112,9 @@ public class GroupTab extends JPanel //implements Observer
 
 
 		//****************************
-		// TODO Disabled for the time being, need to consider the id instead of the row number for the other operations,
-//		TableRowSorter sorter = new TableRowSorter<GroupTableModel>(this.model);
-//		tabData.setRowSorter(sorter);
-//		sorter.setSortsOnUpdates(true);
-		tabData.getTableHeader().setReorderingAllowed(false); // do not allow to reorder the columns for the time being
-		
+
+		tabData.setAutoCreateRowSorter(true); //a generic sorter
+	    
 		tabData.setRowHeight(40);
 		
 		TableCellRenderer renderer = new TabRowRenderer();
@@ -135,7 +132,8 @@ public class GroupTab extends JPanel //implements Observer
 			public void mouseClicked(MouseEvent e) {
 				int numberOfClicks = e.getClickCount();
 				JTable target = (JTable)e.getSource();
-				int row = target.getSelectedRow();
+				//int row = target.getSelectedRow();
+				int row = target.convertRowIndexToModel ( target.getSelectedRow() );
 				int column = target.getSelectedColumn();
 				//System.out.println("GroupTab clicked -> numberOfClicks " + numberOfClicks + ", row " + row + ",col " + column);	    		   
 				int stud_id = (int) target.getModel().getValueAt(row, GroupTableModel.COL_ID);
