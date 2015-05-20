@@ -103,9 +103,9 @@ public class Student {
 		return birthday;
 	}
 	/**
-	 * Get the birthday date as a String with format "dd-MM-YYYY"
+	 * Get the birthday date as a String with format "dd-MM-yyyy"
 	 * 
-	 * @return the birthday date "dd-MM-YYYY" 
+	 * @return the birthday date "dd-MM-yyyy" 
 	 */
 	public String getBirthdayAsString() {
 		if (this.birthday == null)
@@ -198,7 +198,7 @@ public class Student {
 	 * @param name the name to set
 	 */
 	public void setName(String name) {
-		if (name != null && name != "" && name != " ") {
+		if (name != null && name != "" && name.length() > 0) {
 			this.name = name;
 		}
 		else 

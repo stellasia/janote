@@ -161,30 +161,34 @@ public class DialogStudent extends JDialog {
 	    saveButton.addActionListener( new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				Student stu = new Student(student.getId(),
-										 name.getText(),
-										 surname.getText(),
-										 (Gender) gender.getSelectedItem(),
-										 email.getText(),
-										 birth.getText(),
-										 student.isRepeating(),
-										 cont.getSelectedGroup().getId());
-
-				JOptionPane mess = new JOptionPane();
+				Student stu = null;
+				try {
+					stu = new Student(	student.getId(),
+										name.getText(),
+										surname.getText(),
+										(Gender) gender.getSelectedItem(),
+										email.getText(),
+										birth.getText(),
+										student.isRepeating(),
+										cont.getSelectedGroup().getId());
+				}
+				catch (IllegalArgumentException e) {
+					status = DialogStatus.ERROR; // the Dialog status is no more "everything is ok" 
+					JOptionPane.showMessageDialog(null, "Etudiant invalide", "Erreur", JOptionPane.ERROR_MESSAGE);
+					return;
+				}
 				if (cont.addOrUpdateStudent(stu)) {
 					status = DialogStatus.OBJECT_UPDATED;
-					mess.showMessageDialog(null, "L'étudiant a bien été ajouté.", "Succès", JOptionPane.INFORMATION_MESSAGE);
-					//System.out.println("In DialogStudent.saveButtonListener --> " + status);
-					setVisible(false);
-					dispose();
 				}
 				else {
 					status = DialogStatus.ERROR; // the Dialog status is no more "everything is ok" 
-					mess.showMessageDialog(null, "L'ajout de l'étudiant a échoué... ", "Erreur", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Erreur inconnue. Etudiant non ajouté", "Erreur", JOptionPane.ERROR_MESSAGE);
 					System.err.println("The student " + stu + " couldn't be added....");
 				}
+				setVisible(false);
+				dispose();
 			}
-	    	
+				    	
 	    });
 		
 	}  
