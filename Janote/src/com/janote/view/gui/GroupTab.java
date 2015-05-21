@@ -114,7 +114,8 @@ public class GroupTab extends JPanel //implements Observer
 		//****************************
 
 		tabData.setAutoCreateRowSorter(true); //a generic sorter
-	    
+		tabData.getRowSorter().toggleSortOrder(1); 
+		 
 		tabData.setRowHeight(40);
 		
 		TableCellRenderer renderer = new TabRowRenderer();
