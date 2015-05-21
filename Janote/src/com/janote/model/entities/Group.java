@@ -88,7 +88,11 @@ public class Group {
 	 * @param name the name to set
 	 */
 	public void setName(String name) {
-		this.name = name;
+		if (name != null && name.length() > 0) {
+			this.name = name;
+		}
+		else 
+			throw new IllegalArgumentException("Le nom d'un groupe doit être rempli !");
 	}
 	/**
 	 * @param description the description to set

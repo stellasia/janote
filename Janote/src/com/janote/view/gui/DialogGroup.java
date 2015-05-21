@@ -95,26 +95,32 @@ public class DialogGroup extends JDialog {
 		okBouton.addActionListener( new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				Group gr = new Group(group.getId(),
+				Group gr = null;
+				try {
+					gr = new Group(	group.getId(),
 									name.getText(),
 									desc.getText(),
 									null,
 									null
-									);
-
-				JOptionPane mess = new JOptionPane();
+								);
+				}
+				catch (IllegalArgumentException e) {
+					JOptionPane.showMessageDialog(null, "Etudiant invalide", "Erreur", JOptionPane.ERROR_MESSAGE);
+					return;
+				}
 				if (cont.addOrUpdateGroup(gr)) {
-					mess.showMessageDialog(null, "Le groupe a bien été ajouté.", "Succès", JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Le groupe a bien été ajouté.", "Succès", JOptionPane.INFORMATION_MESSAGE);
 					sendData = true;
 					setVisible(false);
 					dispose();
 				}
 				else {
-					mess.showMessageDialog(null, "L'ajout du groupe a échoué... ", "Erreur", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "L'ajout du groupe a échoué... ", "Erreur", JOptionPane.ERROR_MESSAGE);
 					System.err.println("The group " + gr + " couldn't be added....");
 				}
-			}
-	    	
+				setVisible(false);
+				dispose();
+			}	    	
 	    });
 
 

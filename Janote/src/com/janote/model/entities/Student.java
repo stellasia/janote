@@ -198,7 +198,7 @@ public class Student {
 	 * @param name the name to set
 	 */
 	public void setName(String name) {
-		if (name != null && name != "" && name.length() > 0) {
+		if (name != null && name.length() > 0) {
 			this.name = name;
 		}
 		else 
