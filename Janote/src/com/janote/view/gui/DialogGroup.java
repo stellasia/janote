@@ -105,7 +105,7 @@ public class DialogGroup extends JDialog {
 								);
 				}
 				catch (IllegalArgumentException e) {
-					JOptionPane.showMessageDialog(null, "Etudiant invalide", "Erreur", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Groupe invalide", "Erreur", JOptionPane.ERROR_MESSAGE);
 					return;
 				}
 				if (cont.addOrUpdateGroup(gr)) {
