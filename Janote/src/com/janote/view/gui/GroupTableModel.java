@@ -78,12 +78,17 @@ public class GroupTableModel extends AbstractTableModel {
 	public Class getColumnClass(int col){
 		//		System.out.println("GroupTableModel getColumnClass " + col + " / " + this.getColumnCount());
 		//		System.out.println(this.data[0][col].getClass());
+		/*
 		try {
-			return this.getValueAt(1, col).getClass();
+	    	return this.getValueAt(1, col).getClass(); // code never executed... 
 		}
 		catch (Exception e) {
 			return Object.class;
 		}
+	    */
+	    if (col == 5)
+	        return Boolean.class;
+	    return super.getColumnClass(col);
 	}
 
 
