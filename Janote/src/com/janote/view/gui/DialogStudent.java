@@ -108,6 +108,7 @@ public class DialogStudent extends JDialog {
 	    gender = new JComboBox<Gender>();
 	    gender.addItem(Gender.BOY);
 	    gender.addItem(Gender.GIRL);
+	    gender.setSelectedItem(this.student.getGender());
 	    JLabel genderLabel = new JLabel("Sexe : ");
 	    genderLabel.setFont(boldFont);
         c.gridx = 0; c.gridy = 2; c.gridwidth = 1; 
