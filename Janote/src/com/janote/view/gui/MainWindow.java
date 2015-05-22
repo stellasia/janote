@@ -217,6 +217,8 @@ public class MainWindow extends JFrame {
 			}
 	    	});
 		quitter.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q, KeyEvent.CTRL_MASK));
+		
+		/*
 		JMenu save = new JMenu("Sauvegarder");
 		JMenuItem saveAll = new JMenuItem("Toutes les modifications");
 		save.add(saveAll);
@@ -224,12 +226,13 @@ public class MainWindow extends JFrame {
 		save.add(saveSelGroup);
 		JMenuItem saveSelStudents = new JMenuItem("Les étudiants sélectionnés");
 		save.add(saveSelStudents);
+		*/
 		
 		file.add(newFile);
 		file.add(openFile);
 		file.addSeparator();
-		file.add(save);
-		file.addSeparator();
+		//file.add(save);
+		//file.addSeparator();
 		file.add(quitter);
 		
 		this.menuBar.add(file);
