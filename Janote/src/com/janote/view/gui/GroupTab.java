@@ -48,8 +48,6 @@ public class GroupTab extends JPanel //implements Observer
 	private Gender[] comboData = {Gender.BOY, Gender.GIRL}; // student sex
 
 	
-//	protected MainController cont = new MainController();
-
 	//********************
 	public GroupTab(int pGroupID, String[] titles, MainWindow Pparent) {
 		this.titles = titles;
@@ -133,9 +131,8 @@ public class GroupTab extends JPanel //implements Observer
 			public void mouseClicked(MouseEvent e) {
 				int numberOfClicks = e.getClickCount();
 				JTable target = (JTable)e.getSource();
-				//int row = target.getSelectedRow();
 				int row = target.convertRowIndexToModel ( target.getSelectedRow() );
-				int column = target.getSelectedColumn();
+				int column = target.convertColumnIndexToModel( target.getSelectedColumn() );
 				//System.out.println("GroupTab clicked -> numberOfClicks " + numberOfClicks + ", row " + row + ",col " + column);	    		   
 				int stud_id = (int) target.getModel().getValueAt(row, GroupTableModel.COL_ID);
 				//System.out.println("GroupTab -> mouseListener -> " + stud_id);
@@ -186,9 +183,8 @@ public class GroupTab extends JPanel //implements Observer
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			JTable target = tabData; //(JTable)e.getSource();
-			//int row = target.getSelectedRow();
 			int row = target.convertRowIndexToModel ( target.getSelectedRow() );
-			int column = target.getSelectedColumn();
+			int column = target.convertColumnIndexToModel( target.getSelectedColumn() );
 			//System.out.println("GroupTab clicked -> numberOfClicks " + numberOfClicks + ", row " + row + ",col " + column);	    		   
 			int stud_id = (int) target.getModel().getValueAt(row, GroupTableModel.COL_ID);
 			//System.out.println("GroupTab -> mouseListener -> " + stud_id);
