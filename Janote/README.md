@@ -35,6 +35,10 @@ Application developed using java/swing and the sqlite databases.
 
 JaNote allows you to save some informations about your classes and students (name, age, email, ...). 
 
+
+**WARNING** for the time being, the interface is only available in French. 
+
+
 ### Installation
 
 - Download the janote-v*.jar
@@ -44,7 +48,7 @@ JaNote allows you to save some informations about your classes and students (nam
 ### First start 
 
 1. Create the file that will be used to save your data (on your local disk). Extension `.sql` will be appended if not present.  
-2. Enter your first class name (and optional description)
+2. Enter your first class/group name (and optional description)
 3. Populate it with students (only name is mandatory)
 
 **Be careful** if you delete an entity (group or student), this action **can not be undone**. 
