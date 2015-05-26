@@ -1,5 +1,8 @@
 # Janote
 
+[![Build Status](https://travis-ci.org/stellasia/janote.svg?branch=master)](https://travis-ci.org/stellasia/janote)
+
+
 ## Purpose
 
 Provide a simple graphical interface for teachers to handle small group of students and their grades. 
