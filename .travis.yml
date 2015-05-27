@@ -8,7 +8,7 @@ branches:
     - master
 
 env:
-  - RUN_CONFIG=main
+  - RUN_CONFIG=build
   - RUN_CONFIG=tests
 
 script: cd Janote && ant $RUN_CONFIG
