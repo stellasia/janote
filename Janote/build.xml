@@ -66,18 +66,18 @@
         <property name="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter"/>
         <antcall target="build"/>
     </target>
-    <target name="StudentTest (1)">
+    <target name="main">
+        <java classname="Janote" failonerror="true" fork="yes">
+            <classpath refid="java1.classpath"/>
+        </java>
+    </target>
+    <target name="tests">
         <mkdir dir="${junit.output.dir}"/>
         <junit fork="yes" printsummary="withOutAndErr">
             <formatter type="xml"/>
             <test name="tests.model.StudentTest" todir="${junit.output.dir}"/>
             <classpath refid="java1.classpath"/>
         </junit>
-    </target>
-    <target name="Janote (1)">
-        <java classname="Janote" failonerror="true" fork="yes">
-            <classpath refid="java1.classpath"/>
-        </java>
     </target>
     <target name="junitreport">
         <junitreport todir="${junit.output.dir}">
