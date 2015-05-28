@@ -13,13 +13,12 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
 import com.janote.model.entities.Group;
-import com.janote.observer.Observer;
 
 /**
  * @author estelle
  *
  */
-public class ExamTab extends JPanel implements Observer {
+public class ExamTab extends JPanel {
 	protected MainWindow parent = null;
 	protected JTable tabData;
 	protected GroupTableModel model;
@@ -56,17 +55,5 @@ public class ExamTab extends JPanel implements Observer {
 		btnNewStudent.setBackground(Color.GREEN);
 		//btnNewStudent.addActionListener(new MoreListener());
 		this.add(btnNewStudent, BorderLayout.SOUTH);
-	}
-	
-	@Override
-	public void updateStudentList() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void updateGroupList() {
-		// TODO Auto-generated method stub
-		
 	}
 }
