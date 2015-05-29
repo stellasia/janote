@@ -9,11 +9,6 @@ Provide a simple graphical interface for teachers to handle small group of stude
 
 Application developed using java/swing and the sqlite databases.
 
-### Dependencies 
-
-- sqlite3 (add sqlite-jdbc-3.8.5-pre1.jar to your classpath)
-
-
 ### Project architecture
 
 - src
@@ -28,7 +23,9 @@ Application developed using java/swing and the sqlite databases.
 - data
     - table_schema_v1.sql : sqlite table creation for new files
     - help.* : the html and css files used in the help tab
-	
+- lib : contains dependencies
+     - sqlite3
+     - junit ans its dependencies
     
  
 ## Use guide
@@ -47,9 +44,14 @@ JaNote allows you to save some informations about your classes and students (nam
 
 ### First start 
 
-1. Create the file that will be used to save your data (on your local disk). Extension `.sql` will be appended if not present.  
-2. Enter your first class/group name (and optional description)
-3. Populate it with students (only name is mandatory)
+1. Create the file that will be used to save your data (on your local disk). Extension `.sql` will be appended if not present.
+2. Go to the Group tab.
+3. Click on 'Créer un nouveau'. Enter your first class/group name (and optional description)
+4. Add a Student by clicking on 'Ajouter un étudian':
+    - only name is mandatory
+    - birthday date should be in dd-MM-yyyy format
+
+You can modity a student by double-clicking on its row in the Group tab. 
 
 **Be careful** if you delete an entity (group or student), this action **can not be undone**. 
  
