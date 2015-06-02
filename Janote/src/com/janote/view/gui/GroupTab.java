@@ -9,7 +9,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.Arrays;
 import java.util.Set;
 
 import javax.swing.BoxLayout;
@@ -31,39 +30,38 @@ import com.janote.model.entities.Gender;
 import com.janote.model.entities.Group;
 import com.janote.model.entities.Student;
 
-
 @SuppressWarnings("serial")
-public class GroupTab extends JPanel //implements Observer
+public class GroupTab extends JPanel // implements Observer
 {
 	protected MainWindow parent = null;
 	protected JTable tabData;
 	protected GroupTableModel model;
 	protected JPanel groupSelection;
 	protected JPanel groupActions;
-	
-	private Group[] groups;
-	protected int groupID=0; // 
-	protected Object data[][];
-	private	String  titles[];  // column titles
-	private Gender[] comboData = {Gender.BOY, Gender.GIRL}; // student sex
 
-	
-	//********************
+	private Group[] groups;
+	protected int groupID = 0; //
+	protected Object data[][];
+	private final String titles[]; // column titles
+	private final Gender[] comboData = { Gender.BOY, Gender.GIRL }; // student
+																	// sex
+
+	// ********************
 	public GroupTab(int pGroupID, String[] titles, MainWindow Pparent) {
 		this.titles = titles;
 		this.data = null;
 		this.groupID = pGroupID;
 		this.parent = Pparent;
 	}
-	
-	public void init() {
-		//System.out.println("GroupTabs.init");
 
-		model = new GroupTableModel(this.data, this.titles);		
-		tabData = new JTable(model);	
-		
-		//this.updateStudentList(null); // should update the data table
-		//this.updateGroupList(); // should update the group list
+	public void init() {
+		// System.out.println("GroupTabs.init");
+
+		model = new GroupTableModel(this.data, this.titles);
+		tabData = new JTable(model);
+
+		// this.updateStudentList(null); // should update the data table
+		// this.updateGroupList(); // should update the group list
 		Set<Group> grset = this.parent.getController().getGroupList();
 		this.groups = grset.toArray(new Group[grset.size()]);
 		groupSelection = new GroupSelector(parent, this.groups, true);
@@ -71,21 +69,22 @@ public class GroupTab extends JPanel //implements Observer
 			@Override
 			public void propertyChange(PropertyChangeEvent evt) {
 				if (evt.getPropertyName().equals(GroupSelector.COMBO_CHANGED)) {
-		            Group g = (Group) evt.getNewValue();
-		            if (g == null)
-		            	return;
-		            if (g.getId() == null)
-		            	return;
-		            parent.getController().changeSelectedGroup(g);
-		            int group_id = g.getId();
-		            groupID = group_id;
+					Group g = (Group) evt.getNewValue();
+					if (g == null)
+						return;
+					if (g.getId() == null)
+						return;
+					parent.getController().changeSelectedGroup(g);
+					int group_id = g.getId();
+					groupID = group_id;
 					updateStudentList(group_id);
-		         }
-			}			
+				}
+			}
 		});
-		
+
 		groupActions = new JPanel();
-		groupActions.setLayout(new BoxLayout(groupActions, BoxLayout.LINE_AXIS));
+		groupActions
+				.setLayout(new BoxLayout(groupActions, BoxLayout.LINE_AXIS));
 
 		JButton btnNewStudent = new JButton("Ajouter un étudiant");
 		btnNewStudent.setBackground(Color.GREEN);
@@ -95,9 +94,9 @@ public class GroupTab extends JPanel //implements Observer
 		btnDelStudent.setBackground(Color.RED);
 		btnDelStudent.addActionListener(new DelStudentListener());
 		groupActions.add(btnDelStudent);
-		
-        JSeparator separator = new JSeparator(SwingConstants.VERTICAL);
-        groupActions.add(separator);		
+
+		JSeparator separator = new JSeparator(SwingConstants.VERTICAL);
+		groupActions.add(separator);
 		JButton btnModGroup = new JButton("Modifier le nom/la description");
 		btnModGroup.setBackground(Color.ORANGE);
 		btnModGroup.addActionListener(new ModGroupListener());
@@ -107,39 +106,43 @@ public class GroupTab extends JPanel //implements Observer
 		btnDelGroup.addActionListener(new DelGroupListener());
 		groupActions.add(btnDelGroup);
 
+		// ****************************
 
+		tabData.setAutoCreateRowSorter(true); // a generic sorter
+		tabData.getRowSorter().toggleSortOrder(1);
 
-		//****************************
-
-		tabData.setAutoCreateRowSorter(true); //a generic sorter
-		tabData.getRowSorter().toggleSortOrder(1); 
-		 
 		tabData.setRowHeight(40);
-		
+
 		TableCellRenderer renderer = new TabRowRenderer();
-		tabData.setDefaultRenderer(Object.class, renderer); // row colors 
-		
+		tabData.setDefaultRenderer(Object.class, renderer); // row colors
+
 		JComboBox<Gender> comboSex = new JComboBox<Gender>(comboData);
-		tabData.getColumn("Sexe").setCellEditor(new DefaultCellEditor(comboSex));
-		
+		tabData.getColumn("Sexe")
+				.setCellEditor(new DefaultCellEditor(comboSex));
+
 		JTableHeader header = tabData.getTableHeader();
 		header.setDefaultRenderer(new HeaderRenderer(tabData));
 
-		
-		//**************************** // Detect a double click on a row
+		// **************************** // Detect a double click on a row
 		tabData.addMouseListener(new MouseAdapter() {
+			@Override
 			public void mouseClicked(MouseEvent e) {
 				int numberOfClicks = e.getClickCount();
-				JTable target = (JTable)e.getSource();
-				int row = target.convertRowIndexToModel ( target.getSelectedRow() );
-				int column = target.convertColumnIndexToModel( target.getSelectedColumn() );
-				//System.out.println("GroupTab clicked -> numberOfClicks " + numberOfClicks + ", row " + row + ",col " + column);	    		   
-				int stud_id = (int) target.getModel().getValueAt(row, GroupTableModel.COL_ID);
-				//System.out.println("GroupTab -> mouseListener -> " + stud_id);
+				JTable target = (JTable) e.getSource();
+				int row = target.convertRowIndexToModel(target.getSelectedRow());
+				int column = target.convertColumnIndexToModel(target
+						.getSelectedColumn());
+				// System.out.println("GroupTab clicked -> numberOfClicks " +
+				// numberOfClicks + ", row " + row + ",col " + column);
+				int stud_id = (int) target.getModel().getValueAt(row,
+						GroupTableModel.COL_ID);
+				// System.out.println("GroupTab -> mouseListener -> " +
+				// stud_id);
 				Student stu = parent.getController().getStudent(stud_id);
-				//System.out.println(stu);
-				if (numberOfClicks == 2 && !target.isCellEditable(row, column)) { // double clic and cell not editable !
-					DialogStudent new_student = new DialogStudent(stu, parent.getController());
+				// System.out.println(stu);
+				if (numberOfClicks == 2 && !target.isCellEditable(row, column)) {
+					DialogStudent new_student = new DialogStudent(stu, parent
+							.getController());
 					DialogStatus st = new_student.showDialog();
 					if (st == DialogStatus.OBJECT_UPDATED) {
 						updateStudentList(groupID);
@@ -148,157 +151,179 @@ public class GroupTab extends JPanel //implements Observer
 			}
 		});
 
-	
 		JScrollPane scroll = new JScrollPane(tabData);
 		this.setLayout(new BorderLayout());
 		this.add(groupSelection, BorderLayout.NORTH);
-		this.add(scroll, BorderLayout.CENTER);      
+		this.add(scroll, BorderLayout.CENTER);
 		this.add(groupActions, BorderLayout.SOUTH);
 
 		/*
-		int rowModel = tabData.convertRowIndexToModel(3);
-		int colModel = tabData.convertColumnIndexToModel(3);
-		int rowView = tabData.convertRowIndexToView(3);
-		int colView = tabData.convertColumnIndexToView(3);
+		 * int rowModel = tabData.convertRowIndexToModel(3); int colModel =
+		 * tabData.convertColumnIndexToModel(3); int rowView =
+		 * tabData.convertRowIndexToView(3); int colView =
+		 * tabData.convertColumnIndexToView(3);
 		 */
 
-	}	
-	
+	}
 
-	//*****************************************
-	//*****************************************
-	class MoreListener implements ActionListener{
+	// *****************************************
+	// *****************************************
+	class MoreListener implements ActionListener {
+		@Override
 		public void actionPerformed(ActionEvent event) {
-			DialogStudent new_student = new DialogStudent(null, parent.getController());
+			DialogStudent new_student = new DialogStudent(null,
+					parent.getController());
 			DialogStatus st = new_student.showDialog();
 			if (st == DialogStatus.OBJECT_UPDATED) {
 				updateStudentList(groupID);
 			}
 		}
 	}
-	
-	//*****************************************
+
+	// *****************************************
 	class DelStudentListener implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			JTable target = tabData; //(JTable)e.getSource();
-			int row = target.convertRowIndexToModel ( target.getSelectedRow() );
-			int column = target.convertColumnIndexToModel( target.getSelectedColumn() );
-			//System.out.println("GroupTab clicked -> numberOfClicks " + numberOfClicks + ", row " + row + ",col " + column);	    		   
-			int stud_id = (int) target.getModel().getValueAt(row, GroupTableModel.COL_ID);
-			//System.out.println("GroupTab -> mouseListener -> " + stud_id);
+			JTable target = tabData; // (JTable)e.getSource();
+			int row = target.convertRowIndexToModel(target.getSelectedRow());
+			int column = target.convertColumnIndexToModel(target
+					.getSelectedColumn());
+			// System.out.println("GroupTab clicked -> numberOfClicks " +
+			// numberOfClicks + ", row " + row + ",col " + column);
+			int stud_id = (int) target.getModel().getValueAt(row,
+					GroupTableModel.COL_ID);
+			// System.out.println("GroupTab -> mouseListener -> " + stud_id);
 			Student stu = parent.getController().getStudent(stud_id);
-			
-			int option = JOptionPane.showConfirmDialog(null, "Voulez-vous vraiment supprimer cet élément ? \nCette action est irréversible.", "Suppression", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+
+			int option = JOptionPane
+					.showConfirmDialog(
+							null,
+							"Voulez-vous vraiment supprimer cet élément ? \nCette action est irréversible.",
+							"Suppression", JOptionPane.YES_NO_OPTION,
+							JOptionPane.QUESTION_MESSAGE);
 			if (option == JOptionPane.OK_OPTION) {
 				if (parent.getController().delStudent(stu)) {
-					JOptionPane.showMessageDialog(null, "Element supprimé", "Attention", JOptionPane.WARNING_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Element supprimé",
+							"Attention", JOptionPane.WARNING_MESSAGE);
 					updateStudentList(groupID);
-				}
-				else
-					JOptionPane.showMessageDialog(null, "Un erreur est survenue. \n Element non supprimé.", "Attention", JOptionPane.ERROR_MESSAGE);
-			}
-			else { // clicked No or Close button
-				JOptionPane.showMessageDialog(null, "Action annulée", "Information", JOptionPane.INFORMATION_MESSAGE);
+				} else
+					JOptionPane.showMessageDialog(null,
+							"Un erreur est survenue. \n Element non supprimé.",
+							"Attention", JOptionPane.ERROR_MESSAGE);
+			} else { // clicked No or Close button
+				JOptionPane.showMessageDialog(null, "Action annulée",
+						"Information", JOptionPane.INFORMATION_MESSAGE);
 			}
 
 		}
 	}
-	
-	//*****************************************
+
+	// *****************************************
 	class DelGroupListener implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			int group_id = groupID;
 			Group gr = parent.getController().getGroup(group_id);
-			
-			int option = JOptionPane.showConfirmDialog(null, "Voulez-vous vraiment supprimer cet élément ? \nCette action est irréversible.", "Suppression", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+
+			int option = JOptionPane
+					.showConfirmDialog(
+							null,
+							"Voulez-vous vraiment supprimer cet élément ? \nCette action est irréversible.",
+							"Suppression", JOptionPane.YES_NO_OPTION,
+							JOptionPane.QUESTION_MESSAGE);
 			if (option == JOptionPane.OK_OPTION) {
 				if (parent.getController().delGroup(gr)) {
-					JOptionPane.showMessageDialog(null, "Element supprimé", "Attention", JOptionPane.WARNING_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Element supprimé",
+							"Attention", JOptionPane.WARNING_MESSAGE);
 					updateGroupList();
-				}
-				else
-					JOptionPane.showMessageDialog(null, "Un erreur est survenue. \n Element non supprimé.", "Attention", JOptionPane.ERROR_MESSAGE);
-			}
-			else { // clicked No or Close button
-				JOptionPane.showMessageDialog(null, "Action annulée", "Information", JOptionPane.INFORMATION_MESSAGE);
+				} else
+					JOptionPane.showMessageDialog(null,
+							"Un erreur est survenue. \n Element non supprimé.",
+							"Attention", JOptionPane.ERROR_MESSAGE);
+			} else { // clicked No or Close button
+				JOptionPane.showMessageDialog(null, "Action annulée",
+						"Information", JOptionPane.INFORMATION_MESSAGE);
 			}
 		}
 	}
-	
-	//*****************************************
+
+	// *****************************************
 	class ModGroupListener implements ActionListener {
+		@Override
 		public void actionPerformed(ActionEvent event) {
 			Group current_group = parent.getController().getGroup(groupID);
 			System.out.println(current_group);
-			DialogGroup dgroup = new DialogGroup(current_group, parent.getController());
+			DialogGroup dgroup = new DialogGroup(current_group,
+					parent.getController());
 			boolean option = dgroup.showDialog();
 			if (option) {
 				updateGroupList();
 			}
 		}
 	}
-	
-	
-	//*****************************************
-	//@Override 
+
+	// *****************************************
+	// @Override
 	public void updateStudentList(Integer groupID) {
-		//System.out.println("GroupTab.updateStudentList --> " + this.groupID);
+		// System.out.println("GroupTab.updateStudentList --> " + this.groupID);
 
 		Object[][] studentData = parent.getController().getStudentList(groupID);
 		int nbStudents = studentData.length;
-		//System.out.println("Number of students " + nbStudents);
+		// System.out.println("Number of students " + nbStudents);
 
 		Object[][] newData = new Object[nbStudents][this.titles.length];
-		for (int i=0; i<nbStudents; i++) {
-			for (int j=0; j<this.titles.length; j++) {
-				//System.out.println("GroupTable.update -> In loop " + i + ", " + j);
+		for (int i = 0; i < nbStudents; i++) {
+			for (int j = 0; j < this.titles.length; j++) {
+				// System.out.println("GroupTable.update -> In loop " + i + ", "
+				// + j);
 				newData[i][j] = studentData[i][j];
 			}
 		}
 		this.data = new Object[newData.length][titles.length];
 		this.data = newData;
-//		model = new GroupTableModel(this.data, this.titles);
-		model.changeData(newData); // = new GroupTableModel(this.data, this.titles);
-//		tabData.setModel(model);
+		// model = new GroupTableModel(this.data, this.titles);
+		model.changeData(newData); // = new GroupTableModel(this.data,
+									// this.titles);
+		// tabData.setModel(model);
 	}
 
-	
-	//*****************************************
-	//@Override
+	// *****************************************
+	// @Override
 	public void updateGroupList() {
 		Set<Group> grset = this.parent.getController().getGroupList();
 		this.groups = grset.toArray(new Group[grset.size()]);
-		//System.out.println(Arrays.toString(this.groups));
-		((GroupSelector) groupSelection).setItems(this.groups, this.groups.length - 1);
+		// System.out.println(Arrays.toString(this.groups));
+		((GroupSelector) groupSelection).setItems(this.groups,
+				this.groups.length - 1);
 	}
 
-	
-	
-	
-	//*****************************************
+	// *****************************************
 	/**
 	 * This is table header renderer class to change table header appearance.
+	 * 
 	 * @author Estelle Scifo
-	 *
+	 * 
 	 */
-	// TODO temporary location of this class ! 
+	// TODO temporary location of this class !
 	private static class HeaderRenderer implements TableCellRenderer {
 
-	    DefaultTableCellRenderer renderer;
+		DefaultTableCellRenderer renderer;
 
-	    public HeaderRenderer(JTable table) {
-	        renderer = (DefaultTableCellRenderer)table.getTableHeader().getDefaultRenderer();
-	        renderer.setHorizontalAlignment(JLabel.CENTER);
-	        renderer.setBackground(Color.orange);
-	    }
+		public HeaderRenderer(JTable table) {
+			renderer = (DefaultTableCellRenderer) table.getTableHeader()
+					.getDefaultRenderer();
+			renderer.setHorizontalAlignment(JLabel.CENTER);
+			renderer.setBackground(Color.orange);
+		}
 
-	    @Override
-	    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int col) {
-	        return renderer.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, col);
-	    }
+		@Override
+		public Component getTableCellRendererComponent(JTable table,
+				Object value, boolean isSelected, boolean hasFocus, int row,
+				int col) {
+			return renderer.getTableCellRendererComponent(table, value,
+					isSelected, hasFocus, row, col);
+		}
 	}
 }

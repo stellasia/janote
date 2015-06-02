@@ -123,7 +123,7 @@ public class MainWindow extends JFrame {
 		lbl3.setHorizontalTextPosition(SwingConstants.CENTER);
 		lbl3.setFont (lbl.getFont ().deriveFont (20.0f));
 		
-		examTab = new ExamTab(currentGroupID, cont.getGroupColTitlesView(), this);
+		examTab = new ExamTab(currentGroupID, cont.getExamColTitlesView(), this);
 		tabs.add("Pan3", examTab); 
 		tabs.setTabComponentAt(TAB_EXAMS, lbl3);
 		tabs.setToolTipTextAt (TAB_EXAMS, "Gérer les notes");// Changing the tooltip for first tab
