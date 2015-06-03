@@ -1,6 +1,6 @@
 package com.janote.view.gui;
 
-import javax.swing.table.AbstractTableModel;
+import javax.swing.table.DefaultTableModel;
 
 /**
  * @author Estelle Scifo
@@ -8,13 +8,13 @@ import javax.swing.table.AbstractTableModel;
  */
 
 @SuppressWarnings("serial")
-public class GroupTableModel extends AbstractTableModel {
+public class GroupTableModel extends DefaultTableModel {
 
 	// *****************************************
 	public static int COL_ID = 0;
 
 	private Object[][] data;
-	private final String[] title;
+	private String[] title;
 
 	// *****************************************
 	public GroupTableModel(Object[][] data, String[] title) {
@@ -165,10 +165,12 @@ public class GroupTableModel extends AbstractTableModel {
 	}
 
 	// *****************************************
+	@Override
 	public void removeRow(int row) {
 	}
 
 	// *****************************************
+	@Override
 	public void addRow(Object[] data) {
 		int indice = 0, nbRow = this.getRowCount(), nbCol = this
 				.getColumnCount();
@@ -184,9 +186,6 @@ public class GroupTableModel extends AbstractTableModel {
 		this.data[indice] = data;
 		temp = null;
 
-		// System.out.println("Nombre de lignes arpès ajout :" +
-		// this.getRowCount());
-
 		// Update table
 		this.fireTableDataChanged();
 	}
@@ -201,5 +200,23 @@ public class GroupTableModel extends AbstractTableModel {
 		// System.out.println(newData.length);
 		this.data = newData;
 		this.fireTableDataChanged();
+	}
+
+	@Override
+	public void addColumn(Object newColName) {
+		int indice = 0, nbRow = this.getRowCount(), nbCol = this
+				.getColumnCount();
+
+		// add a row in the data table
+		String temp[] = this.title;
+		this.title = new String[nbCol + 1];
+		for (String value : temp) {
+			this.title[indice++] = value;
+		}
+		this.title[nbCol] = (String) newColName;
+		temp = null;
+
+		// Update table
+		this.fireTableStructureChanged();
 	}
 }
