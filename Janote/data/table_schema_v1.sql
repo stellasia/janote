@@ -1,8 +1,20 @@
+CREATE TABLE IF NOT EXISTS Teachers
+(
+teacher_id 	        INTEGER PRIMARY KEY AUTOINCREMENT,
+teacher_name        TEXT NOT NULL,
+teacher_surname     TEXT
+);
+
+CREATE INDEX IF NOT EXISTS index_teacher_id
+ON Teachers (teacher_id);
+
+
 CREATE TABLE IF NOT EXISTS Groups
 (
-group_id 	        INTEGER PRIMARY KEY AUTOINCREMENT,
+group_id 	      INTEGER PRIMARY KEY AUTOINCREMENT,
 group_name        TEXT NOT NULL,
-group_description TEXT
+group_description TEXT,
+FOREIGN KEY(group_teacher_id) REFERENCES Teachers(teacher_id)
 );
 
 CREATE INDEX IF NOT EXISTS index_groups_id
@@ -18,7 +30,7 @@ student_email 	    TEXT,
 student_birthday    TEXT,
 student_repeating   INTEGER,
 student_gender      TEXT,
-student_group_id    INTEGER NOT NULL
+FOREIGN KEY(student_group_id) REFERENCES Groups(group_id)
 );
 
 CREATE INDEX IF NOT EXISTS index_students_id
@@ -33,7 +45,7 @@ CREATE TABLE IF NOT EXISTS Exams
 exam_id				INTEGER PRIMARY KEY AUTOINCREMENT,
 exam_name          	TEXT NOT NULL,
 exam_description   	TEXT,
-exam_group_id      	INTEDER NOT NULL,
+FOREIGN KEY(exam_group_id) REFERENCES Groups(group_id),
 exam_coefficient    REAL,
 exam_date           TEXT
 );
@@ -48,8 +60,8 @@ ON Exams (exam_group_id);
 CREATE TABLE IF NOT EXISTS Grades
 (
 grade_id           INTEGER PRIMARY KEY AUTOINCREMENT,
-grade_student_id   INTEGER NOT NULL,
-grade_exam_id      INTEDER NOT NULL,
+FOREIGN KEY(grade_student_id) REFERENCES Students(student_id),
+FOREIGN KEY(grade_exam_id) REFERENCES Exams(exam_id),
 grade_value        REAL
 );
 
