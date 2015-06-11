@@ -44,7 +44,7 @@ public class TeacherDAO extends DAO<Teacher> {
         try {
             ResultSet result = this.connect.createStatement().executeQuery(
                     "SELECT * FROM Teachers");
-            while (result.next()) {
+            if (result.next()) {
                 teach = map(result);
             }
         }
@@ -52,13 +52,13 @@ public class TeacherDAO extends DAO<Teacher> {
             e.printStackTrace();
         }
         GroupDAO gdao = new GroupDAO(this.connect);
-        ArrayList<Group> groups = (ArrayList<Group>) gdao.findAll();
+        ArrayList<Group> groups = gdao.findAll();
         teach.setGroups(groups);
         return teach;
     }
 
     @Override
-    public Set<Teacher> findAll() {
+    public ArrayList<Teacher> findAll() {
         return null;
     }
 

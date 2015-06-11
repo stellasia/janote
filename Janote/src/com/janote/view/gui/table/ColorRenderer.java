@@ -1,4 +1,4 @@
-package com.janote.view.gui;
+package com.janote.view.gui.table;
 
 import java.awt.Color;
 import java.awt.Component;

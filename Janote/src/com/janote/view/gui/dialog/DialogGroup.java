@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.janote.view.gui;
+package com.janote.view.gui.dialog;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;

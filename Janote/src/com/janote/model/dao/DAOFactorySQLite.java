@@ -5,6 +5,7 @@ package com.janote.model.dao;
 
 import java.io.InputStream;
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Scanner;
 
@@ -12,9 +13,11 @@ import com.janote.model.connection.SQLiteConnection;
 import com.janote.model.dao.daosqlite.ExamDAO;
 import com.janote.model.dao.daosqlite.GroupDAO;
 import com.janote.model.dao.daosqlite.StudentDAO;
+import com.janote.model.dao.daosqlite.TeacherDAO;
 import com.janote.model.entities.Exam;
 import com.janote.model.entities.Group;
 import com.janote.model.entities.Student;
+import com.janote.model.entities.Teacher;
 
 /**
  * The DAOFactory for the SQLite databases.
@@ -24,53 +27,59 @@ import com.janote.model.entities.Student;
  * @version 1.0
  */
 public class DAOFactorySQLite extends AbsDAOFactory {
-	protected final Connection conn;
+    protected final Connection conn;
 
-	public DAOFactorySQLite(String path) throws Exception {
-		conn = SQLiteConnection.getInstance(path);
-		if (this.createTables(this.getClass().getResourceAsStream(
-				"/table_schema_v1.sql")) == false)
-			throw new Exception("Ici");
-	}
+    public DAOFactorySQLite(String path) throws SQLException {
+        conn = SQLiteConnection.getInstance(path);
+        if (this.createTables(this.getClass().getResourceAsStream(
+                "/table_schema_v1.sql")) == false)
+            throw new SQLException("Could not create tables.");
+    }
 
-	@Override
-	public DAO<Group> getGroupDAO() {
-		return new GroupDAO(conn);
-	}
+    @Override
+    public DAO<Group> getGroupDAO() {
+        return new GroupDAO(conn);
+    }
 
-	@Override
-	public DAO<Student> getStudentDAO() {
-		return new StudentDAO(conn);
-	}
+    @Override
+    public DAO<Student> getStudentDAO() {
+        return new StudentDAO(conn);
+    }
 
-	@Override
-	public DAO<Exam> getExamDAO() {
-		return new ExamDAO(conn);
-	}
+    @Override
+    public DAO<Exam> getExamDAO() {
+        return new ExamDAO(conn);
+    }
 
-	public boolean createTables(InputStream inputStream) {
-		try {
-			Statement st = conn.createStatement();
-			String text = new Scanner(inputStream, "UTF-8").useDelimiter("\\A")
-					.next();
+    @Override
+    public DAO<Teacher> getTeacherDAO() {
+        return new TeacherDAO(conn);
+    }
 
-			/*
-			 * BufferedReader in = new BufferedReader(new
-			 * FileReader(inputStream));
-			 * 
-			 * String str; StringBuffer sb = new StringBuffer();
-			 * 
-			 * 
-			 * while ((str = in.readLine()) != null) { if (str.startsWith("#"))
-			 * { continue; } sb.append(str + "\n "); } in.close();
-			 */
-			// System.out.println(text);
-			st.executeUpdate(text);
-			return true;
-		} catch (Exception e) {
-			System.err.println("Failed to Execute" + inputStream
-					+ ". The error is" + e.getMessage());
-			return false;
-		}
-	}
+    public boolean createTables(InputStream inputStream) {
+        try {
+            Statement st = conn.createStatement();
+            String text = new Scanner(inputStream, "UTF-8").useDelimiter("\\A")
+                    .next();
+
+            /*
+             * BufferedReader in = new BufferedReader(new
+             * FileReader(inputStream));
+             * 
+             * String str; StringBuffer sb = new StringBuffer();
+             * 
+             * 
+             * while ((str = in.readLine()) != null) { if (str.startsWith("#"))
+             * { continue; } sb.append(str + "\n "); } in.close();
+             */
+            // System.out.println(text);
+            st.executeUpdate(text);
+            return true;
+        }
+        catch (Exception e) {
+            System.err.println("Failed to Execute" + inputStream
+                    + ". The error is" + e.getMessage());
+            return false;
+        }
+    }
 }

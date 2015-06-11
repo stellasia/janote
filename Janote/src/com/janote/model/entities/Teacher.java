@@ -43,6 +43,7 @@ public class Teacher extends AbsEntity {
      */
     public void setName(String name) {
         this.name = name;
+        this.observableUpdated(this);
     }
 
     /**
@@ -58,6 +59,7 @@ public class Teacher extends AbsEntity {
      */
     public void setSurname(String surname) {
         this.surname = surname;
+        this.observableUpdated(this);
     }
 
     /**
@@ -73,11 +75,14 @@ public class Teacher extends AbsEntity {
      */
     public void setGroups(ArrayList<Group> groups) {
         this.groups = groups;
+        this.observableUpdated(this);
     }
 
     public void addGroup(Group g) {
         if (this.groups == null)
             this.groups = new ArrayList<Group>();
+        g.setTeacher_id(this.getId());
         this.groups.add(g);
+        this.observableAdded(g);
     }
 }

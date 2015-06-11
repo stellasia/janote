@@ -1,4 +1,4 @@
-package com.janote.view.gui;
+package com.janote.view.gui.dialog;
 
 public enum DialogStatus {
 	NOTHING_CHANGE (0),
