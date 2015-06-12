@@ -9,7 +9,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * Class to describe a student. Members: - id - name - surname - gender (Boy or
@@ -161,8 +160,10 @@ public class Student extends AbsEntity {
     /**
      * @return a list of all exams the student is supposed to have taken
      */
-    public Set<Exam> getExams() {
-        return exams.keySet();
+    public ArrayList<Exam> getExams() {
+        ArrayList<Exam> list = new ArrayList<Exam>();
+        list.addAll(exams.keySet());
+        return list;
     }
 
     public HashMap<Exam, Float> getExamsGrades() {
@@ -274,7 +275,7 @@ public class Student extends AbsEntity {
      * @param exams
      *            the exams to set
      */
-    public void setExams(Set<Exam> exams) {
+    public void setExams(ArrayList<Exam> exams) {
         if (exams == null)
             return;
         if (this.exams == null)

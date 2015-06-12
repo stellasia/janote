@@ -9,9 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
 import com.janote.model.dao.DAO;
 import com.janote.model.entities.Exam;
@@ -52,10 +50,11 @@ public class ExamDAO extends DAO<Exam> {
     }
 
     @Override
-    public boolean add(Set<Exam> objs, Integer to_id) { // TODO : avoid multiple
-                                                        // requests if possible
-                                                        // (use multiple
-                                                        // inserts) ?
+    public boolean add(ArrayList<Exam> objs, Integer to_id) { // TODO : avoid
+                                                              // multiple
+        // requests if possible
+        // (use multiple
+        // inserts) ?
         for (Exam e : objs) {
             e.setGroup_id(to_id);
             this.add(e);
@@ -132,8 +131,8 @@ public class ExamDAO extends DAO<Exam> {
         return listOfExams;
     }
 
-    public Set<Exam> findAll(Integer group_id) {
-        Set<Exam> listOfExams = new HashSet<Exam>();
+    public ArrayList<Exam> findAll(Integer group_id) {
+        ArrayList<Exam> listOfExams = new ArrayList<Exam>();
         try {
             ResultSet result = this.connect.createStatement().executeQuery(
                     "SELECT * FROM Exams WHERE exam_group_id = " + group_id);

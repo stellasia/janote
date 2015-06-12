@@ -146,7 +146,8 @@ public class GroupTableModel extends DefaultTableModel {
     public void changeData(ArrayList<Student> newData) {
         // System.out.println("GroupTableModel.changeData");
         if (newData == null) {
-            System.out.println("newData is null");
+            System.out.println("GroupTableModel.changeData :: newData is null");
+            return;
         }
         // System.out.println(this.data.length);
         // System.out.println(newData.length);

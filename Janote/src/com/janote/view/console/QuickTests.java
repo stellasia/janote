@@ -2,9 +2,7 @@ package com.janote.view.console;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Scanner;
-import java.util.Set;
 
 import com.janote.model.dao.AbsDAOFactory;
 import com.janote.model.dao.DAOFactorySQLite;
@@ -130,7 +128,7 @@ public class QuickTests {
         Student s5 = new Student(null, "Ingals", "Mary", Gender.GIRL,
                 "ming@farm.com", "31-08-1999", false, null);
 
-        Set<Student> list1 = new HashSet<Student>();
+        ArrayList<Student> list1 = new ArrayList<Student>();
         list1.add(s1);
         list1.add(s2);
         list1.add(s3);
@@ -146,7 +144,7 @@ public class QuickTests {
          * System.out.println("Failed to add student to db"); }
          */
 
-        Set<Student> list2 = new HashSet<Student>();
+        ArrayList<Student> list2 = new ArrayList<Student>();
         list2.add(s4);
         list2.add(s5);
         Group g2 = new Group(null, "G2",
@@ -168,7 +166,7 @@ public class QuickTests {
         Exam e1 = new Exam(null, "DS1", "", 1, gr.getId());
         Exam e2 = new Exam(null, "DS2", "", 2, gr.getId());
 
-        Set<Exam> exams = new HashSet<Exam>();
+        ArrayList<Exam> exams = new ArrayList<Exam>();
         exams.add(e1);
         exams.add(e2);
 

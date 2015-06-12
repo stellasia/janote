@@ -5,7 +5,6 @@ package com.janote.controller;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Set;
 
 import com.janote.model.dao.AbsDAOFactory;
 import com.janote.model.dao.daosqlite.ExamDAO;
@@ -38,9 +37,9 @@ public class MainController {
      * Information about the columns in the group tab
      */
     private final String groupColTitlesView[] = { "id", "Nom", "Prénom",
-                                                 "Naissance", "Sexe",
-                                                 "Redoublant", "Email" }; // column
-                                                                          // titles
+                                                 "Sexe", "Naissance", "Email",
+                                                 "Redoublant" }; // column
+                                                                 // titles
 
     /**
      * The currently displayed group.
@@ -84,25 +83,6 @@ public class MainController {
         return true;
     }
 
-    public Object[][] getStudentList(int groupID) {
-        // System.out.println("MainController.getStudentList");
-        // return null; //studentDAO.getAllData(groupID,
-        // this.groupColTitlesModel);
-        Set<Student> students = studentDAO.findAll(groupID); // g.getStudents();
-        if (students == null)
-            return null;
-        Object[][] result = new Object[students.size()][groupColTitlesView.length];
-        int i = 0;
-        for (Student s : students) {
-            Object[] row = { s.getId(), s.getName(), s.getSurname(),
-                            s.getBirthdayAsString(), s.getGender(),
-                            s.isRepeating(), s.getEmail(), 0, 0 };
-            result[i] = row;
-            i++;
-        }
-        return result;
-    }
-
     public String[] getGroupColTitlesView() {
         return this.groupColTitlesView;
     }
@@ -117,7 +97,7 @@ public class MainController {
         names.add("Nom");
         names.add("Prénom");
 
-        Set<Exam> exams;
+        ArrayList<Exam> exams;
         try {
             exams = this.examDAO.findAll(1); // this.selectedGroup.getId());
             System.out.println(exams.toString());
@@ -132,8 +112,25 @@ public class MainController {
         return names;
     }
 
+    public Teacher getTeacher() {
+        try {
+            teacher = this.findTeacher();
+        }
+        catch (Exception e) {
+            System.err.println("Could not find a teacher in the file");
+        }
+        return teacher;
+    }
+
     public ArrayList<Group> getGroupList() {
-        return groupDAO.findAll();
+        return teacher.getGroups();
+    }
+
+    public ArrayList<Student> getStudentList() {
+        // System.out.println("MainController");
+        // System.out.println(this.selectedGroup.toString());
+        // System.out.println(this.selectedGroup.getStudents());
+        return this.selectedGroup.getStudents();
     }
 
     public Student getStudent(int id) {
@@ -152,12 +149,14 @@ public class MainController {
         return groupDAO.delete(g);
     }
 
-    public void getTeacher() {
+    public Teacher findTeacher() {
         this.teacher = this.teacherDAO.find(null); // in the current
                                                    // implementation, only one
                                                    // teacher is allowed and is
-                                                   // returned by the DAO
-
+                                                   // returned by the DAO,
+                                                   // whatever parameter is
+                                                   // passed to the find method
+        return this.teacher;
     }
 
     public void start(String name) throws SQLException {
@@ -170,10 +169,7 @@ public class MainController {
         examDAO = (ExamDAO) adf.getExamDAO();
         studentDAO = (StudentDAO) adf.getStudentDAO();
 
-        teacher = teacherDAO.find(null); // in the current
-                                         // implementation, only one
-                                         // teacher is allowed and is
-                                         // returned by the DAO
-        allGroups = teacher.getGroups();
+        teacher = this.getTeacher();
+        allGroups = this.getGroupList();
     }
 }

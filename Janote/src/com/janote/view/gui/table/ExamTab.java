@@ -28,15 +28,15 @@ public class ExamTab extends JPanel {
     protected GroupTableModel model;
     protected GroupSelector groupSelection;
 
-    private Group[] groups;
+    private ArrayList<Group> groups;
     protected int groupID = 1; //
     protected Object data[][];
     private final ArrayList<String> titles; // column titles
 
-    public ExamTab(int pGroupID, ArrayList<String> titles, MainWindow Pparent) {
+    public ExamTab(ArrayList<String> titles, MainWindow Pparent) {
         this.titles = titles;
         this.data = null;
-        this.groupID = pGroupID;
+        this.groupID = 0;
         this.parent = Pparent;
     }
 
@@ -51,7 +51,7 @@ public class ExamTab extends JPanel {
         tabData = new JTable(model);
 
         ArrayList<Group> grset = this.parent.getController().getGroupList();
-        this.groups = grset.toArray(new Group[grset.size()]);
+        this.groups = grset;
         groupSelection = new GroupSelector(parent, this.groups, false);
         groupSelection.addPropertyChangeListener(new PropertyChangeListener() {
             @Override

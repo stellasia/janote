@@ -4,8 +4,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Arrays;
-import java.util.List;
+import java.util.ArrayList;
 import java.util.ListIterator;
 
 import javax.swing.BoxLayout;
@@ -22,25 +21,25 @@ public class GroupSelector extends JPanel {
 
     public static final String COMBO_CHANGED = "Combo Changed";
 
-    protected List<Group> groups;
+    protected ArrayList<Group> groups;
     protected Group selectedGroup;
     protected JComboBox<Group> combo;
     protected MainWindow parent;
 
-    public GroupSelector(MainWindow pParent, Group[] groups,
+    public GroupSelector(MainWindow pParent, ArrayList<Group> groups,
             boolean allowAddingNew) {
         this.parent = pParent;
 
-        this.groups = Arrays.asList(groups);
+        this.groups = groups;
 
         this.setLayout(new BoxLayout(this, BoxLayout.LINE_AXIS));
 
         JLabel chooseGroup = new JLabel("Choisissez un groupe : ");
         this.add(chooseGroup);
-        combo = new JComboBox<Group>(groups);
+        combo = new JComboBox<Group>();
         combo.setPreferredSize(new Dimension(50, 30));
         combo.addActionListener(new GroupChangeListener());
-        this.setItems(Arrays.asList(groups), 0);
+        this.setItems(groups, 0);
 
         this.add(combo);
         if (allowAddingNew) {
@@ -58,10 +57,11 @@ public class GroupSelector extends JPanel {
         return selectedGroup;
     }
 
-    public void setItems(List<Group> groups, int selected_index) {
+    public void setItems(ArrayList<Group> groups, int selected_index) {
         combo.removeAllItems();
-        for (Group g : groups)
-            combo.addItem(g);
+        if (groups != null)
+            for (Group g : groups)
+                combo.addItem(g);
         combo.insertItemAt(new Group(null, "------", "", null, null), 0);
         combo.setSelectedIndex(selected_index);
         combo.revalidate();
@@ -87,7 +87,7 @@ public class GroupSelector extends JPanel {
             Group newSelectedGroup = (Group) combo.getSelectedItem();
             firePropertyChange(COMBO_CHANGED, selectedGroup, newSelectedGroup);
             selectedGroup = newSelectedGroup;
-            parent.getController().setSelectedGroup(selectedGroup);
+            parent.changeSelectedGroup(selectedGroup);
             // System.out.println("GroupSelector.GroupChangeListener -> group changed");
         }
     }

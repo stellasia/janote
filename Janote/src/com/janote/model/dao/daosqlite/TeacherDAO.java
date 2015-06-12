@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Set;
 
 import com.janote.model.dao.DAO;
 import com.janote.model.entities.Group;
@@ -22,7 +21,7 @@ public class TeacherDAO extends DAO<Teacher> {
     }
 
     @Override
-    public boolean add(Set<Teacher> objs, Integer to_id) {
+    public boolean add(ArrayList<Teacher> objs, Integer to_id) {
         return false;
     }
 

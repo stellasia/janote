@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Set;
 
 /**
  * DAO (Data Access Object) generic class (handles objects creation from DB)
@@ -48,7 +47,7 @@ public abstract class DAO<T> {
      * @param to_id
      * @return
      */
-    public abstract boolean add(Set<T> objs, Integer to_id);
+    public abstract boolean add(ArrayList<T> objs, Integer to_id);
 
     /**
      * Delete an object

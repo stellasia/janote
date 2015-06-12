@@ -85,4 +85,12 @@ public class Teacher extends AbsEntity {
         this.groups.add(g);
         this.observableAdded(g);
     }
+
+    @Override
+    public String toString() {
+        String res = "Teacher:: " + this.name + " [ ";
+        for (Group g : this.groups)
+            res += g.toString();
+        return res + " ]";
+    }
 }

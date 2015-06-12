@@ -8,7 +8,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Set;
 
 import com.janote.model.dao.DAO;
 import com.janote.model.entities.Exam;
@@ -65,14 +64,14 @@ public class GroupDAO extends DAO<Group> {
         }
 
         // insert students into DB
-        Set<Student> students = obj.getStudents();
+        ArrayList<Student> students = obj.getStudents();
         if (students != null) {
             StudentDAO studentDAO = new StudentDAO(this.connect);
             studentDAO.add(students, groupID); // TODO : check for duplicate
                                                // Student ?
         }
 
-        Set<Exam> exams = obj.getExams();
+        ArrayList<Exam> exams = obj.getExams();
         if (exams != null) {
             ExamDAO examDAO = new ExamDAO(this.connect);
             examDAO.add(exams, groupID); // TODO : check for duplicate Exams ?
@@ -81,7 +80,7 @@ public class GroupDAO extends DAO<Group> {
     }
 
     @Override
-    public boolean add(Set<Group> objs, Integer to_id) {
+    public boolean add(ArrayList<Group> objs, Integer to_id) {
         throw new UnsupportedOperationException(
                 "Can not add a group to another object.");
     }
@@ -156,9 +155,9 @@ public class GroupDAO extends DAO<Group> {
                 StudentDAO sdao = new StudentDAO(this.connect);
                 ExamDAO edao = new ExamDAO(this.connect);
                 gr = map(resultSet);
-                Set<Student> students = sdao.findAll(gr.getId());
+                ArrayList<Student> students = sdao.findAll(gr.getId());
                 gr.setStudents(students);
-                Set<Exam> exams = edao.findAll(gr.getId());
+                ArrayList<Exam> exams = edao.findAll(gr.getId());
                 gr.setExams(exams);
             }
         }
@@ -183,9 +182,9 @@ public class GroupDAO extends DAO<Group> {
             ExamDAO edao = new ExamDAO(this.connect);
             while (resultSet.next()) {
                 gr = map(resultSet);
-                Set<Student> students = sdao.findAll(gr.getId());
+                ArrayList<Student> students = sdao.findAll(gr.getId());
                 gr.setStudents(students);
-                Set<Exam> exams = edao.findAll(gr.getId());
+                ArrayList<Exam> exams = edao.findAll(gr.getId());
                 gr.setExams(exams);
                 grs.add(gr);
             }

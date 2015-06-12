@@ -43,7 +43,6 @@ public class MainWindow extends JFrame implements Observer {
 
     private final MainController cont;
     private final JTabbedPane tabs;
-    private final int currentGroupID = 1;
 
     private final WelcomeTab welcomeTab;
     private final GroupTab groupTab;
@@ -114,8 +113,7 @@ public class MainWindow extends JFrame implements Observer {
         lbl2.setHorizontalTextPosition(SwingConstants.CENTER);
         lbl2.setFont(lbl.getFont().deriveFont(20.0f));
 
-        groupTab = new GroupTab(currentGroupID, cont.getGroupColTitlesView(),
-                this);
+        groupTab = new GroupTab(cont.getGroupColTitlesView(), this);
         tabs.add("Pan2", groupTab);
         tabs.setTabComponentAt(TAB_GROUP, lbl2);
         tabs.setToolTipTextAt(TAB_GROUP, "Liste des étudiants");// Changing the
@@ -132,7 +130,7 @@ public class MainWindow extends JFrame implements Observer {
         lbl3.setHorizontalTextPosition(SwingConstants.CENTER);
         lbl3.setFont(lbl.getFont().deriveFont(20.0f));
 
-        examTab = new ExamTab(currentGroupID, cont.getExamColTitlesView(), this);
+        examTab = new ExamTab(cont.getExamColTitlesView(), this);
         tabs.add("Pan3", examTab);
         tabs.setTabComponentAt(TAB_EXAMS, lbl3);
         tabs.setToolTipTextAt(TAB_EXAMS, "Gérer les notes");// Changing the
@@ -330,6 +328,9 @@ public class MainWindow extends JFrame implements Observer {
 
     public void changeSelectedGroup(Group g) {
         this.cont.changeSelectedGroup(g);
+        // System.out.println("MainWindow.changeSelectedGroup");
+        // System.out.println(this.cont.getStudentList());
+        this.groupTab.updateStudentList(this.cont.getStudentList());
     }
 
     @Override

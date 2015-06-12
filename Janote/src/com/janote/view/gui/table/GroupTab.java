@@ -10,7 +10,6 @@ import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import javax.swing.BoxLayout;
 import javax.swing.DefaultCellEditor;
@@ -45,7 +44,7 @@ public class GroupTab extends JPanel // implements Observer
     protected JPanel groupSelection;
     protected JPanel groupActions;
 
-    private Group[] groups;
+    private ArrayList<Group> groups;
     protected int groupID = 0; //
     protected ArrayList<Student> data;
     private final String titles[]; // column titles
@@ -53,10 +52,10 @@ public class GroupTab extends JPanel // implements Observer
                                                                     // sex
 
     // ********************
-    public GroupTab(int pGroupID, String[] titles, MainWindow Pparent) {
+    public GroupTab(String[] titles, MainWindow Pparent) {
         this.titles = titles;
         this.data = null;
-        this.groupID = pGroupID;
+        this.groupID = 0;
         this.parent = Pparent;
     }
 
@@ -69,7 +68,7 @@ public class GroupTab extends JPanel // implements Observer
         // this.updateStudentList(null); // should update the data table
         // this.updateGroupList(); // should update the group list
         ArrayList<Group> grset = this.parent.getController().getGroupList();
-        this.groups = grset.toArray(new Group[grset.size()]);
+        this.groups = grset;
         groupSelection = new GroupSelector(parent, this.groups, true);
         groupSelection.addPropertyChangeListener(new PropertyChangeListener() {
             @Override
@@ -279,6 +278,8 @@ public class GroupTab extends JPanel // implements Observer
     // *****************************************
     // @Override
     public void updateStudentList(ArrayList<Student> data) {
+        // System.out.println("GroupTab.updateStudentList");
+        // System.out.println(data);
         model.changeData(data);
     }
 
@@ -286,10 +287,10 @@ public class GroupTab extends JPanel // implements Observer
     // @Override
     public void updateGroupList() {
         ArrayList<Group> grset = this.parent.getController().getGroupList();
-        this.groups = grset.toArray(new Group[grset.size()]);
+        this.groups = grset;
         // System.out.println(Arrays.toString(this.groups));
-        ((GroupSelector) groupSelection).setItems(Arrays.asList(this.groups),
-                this.groups.length - 1);
+        ((GroupSelector) groupSelection).setItems(this.groups,
+                this.groups.size() - 1);
     }
 
     // *****************************************

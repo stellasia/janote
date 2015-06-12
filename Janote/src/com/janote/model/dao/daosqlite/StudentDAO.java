@@ -8,10 +8,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Set;
 
 import com.janote.model.dao.DAO;
 import com.janote.model.entities.Exam;
@@ -101,11 +99,11 @@ public class StudentDAO extends DAO<Student> {
     }
 
     @Override
-    public boolean add(Set<Student> objs, Integer to_id) { // TODO : avoid
-                                                           // multiple requests
-                                                           // if possible (use
-                                                           // multiple inserts)
-                                                           // ?
+    public boolean add(ArrayList<Student> objs, Integer to_id) { // TODO : avoid
+        // multiple requests
+        // if possible (use
+        // multiple inserts)
+        // ?
         for (Student s : objs) {
             s.setGroup_id(to_id);
             this.add(s);
@@ -195,8 +193,8 @@ public class StudentDAO extends DAO<Student> {
         return listOfStudents;
     }
 
-    public Set<Student> findAll(int groupID) {
-        Set<Student> listOfStudents = new HashSet<Student>();
+    public ArrayList<Student> findAll(int groupID) {
+        ArrayList<Student> listOfStudents = new ArrayList<Student>();
         try {
             ResultSet result = this.connect.createStatement().executeQuery(
                     "SELECT * FROM Students WHERE student_group_id=" + groupID);

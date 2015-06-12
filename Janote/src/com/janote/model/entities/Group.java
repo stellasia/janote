@@ -1,7 +1,6 @@
 package com.janote.model.entities;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
 
 /**
  * Class to describe a group of students characterized by: - an id (integer) - a
@@ -16,9 +15,9 @@ public class Group extends AbsEntity {
     protected String description;
     protected Integer teacher_id;
 
-    protected Set<Student> students;
+    protected ArrayList<Student> students;
     // protected HashMap<Exam, Float> exams;
-    protected Set<Exam> exams;
+    protected ArrayList<Exam> exams;
 
     // protected static GroupManager objects = new GroupManager();
 
@@ -34,7 +33,7 @@ public class Group extends AbsEntity {
      *            : list of Student in the group
      */
     public Group(Integer id, String name, String description,
-            Set<Student> students, Set<Exam> exams) {
+            ArrayList<Student> students, ArrayList<Exam> exams) {
         super();
         this.setId(id);
         this.setName(name);
@@ -60,7 +59,7 @@ public class Group extends AbsEntity {
     /**
      * @return the list of students in the group
      */
-    public Set<Student> getStudents() {
+    public ArrayList<Student> getStudents() {
         return students;
     }
 
@@ -68,7 +67,7 @@ public class Group extends AbsEntity {
      * @return the list of exams taken by the group
      */
     // public HashMap<Exam, Float> getExams() {
-    public Set<Exam> getExams() {
+    public ArrayList<Exam> getExams() {
         return exams;
     }
 
@@ -97,7 +96,7 @@ public class Group extends AbsEntity {
      * @param students
      *            the students to set
      */
-    public void setStudents(Set<Student> students) {
+    public void setStudents(ArrayList<Student> students) {
         this.students = students;
     }
 
@@ -106,7 +105,7 @@ public class Group extends AbsEntity {
      *            the exams to set
      */
     // public void setExams(HashMap<Exam, Float> exams) {
-    public void setExams(Set<Exam> exams) {
+    public void setExams(ArrayList<Exam> exams) {
         this.exams = exams;
         if (this.getStudents() != null) {
             for (Student s : this.getStudents()) {
@@ -117,7 +116,7 @@ public class Group extends AbsEntity {
 
     public void addStudent(Student s) {
         if (this.students == null)
-            this.students = new HashSet<Student>();
+            this.students = new ArrayList<Student>();
         s.setGroup_id(this.getId());
         this.students.add(s);
         this.observableAdded(s);
