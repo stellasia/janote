@@ -131,9 +131,17 @@ public class GroupTab extends JPanel // implements Observer
             public void mouseClicked(MouseEvent e) {
                 int numberOfClicks = e.getClickCount();
                 JTable target = (JTable) e.getSource();
-                int row = target.convertRowIndexToModel(target.getSelectedRow());
-                int column = target.convertColumnIndexToModel(target
-                        .getSelectedColumn());
+                int row, column;
+                try {
+                    row = target.convertRowIndexToModel(target.getSelectedRow());
+                    column = target.convertColumnIndexToModel(target
+                            .getSelectedColumn());
+                }
+                catch (ArrayIndexOutOfBoundsException exception) {
+                    System.err
+                            .println("GroupTab.addMonseListener:: Could not find a matching row in the table.");
+                    return;
+                }
                 // System.out.println("GroupTab clicked -> numberOfClicks " +
                 // numberOfClicks + ", row " + row + ",col " + column);
                 int stud_id = (int) target.getModel().getValueAt(row,
@@ -188,9 +196,17 @@ public class GroupTab extends JPanel // implements Observer
         @Override
         public void actionPerformed(ActionEvent e) {
             JTable target = tabData; // (JTable)e.getSource();
-            int row = target.convertRowIndexToModel(target.getSelectedRow());
-            int column = target.convertColumnIndexToModel(target
-                    .getSelectedColumn());
+            int row, column;
+            try {
+                row = target.convertRowIndexToModel(target.getSelectedRow());
+                column = target.convertColumnIndexToModel(target
+                        .getSelectedColumn());
+            }
+            catch (ArrayIndexOutOfBoundsException exception) {
+                System.err
+                        .println("GroupTab.DelStudentListener:: Could not find a matching row in the table.");
+                return;
+            }
             // System.out.println("GroupTab clicked -> numberOfClicks " +
             // numberOfClicks + ", row " + row + ",col " + column);
             int stud_id = (int) target.getModel().getValueAt(row,

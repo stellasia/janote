@@ -57,8 +57,12 @@ public class MainController {
         return this.selectedGroup;
     }
 
-    public void changeSelectedGroup(Group selectedGroup) {
-        this.selectedGroup = selectedGroup;
+    public boolean changeSelectedGroup(Group selectedGroup) {
+        if (allGroups.indexOf(selectedGroup) > -1) {
+            this.selectedGroup = selectedGroup;
+            return true;
+        }
+        return false;
     }
 
     public boolean addStudent(Student stu) {

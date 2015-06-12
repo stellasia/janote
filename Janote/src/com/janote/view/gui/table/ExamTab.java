@@ -15,6 +15,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
 import com.janote.model.entities.Group;
+import com.janote.model.entities.Student;
 import com.janote.view.gui.GroupSelector;
 import com.janote.view.gui.MainWindow;
 
@@ -65,7 +66,7 @@ public class ExamTab extends JPanel {
                     parent.getController().changeSelectedGroup(g);
                     int group_id = g.getId();
                     groupID = group_id;
-                    updateStudentList(group_id);
+                    // updateStudentList(group_id);
                 }
             }
         });
@@ -89,8 +90,9 @@ public class ExamTab extends JPanel {
 
     // *****************************************
     // @Override
-    public void updateStudentList(Integer groupID) {
-        return;
+    public void updateStudentList(ArrayList<Student> data) {
+        // System.out.println("GroupTab.updateStudentList");
+        // System.out.println(data);
+        // model.changeData(data);
     }
-
 }
