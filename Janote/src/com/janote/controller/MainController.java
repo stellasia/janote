@@ -31,7 +31,6 @@ public class MainController {
     protected GroupDAO groupDAO;
     protected ExamDAO examDAO;
     protected Teacher teacher;
-    protected ArrayList<Group> allGroups;
 
     /**
      * Information about the columns in the group tab
@@ -58,7 +57,7 @@ public class MainController {
     }
 
     public boolean changeSelectedGroup(Group selectedGroup) {
-        if (allGroups.indexOf(selectedGroup) > -1) {
+        if (this.teacher.getGroups().indexOf(selectedGroup) > -1) {
             this.selectedGroup = selectedGroup;
             return true;
         }
@@ -97,6 +96,7 @@ public class MainController {
     public boolean addOrUpdateGroup(Group gr) {
         // System.out.println("MainController.addOrUpdateGroup -> " + gr);
         if (gr.getId() == null) {
+            gr.setTeacher_id(this.teacher.getId());
             boolean status = groupDAO.add(gr);
             if (status) {
                 this.teacher.addGroup(gr);
@@ -114,7 +114,7 @@ public class MainController {
     }
 
     public boolean setSelectedGroup(Group g) {
-        if (this.allGroups.contains(g)) {
+        if (this.teacher.getGroups().contains(g)) {
             this.selectedGroup = g;
             return true;
         }
@@ -153,12 +153,13 @@ public class MainController {
 
     public Teacher getTeacher() {
         Teacher teacher = new Teacher();
-        try {
-            teacher = this.findTeacher();
-        }
-        catch (Exception e) {
-            System.err.println("Could not find a teacher in the file");
-        }
+        // try {
+        teacher = this.findTeacher();
+        // }
+        // catch (Exception e) {
+        // System.err.println("Could not find a teacher in the file");
+        // System.err.println(e.getStackTrace().toString());
+        // }
         return teacher;
     }
 
@@ -193,15 +194,11 @@ public class MainController {
     }
 
     public Teacher findTeacher() {
-        Teacher teacher = this.teacherDAO.find(null); // in the current
-                                                      // implementation, only
-                                                      // one
-                                                      // teacher is allowed and
-                                                      // is
-                                                      // returned by the DAO,
-                                                      // whatever parameter is
-                                                      // passed to the find
-                                                      // method
+        Teacher teacher = this.teacherDAO.find(null);
+        if (teacher == null) {
+            teacher = new Teacher();
+            teacherDAO.add(teacher);
+        }
         return teacher;
     }
 
@@ -215,7 +212,12 @@ public class MainController {
         examDAO = (ExamDAO) adf.getExamDAO();
         studentDAO = (StudentDAO) adf.getStudentDAO();
 
-        allGroups = this.getTeacher().getGroups();
-        teacher.setGroups(allGroups);
+        Teacher t = teacherDAO.find(null);
+        if (t != null) {
+            this.teacher.setGroups(t.getGroups());
+            this.teacher.setName(t.getName());
+            this.teacher.setSurname(t.getSurname());
+            this.teacher.setId(t.getId());
+        }
     }
 }
