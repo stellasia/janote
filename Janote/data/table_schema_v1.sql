@@ -14,8 +14,7 @@ CREATE TABLE IF NOT EXISTS Groups
 group_id 	      INTEGER PRIMARY KEY AUTOINCREMENT,
 group_name        TEXT NOT NULL,
 group_description TEXT,
-group_teacher_id  INTEGER,
-FOREIGN KEY(group_teacher_id) REFERENCES Teachers(teacher_id)
+group_teacher_id  INTEGER REFERENCES Teachers(teacher_id) ON DELETE CASCADE
 );
 
 CREATE INDEX IF NOT EXISTS index_groups_id
@@ -32,7 +31,7 @@ student_birthday    TEXT,
 student_repeating   INTEGER,
 student_gender      TEXT,
 student_group_id    INTEGER,
-FOREIGN KEY(student_group_id) REFERENCES Groups(group_id)
+FOREIGN KEY (student_group_id) REFERENCES Groups(group_id) ON DELETE CASCADE
 );
 
 CREATE INDEX IF NOT EXISTS index_students_id
