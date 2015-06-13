@@ -13,6 +13,7 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.table.TableCellRenderer;
 
 import com.janote.model.entities.Group;
 import com.janote.model.entities.Student;
@@ -27,12 +28,12 @@ import com.janote.view.gui.MainWindow;
 public class ExamTab extends JPanel {
     protected MainWindow parent = null;
     protected JTable tabData;
-    protected GroupTableModel model;
+    protected ExamTableModel model;
     protected GroupSelector groupSelector;
 
     private ArrayList<Group> groups;
     protected int groupID = 1; //
-    protected Object data[][];
+    protected ArrayList<Student> data;
     private final ArrayList<String> titles; // column titles
 
     public ExamTab(ArrayList<String> titles, MainWindow Pparent) {
@@ -49,7 +50,7 @@ public class ExamTab extends JPanel {
 
         String[] dsf = new String[this.titles.size()];
         this.titles.toArray(dsf);
-        model = new GroupTableModel(null, dsf);
+        model = new ExamTableModel(this.data, dsf);
         tabData = new JTable(model);
 
         ArrayList<Group> grset = this.parent.getController().getGroupList();
@@ -69,6 +70,12 @@ public class ExamTab extends JPanel {
                 }
             }
         });
+
+        tabData.setAutoCreateRowSorter(true); // a generic sorter
+        tabData.getRowSorter().toggleSortOrder(1);
+        tabData.setRowHeight(40);
+        TableCellRenderer renderer = new TabRowRenderer();
+        tabData.setDefaultRenderer(Object.class, renderer); // row colors
 
         ArrayList<String> names = this.parent.getController()
                 .getExamColTitlesView();
@@ -91,7 +98,7 @@ public class ExamTab extends JPanel {
     public void updateStudentList(Group g, ArrayList<Student> data) {
         // System.out.println("GroupTab.updateStudentList");
         // System.out.println(data);
-        // model.changeData(data);
+        model.changeData(data);
         groupSelector.setSelectedGroup(g);
     }
 }
