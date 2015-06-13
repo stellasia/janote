@@ -91,6 +91,19 @@ public class Teacher extends AbsEntity {
         this.observableAdded(s);
     }
 
+    public void updateStudent(Student stu) {
+        for (Group g : groups) {
+            if (g.getId() == stu.getGroup_id()) {
+                ArrayList<Student> students = g.getStudents();
+                for (Student s : students) {
+                    if (s.getId() == stu.getId())
+                        s = stu;
+                }
+            }
+        }
+        this.observableUpdated(stu);
+    }
+
     @Override
     public String toString() {
         String res = "Teacher:: " + this.name + " [ ";

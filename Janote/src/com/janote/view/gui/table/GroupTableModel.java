@@ -143,6 +143,7 @@ public class GroupTableModel extends DefaultTableModel {
     public void updateRow(Student row) {
         Integer index = this.getIndexOf(row);
         this.data.set(index, row);
+        this.fireTableDataChanged();
     }
 
     // *****************************************

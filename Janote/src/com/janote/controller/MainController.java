@@ -80,6 +80,20 @@ public class MainController {
         return true;
     }
 
+    public boolean updateStudent(Student stu) {
+        if (stu.getId() != null) {
+            // System.out.println("MainController.addStudent");
+            // System.out.println(stu.toString());
+            studentDAO.update(stu);
+
+            this.teacher.updateStudent(stu);
+        }
+        else
+            throw new IllegalArgumentException(
+                    "Can not update a student that does not already have an id.");
+        return true;
+    }
+
     public boolean addOrUpdateGroup(Group gr) {
         // System.out.println("MainController.addOrUpdateGroup -> " + gr);
         if (gr.getId() == null)

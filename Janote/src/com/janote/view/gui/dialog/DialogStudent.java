@@ -251,7 +251,8 @@ public class DialogStudent extends JDialog {
         if (this.student.getId() == null)
             this.cont.addStudent(stu);
         else
-            student = stu;
+            this.cont.updateStudent(stu);
+        // student = stu;
         return true;
     }
 }
