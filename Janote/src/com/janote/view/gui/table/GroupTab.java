@@ -71,7 +71,7 @@ public class GroupTab extends JPanel // implements Observer
         ArrayList<Group> grset = this.parent.getController().getGroupList();
         this.groups = grset;
         groupSelector = new GroupSelector(parent);
-        groupSelector.setItems(groups, 0);
+        groupSelector.setItems(groups, null);
         groupSelector.addPropertyChangeListener(new PropertyChangeListener() {
             @Override
             public void propertyChange(PropertyChangeEvent evt) {
@@ -246,8 +246,7 @@ public class GroupTab extends JPanel // implements Observer
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            int group_id = groupID;
-            Group gr = parent.getController().getGroup(group_id);
+            Group gr = parent.getController().getSelectedGroup();
 
             int option = JOptionPane
                     .showConfirmDialog(
@@ -278,7 +277,6 @@ public class GroupTab extends JPanel // implements Observer
         @Override
         public void actionPerformed(ActionEvent event) {
             Group current_group = parent.getController().getSelectedGroup();
-            System.out.println(current_group);
             DialogGroup dgroup = new DialogGroup(current_group,
                     parent.getController());
             boolean option = dgroup.showDialog();
@@ -307,7 +305,7 @@ public class GroupTab extends JPanel // implements Observer
     public void updateGroupList(ArrayList<Group> grset, Group selectedGroup) {
         this.groups = grset;
         // System.out.println(Arrays.toString(this.groups));
-        groupSelector.setItems(this.groups, selectedGroup.getId());
+        groupSelector.setItems(this.groups, selectedGroup);
     }
 
     // *****************************************

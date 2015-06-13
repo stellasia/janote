@@ -96,15 +96,29 @@ public class MainController {
 
     public boolean addOrUpdateGroup(Group gr) {
         // System.out.println("MainController.addOrUpdateGroup -> " + gr);
-        if (gr.getId() == null)
-            return groupDAO.add(gr);
-        else
-            return groupDAO.update(gr);
+        if (gr.getId() == null) {
+            boolean status = groupDAO.add(gr);
+            if (status) {
+                this.teacher.addGroup(gr);
+                this.changeSelectedGroup(gr);
+            }
+            return status;
+        }
+        else {
+            boolean status = groupDAO.update(gr);
+            if (status) {
+                this.teacher.updateGroup(gr);
+            }
+            return status;
+        }
     }
 
     public boolean setSelectedGroup(Group g) {
-        this.selectedGroup = g;
-        return true;
+        if (this.allGroups.contains(g)) {
+            this.selectedGroup = g;
+            return true;
+        }
+        return false;
     }
 
     public String[] getGroupColTitlesView() {
@@ -124,15 +138,16 @@ public class MainController {
         ArrayList<Exam> exams;
         try {
             exams = this.examDAO.findAll(1); // this.selectedGroup.getId());
-            System.out.println(exams.toString());
+            // System.out.println(exams.toString());
             for (Exam e : exams) {
                 names.add(e.getName());
             }
         }
         catch (NullPointerException e) {
-
+            System.err
+                    .println("MainController.getExamColTitlesView: Could not update the exam column titles");
         }
-        System.out.println(names.toString());
+        // System.out.println(names.toString());
         return names;
     }
 
@@ -172,6 +187,8 @@ public class MainController {
     }
 
     public boolean delGroup(Group g) {
+        // System.out.println(g);
+        this.teacher.removeGroup(g);
         return groupDAO.delete(g);
     }
 
@@ -198,7 +215,7 @@ public class MainController {
         examDAO = (ExamDAO) adf.getExamDAO();
         studentDAO = (StudentDAO) adf.getStudentDAO();
 
-        teacher.setGroups(this.getTeacher().getGroups());
-        allGroups = this.getGroupList();
+        allGroups = this.getTeacher().getGroups();
+        teacher.setGroups(allGroups);
     }
 }

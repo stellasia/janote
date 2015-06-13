@@ -37,7 +37,7 @@ public class GroupSelector extends JPanel {
         combo = new JComboBox<Group>();
         combo.setPreferredSize(new Dimension(50, 30));
         combo.addActionListener(new GroupChangeListener());
-        this.setItems(groups, 0);
+        this.setItems(groups, null);
         this.add(combo);
 
         JLabel orNewGroup = new JLabel(" ou ");
@@ -53,20 +53,23 @@ public class GroupSelector extends JPanel {
         return selectedGroup;
     }
 
-    public void setItems(ArrayList<Group> groups, int selected_index) {
+    public void setItems(ArrayList<Group> groups, Group selected_group) {
         combo.removeAllItems();
         combo.insertItemAt(new Group(null, "------", "", null, null), 0);
-        System.out.println(groups);
+        // System.out.println(groups);
         if (groups != null)
             for (Group g : groups)
-                combo.insertItemAt(g, g.getId());
-        combo.setSelectedIndex(selected_index);
+                combo.addItem(g);
+        if (selected_group != null)
+            combo.setSelectedItem(selected_group);
+        else
+            combo.setSelectedIndex(0);
         combo.revalidate();
     }
 
     public void setSelectedGroup(Group gr) {
         if (gr != null)
-            combo.setSelectedIndex(gr.getId());
+            combo.setSelectedItem(gr);
         else
             combo.setSelectedIndex(0);
     }

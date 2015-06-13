@@ -55,7 +55,7 @@ public class ExamTab extends JPanel {
         ArrayList<Group> grset = this.parent.getController().getGroupList();
         this.groups = grset;
         groupSelector = new GroupSelector(parent);
-        groupSelector.setItems(groups, 0);
+        groupSelector.setItems(groups, null);
         groupSelector.addPropertyChangeListener(new PropertyChangeListener() {
             @Override
             public void propertyChange(PropertyChangeEvent evt) {

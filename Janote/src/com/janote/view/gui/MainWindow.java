@@ -376,7 +376,8 @@ public class MainWindow extends JFrame implements Observer {
             this.groupTab.getModel().removeRow((Student) observable);
         }
         else if (observable instanceof Group) {
-            //
+            ArrayList<Group> groups = this.cont.getGroupList();
+            this.groupTab.updateGroupList(groups, null);
         }
         else if (observable instanceof Exam) {
             //

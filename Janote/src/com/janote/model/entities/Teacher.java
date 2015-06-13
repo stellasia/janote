@@ -97,6 +97,16 @@ public class Teacher extends AbsEntity {
         this.observableUpdated(gr);
     }
 
+    public void removeGroup(Group gr) {
+        for (Group g : groups) {
+            if (g.getId() == gr.getId()) {
+                groups.remove(g);
+                break;
+            }
+        }
+        this.observableDeleted(gr);
+    }
+
     public void addStudent(Student s, Group g) {
         g.addStudent(s);
         this.observableAdded(s);
