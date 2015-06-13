@@ -246,7 +246,9 @@ public class DialogStudent extends JDialog {
     }
 
     public boolean addStudent(Student stu) {
-        if (this.student == null)
+        // System.out.println("DialogStudent.addStudent");
+        // System.out.println(stu.toString());
+        if (this.student.getId() == null)
             this.cont.addStudent(stu);
         else
             student = stu;

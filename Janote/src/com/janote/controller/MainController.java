@@ -66,8 +66,14 @@ public class MainController {
     }
 
     public boolean addStudent(Student stu) {
-        if (stu.getId() == null)
-            this.selectedGroup.addStudent(stu);
+        if (stu.getId() == null) {
+            // System.out.println("MainController.addStudent");
+            // System.out.println(stu.toString());
+            stu.setGroup_id(selectedGroup.getId());
+            studentDAO.add(stu);
+
+            this.teacher.addStudent(stu, selectedGroup);
+        }
         else
             throw new IllegalArgumentException(
                     "Can not add a student that already have a non null id.");
@@ -117,6 +123,7 @@ public class MainController {
     }
 
     public Teacher getTeacher() {
+        Teacher teacher = new Teacher();
         try {
             teacher = this.findTeacher();
         }
@@ -154,13 +161,16 @@ public class MainController {
     }
 
     public Teacher findTeacher() {
-        this.teacher = this.teacherDAO.find(null); // in the current
-                                                   // implementation, only one
-                                                   // teacher is allowed and is
-                                                   // returned by the DAO,
-                                                   // whatever parameter is
-                                                   // passed to the find method
-        return this.teacher;
+        Teacher teacher = this.teacherDAO.find(null); // in the current
+                                                      // implementation, only
+                                                      // one
+                                                      // teacher is allowed and
+                                                      // is
+                                                      // returned by the DAO,
+                                                      // whatever parameter is
+                                                      // passed to the find
+                                                      // method
+        return teacher;
     }
 
     public void start(String name) throws SQLException {
@@ -173,7 +183,7 @@ public class MainController {
         examDAO = (ExamDAO) adf.getExamDAO();
         studentDAO = (StudentDAO) adf.getStudentDAO();
 
-        teacher = this.getTeacher();
+        teacher.setGroups(this.getTeacher().getGroups());
         allGroups = this.getGroupList();
     }
 }

@@ -35,14 +35,16 @@ public class StudentDAO extends DAO<Student> {
         super(conn);
     }
 
-    @Override
+    // @Override
     /**
      * Add a new row into the Student table.
      * 
      * @param obj
-     * 			an instance of Student. Note that the id of that Student is not used, even if it is set.
+     *            an instance of Student. Note that the id of that Student is
+     *            not used, even if it is set.
      * @see Student
      */
+    @Override
     public boolean add(Student obj) {
         if (obj.getId() != null)
             throw new IllegalArgumentException("Object id is not null ("
@@ -61,6 +63,7 @@ public class StudentDAO extends DAO<Student> {
             prepare.setInt(7, obj.getGroup_id());
             if (prepare.executeUpdate() == 0)
                 return false;
+            obj.setId(prepare.getGeneratedKeys().getInt(1));
         }
         catch (SQLException e) {
             e.printStackTrace(System.out);

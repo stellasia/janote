@@ -14,6 +14,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import com.janote.model.entities.Group;
+import com.janote.model.entities.Student;
 import com.janote.view.gui.dialog.DialogGroup;
 
 @SuppressWarnings("serial")
@@ -26,11 +27,9 @@ public class GroupSelector extends JPanel {
     protected JComboBox<Group> combo;
     protected MainWindow parent;
 
-    public GroupSelector(MainWindow pParent, ArrayList<Group> groups,
-            boolean allowAddingNew) {
-        this.parent = pParent;
+    public GroupSelector() {
 
-        this.groups = groups;
+        // this.groups = groups;
 
         this.setLayout(new BoxLayout(this, BoxLayout.LINE_AXIS));
 
@@ -40,16 +39,14 @@ public class GroupSelector extends JPanel {
         combo.setPreferredSize(new Dimension(50, 30));
         combo.addActionListener(new GroupChangeListener());
         this.setItems(groups, 0);
-
         this.add(combo);
-        if (allowAddingNew) {
-            JLabel orNewGroup = new JLabel(" ou ");
-            this.add(orNewGroup);
-            JButton btnNewGroup = new JButton("Créer nouveau");
-            btnNewGroup.addActionListener(new NewGroupListener());
-            btnNewGroup.setBackground(Color.GREEN);
-            this.add(btnNewGroup);
-        }
+
+        JLabel orNewGroup = new JLabel(" ou ");
+        this.add(orNewGroup);
+        JButton btnNewGroup = new JButton("Créer nouveau");
+        btnNewGroup.addActionListener(new NewGroupListener());
+        btnNewGroup.setBackground(Color.GREEN);
+        this.add(btnNewGroup);
     }
 
     // *****************************************
@@ -65,6 +62,13 @@ public class GroupSelector extends JPanel {
         combo.insertItemAt(new Group(null, "------", "", null, null), 0);
         combo.setSelectedIndex(selected_index);
         combo.revalidate();
+    }
+
+    public void setSelectedGroup(ArrayList<Student> students) {
+        if (students != null)
+            combo.setSelectedIndex(students.get(0).getGroup_id());
+        else
+            combo.setSelectedIndex(0);
     }
 
     // *****************************************
@@ -87,7 +91,6 @@ public class GroupSelector extends JPanel {
             Group newSelectedGroup = (Group) combo.getSelectedItem();
             firePropertyChange(COMBO_CHANGED, selectedGroup, newSelectedGroup);
             selectedGroup = newSelectedGroup;
-            parent.changeSelectedGroup(selectedGroup);
             // System.out.println("GroupSelector.GroupChangeListener -> group changed");
         }
     }

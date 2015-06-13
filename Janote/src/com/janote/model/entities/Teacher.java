@@ -86,6 +86,11 @@ public class Teacher extends AbsEntity {
         this.observableAdded(g);
     }
 
+    public void addStudent(Student s, Group g) {
+        g.addStudent(s);
+        this.observableAdded(s);
+    }
+
     @Override
     public String toString() {
         String res = "Teacher:: " + this.name + " [ ";

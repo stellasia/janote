@@ -337,8 +337,10 @@ public class MainWindow extends JFrame implements Observer {
     @Override
     public boolean add(Observable observable) {
         if (observable instanceof Student) {
+            // System.out.println("MainWindow.add(Observable)");
+            // System.out.println(observable.toString());
             this.groupTab.getModel().addRow((Student) observable);
-            this.cont.addStudent((Student) observable);
+            // this.cont.addStudent((Student) observable);
         }
         else if (observable instanceof Group) {
             //
