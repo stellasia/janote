@@ -41,7 +41,7 @@ public class GroupTab extends JPanel // implements Observer
     protected MainWindow parent = null;
     protected JTable tabData;
     protected GroupTableModel model;
-    protected JPanel groupSelection;
+    protected GroupSelector groupSelector;
     protected JPanel groupActions;
 
     private ArrayList<Group> groups;
@@ -57,6 +57,7 @@ public class GroupTab extends JPanel // implements Observer
         this.data = null;
         this.groupID = 0;
         this.parent = Pparent;
+        // this.groupSelector = parent.getGroupSelector();
     }
 
     public void init() {
@@ -69,8 +70,9 @@ public class GroupTab extends JPanel // implements Observer
         // this.updateGroupList(); // should update the group list
         ArrayList<Group> grset = this.parent.getController().getGroupList();
         this.groups = grset;
-        groupSelection = new GroupSelector(parent, this.groups, true);
-        groupSelection.addPropertyChangeListener(new PropertyChangeListener() {
+        groupSelector = new GroupSelector();
+        groupSelector.setItems(groups, 0);
+        groupSelector.addPropertyChangeListener(new PropertyChangeListener() {
             @Override
             public void propertyChange(PropertyChangeEvent evt) {
                 if (evt.getPropertyName().equals(GroupSelector.COMBO_CHANGED)) {
@@ -163,7 +165,7 @@ public class GroupTab extends JPanel // implements Observer
 
         JScrollPane scroll = new JScrollPane(tabData);
         this.setLayout(new BorderLayout());
-        this.add(groupSelection, BorderLayout.NORTH);
+        this.add(groupSelector, BorderLayout.NORTH);
         this.add(scroll, BorderLayout.CENTER);
         this.add(groupActions, BorderLayout.SOUTH);
 
@@ -297,6 +299,7 @@ public class GroupTab extends JPanel // implements Observer
         // System.out.println("GroupTab.updateStudentList");
         // System.out.println(data);
         model.changeData(data);
+        groupSelector.setSelectedGroup(data);
     }
 
     // *****************************************
@@ -305,8 +308,7 @@ public class GroupTab extends JPanel // implements Observer
         ArrayList<Group> grset = this.parent.getController().getGroupList();
         this.groups = grset;
         // System.out.println(Arrays.toString(this.groups));
-        ((GroupSelector) groupSelection).setItems(this.groups,
-                this.groups.size() - 1);
+        groupSelector.setItems(this.groups, this.groups.size() - 1);
     }
 
     // *****************************************

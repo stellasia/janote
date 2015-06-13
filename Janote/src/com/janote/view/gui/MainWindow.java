@@ -8,6 +8,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.prefs.Preferences;
 
 import javax.swing.BoxLayout;
@@ -204,8 +205,6 @@ public class MainWindow extends JFrame implements Observer {
         // ====================================
         // Show the window
         this.getContentPane().add(tabs, BorderLayout.CENTER);
-        // this.setExtendedState(this.getExtendedState()|JFrame.MAXIMIZED_BOTH
-        // );
         this.setVisible(true);
 
     }
@@ -300,8 +299,9 @@ public class MainWindow extends JFrame implements Observer {
         tabs.setEnabledAt(1, true);
         tabs.setEnabledAt(2, true);
         groupTab.init();
-        // examTab.init();
+        examTab.init();
         setStatusMessage("Prêt.");
+        // groupSelector.setItems(cont.getGroupList(), 0);
     }
 
     public void setStatusMessage(String mess) {
@@ -327,10 +327,11 @@ public class MainWindow extends JFrame implements Observer {
     }
 
     public void changeSelectedGroup(Group g) {
-        this.cont.changeSelectedGroup(g);
-        // System.out.println("MainWindow.changeSelectedGroup");
-        // System.out.println(this.cont.getStudentList());
-        this.groupTab.updateStudentList(this.cont.getStudentList());
+        if (this.cont.changeSelectedGroup(g)) {
+            ArrayList<Student> students = this.cont.getStudentList();
+            this.groupTab.updateStudentList(students);
+            this.examTab.updateStudentList(students);
+        }
     }
 
     @Override
@@ -376,4 +377,5 @@ public class MainWindow extends JFrame implements Observer {
         }
         return false;
     }
+
 }

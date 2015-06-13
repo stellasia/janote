@@ -22,12 +22,13 @@ import com.janote.view.gui.MainWindow;
 /**
  * @author estelle
  * 
+ *         NB: lot of duplicated code with GroupTab...
  */
 public class ExamTab extends JPanel {
     protected MainWindow parent = null;
     protected JTable tabData;
     protected GroupTableModel model;
-    protected GroupSelector groupSelection;
+    protected GroupSelector groupSelector;
 
     private ArrayList<Group> groups;
     protected int groupID = 1; //
@@ -53,8 +54,9 @@ public class ExamTab extends JPanel {
 
         ArrayList<Group> grset = this.parent.getController().getGroupList();
         this.groups = grset;
-        groupSelection = new GroupSelector(parent, this.groups, false);
-        groupSelection.addPropertyChangeListener(new PropertyChangeListener() {
+        groupSelector = new GroupSelector();
+        groupSelector.setItems(groups, 0);
+        groupSelector.addPropertyChangeListener(new PropertyChangeListener() {
             @Override
             public void propertyChange(PropertyChangeEvent evt) {
                 if (evt.getPropertyName().equals(GroupSelector.COMBO_CHANGED)) {
@@ -63,10 +65,7 @@ public class ExamTab extends JPanel {
                         return;
                     if (g.getId() == null)
                         return;
-                    parent.getController().changeSelectedGroup(g);
-                    int group_id = g.getId();
-                    groupID = group_id;
-                    // updateStudentList(group_id);
+                    parent.changeSelectedGroup(g);
                 }
             }
         });
@@ -78,12 +77,11 @@ public class ExamTab extends JPanel {
 
         JScrollPane scroll = new JScrollPane(tabData);
         this.setLayout(new BorderLayout());
-        this.add(groupSelection, BorderLayout.NORTH);
+        this.add(groupSelector, BorderLayout.NORTH);
         this.add(scroll, BorderLayout.CENTER);
 
         JButton btnNewExam = new JButton("Ajouter un exam");
         btnNewExam.setBackground(Color.GREEN);
-        // btnNewStudent.addActionListener(new MoreListener());
         this.add(btnNewExam, BorderLayout.SOUTH);
 
     }
@@ -94,5 +92,6 @@ public class ExamTab extends JPanel {
         // System.out.println("GroupTab.updateStudentList");
         // System.out.println(data);
         // model.changeData(data);
+        groupSelector.setSelectedGroup(data);
     }
 }
