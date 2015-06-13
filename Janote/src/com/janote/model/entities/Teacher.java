@@ -16,7 +16,7 @@ public class Teacher extends AbsEntity {
     protected String name;
     protected String surname;
 
-    protected ArrayList<Group> groups;
+    protected ArrayList<Group> groups = new ArrayList<Group>();
 
     public Teacher() {
     }
@@ -109,6 +109,7 @@ public class Teacher extends AbsEntity {
 
     public void addStudent(Student s, Group g) {
         g.addStudent(s);
+        System.out.println(g.toString());
         this.observableAdded(s);
     }
 

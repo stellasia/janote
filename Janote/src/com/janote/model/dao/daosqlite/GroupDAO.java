@@ -33,12 +33,13 @@ public class GroupDAO extends DAO<Group> {
             throw new IllegalArgumentException("Object id is not null ("
                     + obj.getId().toString() + "); group may already exist");
 
-        String query = "INSERT INTO Groups (group_name, group_description) VALUES(?, ?)";
+        String query = "INSERT INTO Groups (group_name, group_description, group_teacher_id) VALUES(?, ?, ?)";
         PreparedStatement prepare;
         try {
             prepare = this.connect.prepareStatement(query);
             prepare.setString(1, obj.getName());
             prepare.setString(2, obj.getDescription());
+            prepare.setInt(3, obj.getTeacher_id());
             prepare.executeUpdate();
             // return true;
         }

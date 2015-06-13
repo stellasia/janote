@@ -1,6 +1,7 @@
 package com.janote.model.dao.daosqlite;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -17,7 +18,26 @@ public class TeacherDAO extends DAO<Teacher> {
 
     @Override
     public boolean add(Teacher obj) {
-        return false;
+        if (obj.getId() != null)
+            throw new IllegalArgumentException("Object id is not null ("
+                    + obj.getId().toString() + "); student may already exist");
+        String query = "INSERT INTO Teachers (teacher_name, teacher_surname) VALUES(?, ?)";
+        try {
+            PreparedStatement prepare = this.connect.prepareStatement(query);
+            // prepare.setInt(1, obj.getID()); // no, do not set the ID, will be
+            // set automatically
+            prepare.setString(1, obj.getName());
+            prepare.setString(2, obj.getSurname());
+            if (prepare.executeUpdate() == 0)
+                return false;
+            obj.setId(prepare.getGeneratedKeys().getInt(1));
+        }
+        catch (SQLException e) {
+            e.printStackTrace(System.out);
+            System.err.println(e.getMessage());
+            return false;
+        }
+        return true;
     }
 
     @Override
@@ -46,13 +66,21 @@ public class TeacherDAO extends DAO<Teacher> {
             if (result.next()) {
                 teach = map(result);
             }
+            else {
+                teach = createDefault();
+            }
+
         }
         catch (SQLException e) {
             e.printStackTrace();
+            return null;
         }
-        GroupDAO gdao = new GroupDAO(this.connect);
-        ArrayList<Group> groups = gdao.findAll();
-        teach.setGroups(groups);
+        if (teach != null) {
+            GroupDAO gdao = new GroupDAO(this.connect);
+            ArrayList<Group> groups = gdao.findAll();
+            if (groups != null)
+                teach.setGroups(groups);
+        }
         return teach;
     }
 
@@ -78,5 +106,11 @@ public class TeacherDAO extends DAO<Teacher> {
         exam.setName(resultSet.getString("teacher_name"));
         exam.setSurname(resultSet.getString("teacher_surname"));
         return exam;
+    }
+
+    public Teacher createDefault() {
+        Teacher new_teacher = new Teacher(null, "", "", null);
+        this.add(new_teacher);
+        return new_teacher;
     }
 }

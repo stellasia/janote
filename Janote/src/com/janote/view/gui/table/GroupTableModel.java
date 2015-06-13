@@ -134,7 +134,9 @@ public class GroupTableModel extends DefaultTableModel {
         // System.out.println("GroupTableModel.addRow");
         // System.out.println(row.toString());
         // System.out.println(data.toString());
-        // this.data.add(row);
+        if (this.data == null)
+            this.data = new ArrayList<Student>();
+        this.data.add(row);
 
         // Update table
         this.fireTableDataChanged();
@@ -150,10 +152,14 @@ public class GroupTableModel extends DefaultTableModel {
     public void changeData(ArrayList<Student> newData) {
         if (newData == null) {
             System.out.println("GroupTableModel.changeData :: newData is null");
-            return;
+            // return;
         }
-        // System.out.println(this.data.length);
-        // System.out.println(newData.length);
+        // else {
+        // System.out.println("GroupTableModel.changeData");
+        // if (this.data != null)
+        // System.out.println(this.data.size());
+        // System.out.println(newData.size());
+        // }
         this.data = newData;
         this.fireTableDataChanged();
     }
