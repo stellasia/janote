@@ -166,8 +166,9 @@ public class MainController {
         return groupDAO.find(id);
     }
 
-    public boolean delStudent(Student s) {
-        return studentDAO.delete(s);
+    public boolean delStudent(Student stu) {
+        this.teacher.removeStudent(stu);
+        return studentDAO.delete(stu);
     }
 
     public boolean delGroup(Group g) {

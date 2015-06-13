@@ -104,6 +104,15 @@ public class Teacher extends AbsEntity {
         this.observableUpdated(stu);
     }
 
+    public void removeStudent(Student stu) {
+        for (Group g : groups) {
+            if (g.getId() == stu.getGroup_id()) {
+                g.removeStudent(stu);
+            }
+        }
+        this.observableDeleted(stu);
+    }
+
     @Override
     public String toString() {
         String res = "Teacher:: " + this.name + " [ ";

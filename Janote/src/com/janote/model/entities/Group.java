@@ -122,6 +122,10 @@ public class Group extends AbsEntity {
         this.observableAdded(s);
     }
 
+    public void removeStudent(Student s) {
+        this.students.remove(s);
+    }
+
     public void updateStudent(Student s) {
         // get the position of s in this.students
         // set the ith element of students to s
