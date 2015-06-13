@@ -70,7 +70,7 @@ public class GroupTab extends JPanel // implements Observer
         // this.updateGroupList(); // should update the group list
         ArrayList<Group> grset = this.parent.getController().getGroupList();
         this.groups = grset;
-        groupSelector = new GroupSelector();
+        groupSelector = new GroupSelector(parent);
         groupSelector.setItems(groups, 0);
         groupSelector.addPropertyChangeListener(new PropertyChangeListener() {
             @Override
@@ -81,7 +81,7 @@ public class GroupTab extends JPanel // implements Observer
                         return;
                     if (g.getId() == null)
                         return;
-                    parent.changeSelectedGroup(g);
+                    // parent.changeSelectedGroup(g);
                 }
             }
         });
@@ -259,7 +259,7 @@ public class GroupTab extends JPanel // implements Observer
                 if (parent.getController().delGroup(gr)) {
                     JOptionPane.showMessageDialog(null, "Element supprimé",
                             "Attention", JOptionPane.WARNING_MESSAGE);
-                    updateGroupList();
+                    // updateGroupList();
                 }
                 else
                     JOptionPane.showMessageDialog(null,
@@ -283,7 +283,7 @@ public class GroupTab extends JPanel // implements Observer
                     parent.getController());
             boolean option = dgroup.showDialog();
             if (option) {
-                updateGroupList();
+                // updateGroupList();
             }
         }
     }
@@ -295,20 +295,19 @@ public class GroupTab extends JPanel // implements Observer
 
     // *****************************************
     // @Override
-    public void updateStudentList(ArrayList<Student> data) {
+    public void updateStudentList(Group g, ArrayList<Student> data) {
         // System.out.println("GroupTab.updateStudentList");
         // System.out.println(data);
         model.changeData(data);
-        groupSelector.setSelectedGroup(data);
+        groupSelector.setSelectedGroup(g);
     }
 
     // *****************************************
     // @Override
-    public void updateGroupList() {
-        ArrayList<Group> grset = this.parent.getController().getGroupList();
+    public void updateGroupList(ArrayList<Group> grset, Group selectedGroup) {
         this.groups = grset;
         // System.out.println(Arrays.toString(this.groups));
-        groupSelector.setItems(this.groups, this.groups.size() - 1);
+        groupSelector.setItems(this.groups, selectedGroup.getId());
     }
 
     // *****************************************

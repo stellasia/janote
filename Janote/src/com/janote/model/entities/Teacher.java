@@ -86,6 +86,16 @@ public class Teacher extends AbsEntity {
         this.observableAdded(g);
     }
 
+    public void updateGroup(Group gr) {
+        for (Group g : groups) {
+            if (g.getId() == gr.getId()) {
+                g = gr;
+                break;
+            }
+        }
+        this.observableAdded(gr);
+    }
+
     public void addStudent(Student s, Group g) {
         g.addStudent(s);
         this.observableAdded(s);
@@ -96,8 +106,10 @@ public class Teacher extends AbsEntity {
             if (g.getId() == stu.getGroup_id()) {
                 ArrayList<Student> students = g.getStudents();
                 for (Student s : students) {
-                    if (s.getId() == stu.getId())
+                    if (s.getId() == stu.getId()) {
                         s = stu;
+                        break;
+                    }
                 }
             }
         }
@@ -108,6 +120,7 @@ public class Teacher extends AbsEntity {
         for (Group g : groups) {
             if (g.getId() == stu.getGroup_id()) {
                 g.removeStudent(stu);
+                break;
             }
         }
         this.observableDeleted(stu);

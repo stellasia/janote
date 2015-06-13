@@ -329,8 +329,10 @@ public class MainWindow extends JFrame implements Observer {
     public void changeSelectedGroup(Group g) {
         if (this.cont.changeSelectedGroup(g)) {
             ArrayList<Student> students = this.cont.getStudentList();
-            this.groupTab.updateStudentList(students);
-            this.examTab.updateStudentList(students);
+            this.groupTab.updateStudentList(this.cont.getSelectedGroup(),
+                    students);
+            this.examTab.updateStudentList(this.cont.getSelectedGroup(),
+                    students);
         }
     }
 
@@ -343,7 +345,8 @@ public class MainWindow extends JFrame implements Observer {
             // this.cont.addStudent((Student) observable);
         }
         else if (observable instanceof Group) {
-            //
+            ArrayList<Group> groups = this.cont.getGroupList();
+            this.groupTab.updateGroupList(groups, (Group) observable);
         }
         else if (observable instanceof Exam) {
             //
@@ -358,6 +361,7 @@ public class MainWindow extends JFrame implements Observer {
             // this.cont.updateStudent(observable);
         }
         else if (observable instanceof Group) {
+            // this.groupTab.updateGroup((Group) observable);
             //
         }
         else if (observable instanceof Exam) {

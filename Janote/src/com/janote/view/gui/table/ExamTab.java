@@ -54,7 +54,7 @@ public class ExamTab extends JPanel {
 
         ArrayList<Group> grset = this.parent.getController().getGroupList();
         this.groups = grset;
-        groupSelector = new GroupSelector();
+        groupSelector = new GroupSelector(parent);
         groupSelector.setItems(groups, 0);
         groupSelector.addPropertyChangeListener(new PropertyChangeListener() {
             @Override
@@ -88,10 +88,10 @@ public class ExamTab extends JPanel {
 
     // *****************************************
     // @Override
-    public void updateStudentList(ArrayList<Student> data) {
+    public void updateStudentList(Group g, ArrayList<Student> data) {
         // System.out.println("GroupTab.updateStudentList");
         // System.out.println(data);
         // model.changeData(data);
-        groupSelector.setSelectedGroup(data);
+        groupSelector.setSelectedGroup(g);
     }
 }

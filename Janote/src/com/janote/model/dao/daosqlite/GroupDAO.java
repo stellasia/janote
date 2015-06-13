@@ -53,9 +53,10 @@ public class GroupDAO extends DAO<Group> {
             ResultSet generatedKeys = prepare.getGeneratedKeys();
             if (generatedKeys.next()) {
                 groupID = generatedKeys.getInt(1);
+                obj.setId(groupID);
             }
             else {
-                throw new SQLException("Creating user failed, no ID obtained.");
+                throw new SQLException("Creating group failed, no ID obtained.");
             }
         }
         catch (SQLException e) {

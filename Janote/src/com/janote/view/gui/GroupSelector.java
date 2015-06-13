@@ -14,7 +14,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import com.janote.model.entities.Group;
-import com.janote.model.entities.Student;
 import com.janote.view.gui.dialog.DialogGroup;
 
 @SuppressWarnings("serial")
@@ -27,9 +26,9 @@ public class GroupSelector extends JPanel {
     protected JComboBox<Group> combo;
     protected MainWindow parent;
 
-    public GroupSelector() {
+    public GroupSelector(MainWindow parent) {
 
-        // this.groups = groups;
+        this.parent = parent;
 
         this.setLayout(new BoxLayout(this, BoxLayout.LINE_AXIS));
 
@@ -56,17 +55,18 @@ public class GroupSelector extends JPanel {
 
     public void setItems(ArrayList<Group> groups, int selected_index) {
         combo.removeAllItems();
+        combo.insertItemAt(new Group(null, "------", "", null, null), 0);
+        System.out.println(groups);
         if (groups != null)
             for (Group g : groups)
-                combo.addItem(g);
-        combo.insertItemAt(new Group(null, "------", "", null, null), 0);
+                combo.insertItemAt(g, g.getId());
         combo.setSelectedIndex(selected_index);
         combo.revalidate();
     }
 
-    public void setSelectedGroup(ArrayList<Student> students) {
-        if (students != null)
-            combo.setSelectedIndex(students.get(0).getGroup_id());
+    public void setSelectedGroup(Group gr) {
+        if (gr != null)
+            combo.setSelectedIndex(gr.getId());
         else
             combo.setSelectedIndex(0);
     }
@@ -80,7 +80,7 @@ public class GroupSelector extends JPanel {
             DialogGroup zd = new DialogGroup(null, parent.getController());
             boolean option = zd.showDialog();
             if (option) {
-                parent.getGroupTab().updateGroupList();
+                // parent.getGroupTab().updateGroupList();
             }
         }
     }
