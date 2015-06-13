@@ -361,8 +361,8 @@ public class MainWindow extends JFrame implements Observer {
             // this.cont.updateStudent(observable);
         }
         else if (observable instanceof Group) {
-            // this.groupTab.updateGroup((Group) observable);
-            //
+            ArrayList<Group> groups = this.cont.getGroupList();
+            this.groupTab.updateGroupList(groups, (Group) observable);
         }
         else if (observable instanceof Exam) {
             //

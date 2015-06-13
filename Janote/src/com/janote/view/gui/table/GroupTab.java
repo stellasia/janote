@@ -81,7 +81,7 @@ public class GroupTab extends JPanel // implements Observer
                         return;
                     if (g.getId() == null)
                         return;
-                    // parent.changeSelectedGroup(g);
+                    parent.changeSelectedGroup(g);
                 }
             }
         });
@@ -277,7 +277,7 @@ public class GroupTab extends JPanel // implements Observer
     class ModGroupListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent event) {
-            Group current_group = parent.getController().getGroup(groupID);
+            Group current_group = parent.getController().getSelectedGroup();
             System.out.println(current_group);
             DialogGroup dgroup = new DialogGroup(current_group,
                     parent.getController());

@@ -87,13 +87,14 @@ public class Teacher extends AbsEntity {
     }
 
     public void updateGroup(Group gr) {
-        for (Group g : groups) {
+        for (int i = 0; i < groups.size(); i++) {
+            Group g = groups.get(i);
             if (g.getId() == gr.getId()) {
-                g = gr;
+                groups.set(i, gr);
                 break;
             }
         }
-        this.observableAdded(gr);
+        this.observableUpdated(gr);
     }
 
     public void addStudent(Student s, Group g) {
