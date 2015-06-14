@@ -235,7 +235,7 @@ public class DialogStudent extends JDialog {
                             "Erreur", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
-                addStudent(stu);
+                addOrUpdateStudent(stu);
 
                 setVisible(false);
                 dispose();
@@ -245,7 +245,7 @@ public class DialogStudent extends JDialog {
 
     }
 
-    public boolean addStudent(Student stu) {
+    public boolean addOrUpdateStudent(Student stu) {
         // System.out.println("DialogStudent.addStudent");
         // System.out.println(stu.toString());
         if (this.student.getId() == null)

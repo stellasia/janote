@@ -35,7 +35,7 @@ public class Student extends AbsEntity {
     /**
      * Exam to grade map.
      */
-    HashMap<Exam, Float> exams;
+    HashMap<Exam, Float> exams = new HashMap<Exam, Float>();
 
     public Student() {
     };
@@ -318,6 +318,14 @@ public class Student extends AbsEntity {
      */
     public void setGrade(Exam e, Float val) {
         this.exams.put(e, val);
+    }
+
+    public void update(Student s) {
+        this.setName(s.getName());
+        this.setSurname(s.getSurname());
+        this.setEmail(s.getEmail());
+        this.setBirthday(s.getBirthday());
+        this.setGender(s.getGender());
     }
 
     @Override

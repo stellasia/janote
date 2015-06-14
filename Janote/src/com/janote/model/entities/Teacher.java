@@ -114,18 +114,20 @@ public class Teacher extends AbsEntity {
     }
 
     public void updateStudent(Student stu) {
+        Student s = null;
         for (Group g : groups) {
             if (g.getId() == stu.getGroup_id()) {
                 ArrayList<Student> students = g.getStudents();
-                for (Student s : students) {
+                for (int i = 0; i < students.size(); i++) {
+                    s = students.get(i);
                     if (s.getId() == stu.getId()) {
-                        s = stu;
+                        s.update(stu);
                         break;
                     }
                 }
             }
         }
-        this.observableUpdated(stu);
+        this.observableUpdated(s);
     }
 
     public void removeStudent(Student stu) {

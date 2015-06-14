@@ -79,11 +79,24 @@ public class MainController {
         return true;
     }
 
+    /**
+     * Update the student both in the database and in the Teacher model.
+     * 
+     * The student is first updated in the db. If everything went fine, it is
+     * added to the model as well, otherwise no action is performed on the
+     * model.
+     * 
+     * @param stu
+     *            the Student to update. The id is the reference to find the
+     *            corresponding entry in the model and database.
+     * @return true if the student was updated successfully, false otherwise.
+     */
     public boolean updateStudent(Student stu) {
         if (stu.getId() != null) {
             // System.out.println("MainController.addStudent");
             // System.out.println(stu.toString());
-            studentDAO.update(stu);
+            if (!studentDAO.update(stu))
+                return false;
 
             this.teacher.updateStudent(stu);
         }
