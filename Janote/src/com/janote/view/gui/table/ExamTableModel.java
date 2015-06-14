@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import javax.swing.table.DefaultTableModel;
 
+import com.janote.model.entities.Exam;
 import com.janote.model.entities.Student;
 
 /**
@@ -16,10 +17,10 @@ public class ExamTableModel extends DefaultTableModel {
 
     // *****************************************
     private ArrayList<Student> data;
-    private final String[] title;
+    private ArrayList<String> title;
 
     // *****************************************
-    public ExamTableModel(ArrayList<Student> data, String[] title) {
+    public ExamTableModel(ArrayList<Student> data, ArrayList<String> title) {
         // System.out.println("GroupTableModel");
         this.data = data;
         this.title = title;
@@ -31,7 +32,9 @@ public class ExamTableModel extends DefaultTableModel {
      */
     @Override
     public int getColumnCount() {
-        return this.title.length;
+        if (this.title != null)
+            return this.title.size();
+        return 0;
     }
 
     // *****************************************
@@ -59,13 +62,12 @@ public class ExamTableModel extends DefaultTableModel {
             return null;
         }
         if (s != null) {
-            ExamTableColumn gtc = ExamTableColumn.fromInteger(col);
-            switch (gtc) {
-                case ID:
+            switch (col) {
+                case 0:
                     return s.getId();
-                case NAME:
+                case 1:
                     return s.getName();
-                case SURNAME:
+                case 2:
                     return s.getSurname();
                 default:
                     return getGrade(row, col);
@@ -75,7 +77,24 @@ public class ExamTableModel extends DefaultTableModel {
     }
 
     public Float getGrade(int row, int col) {
-        return new Float(10.);
+        // get the exam corresponding to col
+        int stud_id = (int) this.getValueAt(row, 0);
+        // get the student corresponding to row
+        String exam_name = this.getColumnName(col);
+        // System.out.println("ExamTableModel.getGrade");
+        // System.out.println(stud_id);
+        // System.out.println(exam_name);
+        // get the grade of student for exam
+        for (Student s : this.data) {
+            if (s.getId() == stud_id) {
+                for (Exam e : s.getExams()) {
+                    if (e.getName().equals(exam_name)) {
+                        return s.getGrade(e);
+                    }
+                }
+            }
+        }
+        return new Float(-100);
     }
 
     // *****************************************
@@ -88,7 +107,7 @@ public class ExamTableModel extends DefaultTableModel {
      */
     @Override
     public String getColumnName(int col) {
-        return this.title[col];
+        return this.title.get(col);
     }
 
     // *****************************************
@@ -147,7 +166,7 @@ public class ExamTableModel extends DefaultTableModel {
     }
 
     // *****************************************
-    public void changeData(ArrayList<Student> newData) {
+    public void changeData(ArrayList<Exam> newExams, ArrayList<Student> newData) {
         if (newData == null) {
             System.out.println("GroupTableModel.changeData :: newData is null");
             // return;
@@ -158,8 +177,16 @@ public class ExamTableModel extends DefaultTableModel {
         // System.out.println(this.data.size());
         // System.out.println(newData.size());
         // }
+        this.title = new ArrayList<String>();
+        this.title.add("id");
+        this.title.add("Nom");
+        this.title.add("Prénom");
+        for (Exam e : newExams) {
+            this.title.add(e.getName());
+        }
         this.data = newData;
-        this.fireTableDataChanged();
+        this.fireTableStructureChanged();
+        // this.fireTableDataChanged();
     }
 
     public Integer getIndexOf(Student student) {

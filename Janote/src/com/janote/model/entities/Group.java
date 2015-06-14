@@ -107,11 +107,10 @@ public class Group extends AbsEntity {
     // public void setExams(HashMap<Exam, Float> exams) {
     public void setExams(ArrayList<Exam> exams) {
         this.exams = exams;
-        if (this.getStudents() != null) {
-            for (Student s : this.getStudents()) {
-                s.setExams(exams);
-            }
-        }
+        /*
+         * if (this.getStudents() != null) { for (Student s :
+         * this.getStudents()) { s.setExams(exams); } }
+         */
     }
 
     public void addStudent(Student s) {

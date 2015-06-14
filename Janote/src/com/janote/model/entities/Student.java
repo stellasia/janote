@@ -177,6 +177,10 @@ public class Student extends AbsEntity {
         return new ArrayList<Float>(exams.values());
     }
 
+    public Float getGrade(Exam e) {
+        return this.exams.get(e);
+    }
+
     /**
      * Set the student name.
      * 
@@ -283,6 +287,10 @@ public class Student extends AbsEntity {
         for (Exam e : exams) {
             this.exams.put(e, (float) -1);
         }
+    }
+
+    public void setExamGrades(HashMap<Exam, Float> exams) {
+        this.exams = exams;
     }
 
     /**

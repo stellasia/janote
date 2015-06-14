@@ -9,7 +9,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 import com.janote.model.dao.DAO;
 import com.janote.model.entities.Exam;
@@ -147,13 +146,13 @@ public class ExamDAO extends DAO<Exam> {
         return listOfExams;
     }
 
-    public Map<Exam, Float> findStudentGrades(Integer student_id) {
-        Map<Exam, Float> grades = new HashMap<Exam, Float>();
+    public HashMap<Exam, Float> findStudentGrades(Integer student_id) {
+        HashMap<Exam, Float> grades = new HashMap<Exam, Float>();
         try {
             ResultSet result = this.connect
                     .createStatement()
                     .executeQuery(
-                            "SELECT E.*, G.grade_value FROM Exams JOIN Grades G ON G.grade_exam_id = exam_id WHERE G.grade_student_id =  "
+                            "SELECT E.*, G.grade_value FROM Exams E JOIN Grades G ON G.grade_exam_id = E.exam_id WHERE G.grade_student_id =  "
                                     + student_id);
             while (result.next()) {
                 Exam exam = map(result);

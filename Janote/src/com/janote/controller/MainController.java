@@ -125,31 +125,19 @@ public class MainController {
         return this.groupColTitlesView;
     }
 
-    public ArrayList<String> getExamColTitlesView() {
-        /*
-         * String[] names = new String[3]; names[0] = "id"; names[1] = "Nom";
-         * names[2] = "Prénom"; return names;
-         */
-        ArrayList<String> names = new ArrayList<String>();
-        names.add("id");
-        names.add("Nom");
-        names.add("Prénom");
-
-        ArrayList<Exam> exams;
-        try {
-            exams = this.examDAO.findAll(1); // this.selectedGroup.getId());
-            // System.out.println(exams.toString());
-            for (Exam e : exams) {
-                names.add(e.getName());
-            }
-        }
-        catch (NullPointerException e) {
-            System.err
-                    .println("MainController.getExamColTitlesView: Could not update the exam column titles");
-        }
-        // System.out.println(names.toString());
-        return names;
-    }
+    /*
+     * public ArrayList<String> getExamColTitlesView() { /* String[] names = new
+     * String[3]; names[0] = "id"; names[1] = "Nom"; names[2] = "Prénom"; return
+     * names; ArrayList<String> names = new ArrayList<String>();
+     * names.add("id"); names.add("Nom"); names.add("Prénom");
+     * 
+     * ArrayList<Exam> exams; try { exams = selectedGroup.getExams();
+     * System.out.println(exams.toString()); for (Exam e : exams) {
+     * names.add(e.getName()); } } catch (NullPointerException e) { System.err
+     * .println(
+     * "MainController.getExamColTitlesView: Could not update the exam column titles"
+     * ); } System.out.println(names.toString()); return names; }
+     */
 
     public Teacher getTeacher() {
         Teacher teacher = new Teacher();
@@ -172,6 +160,13 @@ public class MainController {
         // System.out.println(this.selectedGroup.toString());
         // System.out.println(this.selectedGroup.getStudents());
         return this.selectedGroup.getStudents();
+    }
+
+    public ArrayList<Exam> getExamList() {
+        // System.out.println("MainController");
+        // System.out.println(this.selectedGroup.toString());
+        // System.out.println(this.selectedGroup.getStudents());
+        return this.selectedGroup.getExams();
     }
 
     public Student getStudent(int id) {
@@ -219,5 +214,6 @@ public class MainController {
             this.teacher.setSurname(t.getSurname());
             this.teacher.setId(t.getId());
         }
+        // selectedGroup = t.getGroups().get(0);
     }
 }

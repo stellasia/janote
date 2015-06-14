@@ -102,11 +102,8 @@ public class StudentDAO extends DAO<Student> {
     }
 
     @Override
-    public boolean add(ArrayList<Student> objs, Integer to_id) { // TODO : avoid
-        // multiple requests
-        // if possible (use
-        // multiple inserts)
-        // ?
+    public boolean add(ArrayList<Student> objs, Integer to_id) {
+        // TODO : avoid multiple requests if possible (use multiple inserts) ?
         for (Student s : objs) {
             s.setGroup_id(to_id);
             this.add(s);
@@ -162,8 +159,10 @@ public class StudentDAO extends DAO<Student> {
             ResultSet result = this.connect.createStatement().executeQuery(
                     " SELECT S.* FROM Students S WHERE student_id = " + id
                             + ";");
+            ExamDAO examDAO = new ExamDAO(this.connect);
             while (result.next()) {
                 student = map(result);
+                student.setExamGrades(examDAO.findStudentGrades(student.getId()));
             }
         }
         catch (SQLException e) {
@@ -184,9 +183,7 @@ public class StudentDAO extends DAO<Student> {
             ExamDAO examDAO = new ExamDAO(this.connect);
             while (result.next()) {
                 Student student = map(result);
-                Map<Exam, Float> eg = examDAO
-                        .findStudentGrades(student.getId());
-
+                student.setExamGrades(examDAO.findStudentGrades(student.getId()));
                 listOfStudents.add(student);
             }
         }
@@ -201,8 +198,10 @@ public class StudentDAO extends DAO<Student> {
         try {
             ResultSet result = this.connect.createStatement().executeQuery(
                     "SELECT * FROM Students WHERE student_group_id=" + groupID);
+            ExamDAO examDAO = new ExamDAO(this.connect);
             while (result.next()) {
                 Student student = map(result);
+                student.setExamGrades(examDAO.findStudentGrades(student.getId()));
                 listOfStudents.add(student);
             }
         }

@@ -15,6 +15,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.TableCellRenderer;
 
+import com.janote.model.entities.Exam;
 import com.janote.model.entities.Group;
 import com.janote.model.entities.Student;
 import com.janote.view.gui.GroupSelector;
@@ -34,10 +35,10 @@ public class ExamTab extends JPanel {
     private ArrayList<Group> groups;
     protected int groupID = 1; //
     protected ArrayList<Student> data;
-    private final ArrayList<String> titles; // column titles
+    protected ArrayList<String> titles; // column titles
 
-    public ExamTab(ArrayList<String> titles, MainWindow Pparent) {
-        this.titles = titles;
+    public ExamTab(MainWindow Pparent) {
+        // this.titles = titles;
         this.data = null;
         this.groupID = 0;
         this.parent = Pparent;
@@ -48,9 +49,7 @@ public class ExamTab extends JPanel {
 
         // Object[][] data = { { 1, 2, 3 }, { 10, 20, 30 } };
 
-        String[] dsf = new String[this.titles.size()];
-        this.titles.toArray(dsf);
-        model = new ExamTableModel(this.data, dsf);
+        model = new ExamTableModel(this.data, this.titles);
         tabData = new JTable(model);
 
         ArrayList<Group> grset = this.parent.getController().getGroupList();
@@ -72,15 +71,11 @@ public class ExamTab extends JPanel {
         });
 
         tabData.setAutoCreateRowSorter(true); // a generic sorter
-        tabData.getRowSorter().toggleSortOrder(1);
+        // tabData.getRowSorter().toggleSortOrder(1);
         tabData.setRowHeight(40);
         TableCellRenderer renderer = new TabRowRenderer();
         tabData.setDefaultRenderer(Object.class, renderer); // row colors
-
-        ArrayList<String> names = this.parent.getController()
-                .getExamColTitlesView();
-        for (String n : names)
-            model.addColumn(n, new Object[0]);
+        tabData.getTableHeader().setReorderingAllowed(false);
 
         JScrollPane scroll = new JScrollPane(tabData);
         this.setLayout(new BorderLayout());
@@ -95,10 +90,12 @@ public class ExamTab extends JPanel {
 
     // *****************************************
     // @Override
-    public void updateStudentList(Group g, ArrayList<Student> data) {
+    public void updateStudentList(Group g, ArrayList<Student> data,
+            ArrayList<Exam> title) {
         // System.out.println("GroupTab.updateStudentList");
         // System.out.println(data);
-        model.changeData(data);
+        // System.out.println(title);
+        model.changeData(title, data);
         groupSelector.setSelectedGroup(g);
     }
 }

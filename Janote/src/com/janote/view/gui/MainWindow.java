@@ -131,7 +131,7 @@ public class MainWindow extends JFrame implements Observer {
         lbl3.setHorizontalTextPosition(SwingConstants.CENTER);
         lbl3.setFont(lbl.getFont().deriveFont(20.0f));
 
-        examTab = new ExamTab(cont.getExamColTitlesView(), this);
+        examTab = new ExamTab(this);
         tabs.add("Pan3", examTab);
         tabs.setTabComponentAt(TAB_EXAMS, lbl3);
         tabs.setToolTipTextAt(TAB_EXAMS, "Gérer les notes");// Changing the
@@ -331,8 +331,10 @@ public class MainWindow extends JFrame implements Observer {
             ArrayList<Student> students = this.cont.getStudentList();
             this.groupTab.updateStudentList(this.cont.getSelectedGroup(),
                     students);
+
+            ArrayList<Exam> exams = this.cont.getExamList();
             this.examTab.updateStudentList(this.cont.getSelectedGroup(),
-                    students);
+                    students, exams);
         }
     }
 
