@@ -8,18 +8,22 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Map;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JSeparator;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 
 import com.janote.controller.MainController;
 import com.janote.model.entities.Exam;
@@ -41,6 +45,7 @@ public class DialogStudent extends JDialog {
 
     private JTextField name, surname, birth, email;
     private JComboBox<Gender> gender;
+    private JCheckBox repeating;
 
     private DialogStatus status;
 
@@ -85,15 +90,19 @@ public class DialogStudent extends JDialog {
     }
 
     private void initComponent() {
+
         JPanel panGen = new JPanel();
         // panGen.setBackground(Color.white);
-        panGen.setBorder(BorderFactory.createTitledBorder("Général"));
+        panGen.setLayout(new GridLayout(3, 1));
+        panGen.setPreferredSize(new Dimension(DialogStudent.LABEL_WIDTH * 3,
+                DialogStudent.LABEL_HEIGHT * 20));
 
         GridBagConstraints c = new GridBagConstraints();
         c.fill = GridBagConstraints.HORIZONTAL;
 
         JPanel outerPanNom = new JPanel();
         outerPanNom.setLayout(new GridBagLayout());
+        outerPanNom.setBorder(BorderFactory.createTitledBorder("Général"));
         name = new JTextField();
         name.setSize(new Dimension(DialogStudent.LABEL_WIDTH,
                 DialogStudent.LABEL_HEIGHT));
@@ -173,10 +182,34 @@ public class DialogStudent extends JDialog {
         c.gridwidth = 2;
         outerPanNom.add(email, c);
 
-        panGen.add(outerPanNom);
+        panGen.add(outerPanNom, BorderLayout.NORTH);
 
         JPanel outerPanGrades = new JPanel();
+        outerPanGrades.setBorder(BorderFactory.createTitledBorder("Scolarité"));
+        outerPanGrades.setLayout(new GridBagLayout());
+        repeating = new JCheckBox();
+        repeating.setPreferredSize(new Dimension(DialogStudent.LABEL_WIDTH,
+                DialogStudent.LABEL_HEIGHT));
+        repeating.setSelected(this.student.isRepeating());
+        JLabel labelRepeating = new JLabel("Redoublant : ");
+        labelRepeating.setFont(boldFont);
+        c.gridx = 0;
+        c.gridy = 0;
+        c.gridwidth = 1;
+        outerPanGrades.add(labelRepeating, c);
+        c.gridx = 1;
+        c.gridy = 0;
+        c.gridwidth = 2;
+        outerPanGrades.add(repeating, c);
         if (student.getExamsGrades() != null) {
+            JSeparator separator = new JSeparator(SwingConstants.HORIZONTAL);
+            separator.setMaximumSize(new Dimension(Integer.MAX_VALUE, 1));
+            c.gridx = 0;
+            c.gridy = 1;
+            c.gridwidth = 4;
+            outerPanGrades.add(separator, c);
+
+            int i = 2;
             for (Map.Entry<Exam, Float> entry : student.getExamsGrades()
                     .entrySet()) {
                 JTextField g = new JTextField();
@@ -185,12 +218,20 @@ public class DialogStudent extends JDialog {
                 g.setText(entry.getValue().toString());
                 JLabel gLabel = new JLabel(entry.getKey().getName());
                 gLabel.setFont(boldFont);
-                outerPanGrades.add(gLabel);
-                outerPanGrades.add(g);
+                c.gridx = 0;
+                c.gridy = i;
+                c.gridwidth = 1;
+                outerPanGrades.add(gLabel, c);
+                c.gridx = 1;
+                c.gridy = i;
+                c.gridwidth = 2;
+                outerPanGrades.add(g, c);
+                i++;
             }
         }
-        panGen.add(outerPanGrades);
+        panGen.add(outerPanGrades, BorderLayout.CENTER);
 
+        JPanel panBtn = new JPanel();
         JButton saveButton = new JButton("OK");
         saveButton.setPreferredSize(new Dimension(
                 DialogStudent.LABEL_WIDTH / 2, DialogStudent.LABEL_HEIGHT));
@@ -200,11 +241,13 @@ public class DialogStudent extends JDialog {
         /*
          * c.gridx = 1; c.gridy = 5; c.gridwidth = 1;
          */
-        panGen.add(saveButton, c);
+        panBtn.add(saveButton, BorderLayout.LINE_START);
         /*
          * c.gridx = 2; c.gridy = 5; c.gridwidth = 1;
          */
-        panGen.add(cancelButton, c);
+        panBtn.add(cancelButton, BorderLayout.LINE_END);
+
+        panGen.add(panBtn, BorderLayout.SOUTH);
 
         this.getContentPane().add(panGen, BorderLayout.CENTER);
 
@@ -223,8 +266,8 @@ public class DialogStudent extends JDialog {
                 try {
                     stu = new Student(student.getId(), name.getText(), surname
                             .getText(), (Gender) gender.getSelectedItem(),
-                            email.getText(), birth.getText(), student
-                                    .isRepeating(), cont.getSelectedGroup()
+                            email.getText(), birth.getText(), repeating
+                                    .isSelected(), cont.getSelectedGroup()
                                     .getId());
                     stu.setModified(true);
                 }
