@@ -4,6 +4,7 @@
 package com.janote.view.gui.dialog;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
@@ -187,6 +188,7 @@ public class DialogStudent extends JDialog {
         JPanel outerPanGrades = new JPanel();
         outerPanGrades.setBorder(BorderFactory.createTitledBorder("Scolarité"));
         outerPanGrades.setLayout(new GridBagLayout());
+
         repeating = new JCheckBox();
         repeating.setPreferredSize(new Dimension(DialogStudent.LABEL_WIDTH,
                 DialogStudent.LABEL_HEIGHT));
@@ -201,15 +203,33 @@ public class DialogStudent extends JDialog {
         c.gridy = 0;
         c.gridwidth = 2;
         outerPanGrades.add(repeating, c);
+
+        JTextField average = new JTextField();
+        average.setPreferredSize(new Dimension(DialogStudent.LABEL_WIDTH,
+                DialogStudent.LABEL_HEIGHT));
+        average.setText(this.student.getAverage_grade().toString());
+        average.setEditable(false);
+        average.setForeground(Color.RED);
+        JLabel labelAverage = new JLabel("Moyenne : ");
+        labelAverage.setFont(boldFont);
+        c.gridx = 0;
+        c.gridy = 1;
+        c.gridwidth = 1;
+        outerPanGrades.add(labelAverage, c);
+        c.gridx = 1;
+        c.gridy = 1;
+        c.gridwidth = 2;
+        outerPanGrades.add(average, c);
+
         if (student.getExamsGrades() != null) {
             JSeparator separator = new JSeparator(SwingConstants.HORIZONTAL);
             separator.setMaximumSize(new Dimension(Integer.MAX_VALUE, 1));
             c.gridx = 0;
-            c.gridy = 1;
+            c.gridy = 2;
             c.gridwidth = 4;
             outerPanGrades.add(separator, c);
 
-            int i = 2;
+            int i = 3;
             for (Map.Entry<Exam, Float> entry : student.getExamsGrades()
                     .entrySet()) {
                 JTextField g = new JTextField();

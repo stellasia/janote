@@ -29,7 +29,7 @@ public class Student extends AbsEntity {
     protected String email = null;
     protected Date birthday = null;
     protected Boolean repeating = false;
-    protected Float average_grade = null;
+    protected Object average_grade = null;
     protected Integer group_id = null;
 
     /**
@@ -124,9 +124,10 @@ public class Student extends AbsEntity {
      * 
      * @return the average_grade
      */
-    public Float getAverage_grade() {
+    public Object getAverage_grade() {
         if (this.average_grade == null) {
-            this.compute_average_grade();
+            if (!this.compute_average_grade())
+                return "N.D.";
         }
         return this.average_grade;
     }
@@ -137,10 +138,10 @@ public class Student extends AbsEntity {
      * average = sum_e ( grade_e * coeff_e) / sum_e (coeff_e) for e in exams
      * 
      */
-    public void compute_average_grade() {
+    public boolean compute_average_grade() {
         if (this.exams == null || this.exams.size() <= 0) {
             this.average_grade = null;
-            return;
+            return false;
         }
 
         float mean = 0;
@@ -155,6 +156,7 @@ public class Student extends AbsEntity {
         }
 
         this.average_grade = new Float(mean / weight);
+        return true;
     }
 
     /**
