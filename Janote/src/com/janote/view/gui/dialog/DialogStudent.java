@@ -39,8 +39,8 @@ import com.janote.view.gui.MainWindow;
 @SuppressWarnings("serial")
 public class DialogStudent extends JDialog {
 
-    public static final int LABEL_WIDTH = 300;
-    public static final int LABEL_HEIGHT = 30;
+    // public static final int LABEL_WIDTH = 150;
+    // public static final int LABEL_HEIGHT = 30;
 
     private Student student;
     private final MainController cont;
@@ -96,8 +96,6 @@ public class DialogStudent extends JDialog {
         JPanel panGen = new JPanel();
         // panGen.setBackground(Color.white);
         panGen.setLayout(new GridLayout(3, 1));
-        panGen.setPreferredSize(new Dimension(DialogStudent.LABEL_WIDTH * 3,
-                DialogStudent.LABEL_HEIGHT * 20));
 
         GridBagConstraints c = new GridBagConstraints();
         c.fill = GridBagConstraints.HORIZONTAL;
@@ -106,8 +104,8 @@ public class DialogStudent extends JDialog {
         outerPanNom.setLayout(new GridBagLayout());
         outerPanNom.setBorder(BorderFactory.createTitledBorder("Général"));
         name = new JTextField();
-        name.setSize(new Dimension(DialogStudent.LABEL_WIDTH,
-                DialogStudent.LABEL_HEIGHT));
+        // name.setMargin(new Insets(2, 5, 2, 5));
+
         name.setText(this.student.getName());
         JLabel nomLabel = new JLabel("Nom : ");
         Font font = nomLabel.getFont();
@@ -124,8 +122,6 @@ public class DialogStudent extends JDialog {
         outerPanNom.add(name, c);
 
         surname = new JTextField();
-        surname.setSize(new Dimension(DialogStudent.LABEL_WIDTH,
-                DialogStudent.LABEL_HEIGHT));
         surname.setText(this.student.getSurname());
         JLabel prenomLabel = new JLabel("Prénom : ");
         prenomLabel.setFont(boldFont);
@@ -155,8 +151,6 @@ public class DialogStudent extends JDialog {
         panGen.add(outerPanNom);
 
         birth = new JTextField();
-        birth.setPreferredSize(new Dimension(DialogStudent.LABEL_WIDTH,
-                DialogStudent.LABEL_HEIGHT));
         birth.setText(this.student.getBirthdayAsString());
         JLabel birthLabel = new JLabel("Date de naissance : ");
         birthLabel.setFont(boldFont);
@@ -170,8 +164,6 @@ public class DialogStudent extends JDialog {
         outerPanNom.add(birth, c);
 
         email = new JTextField();
-        email.setPreferredSize(new Dimension(DialogStudent.LABEL_WIDTH,
-                DialogStudent.LABEL_HEIGHT));
         email.setText(this.student.getEmail());
         JLabel emailLabel = new JLabel("Adresse e-mail : ");
         emailLabel.setFont(boldFont);
@@ -191,8 +183,6 @@ public class DialogStudent extends JDialog {
         outerPanGrades.setLayout(new GridBagLayout());
 
         repeating = new JCheckBox();
-        repeating.setPreferredSize(new Dimension(DialogStudent.LABEL_WIDTH,
-                DialogStudent.LABEL_HEIGHT));
         repeating.setSelected(this.student.isRepeating());
         JLabel labelRepeating = new JLabel("Redoublant : ");
         labelRepeating.setFont(boldFont);
@@ -206,8 +196,6 @@ public class DialogStudent extends JDialog {
         outerPanGrades.add(repeating, c);
 
         JTextField average = new JTextField();
-        average.setPreferredSize(new Dimension(DialogStudent.LABEL_WIDTH,
-                DialogStudent.LABEL_HEIGHT));
         average.setText(this.student.getAverage_grade().toString());
         average.setEditable(false);
         average.setForeground(Color.RED);
@@ -234,8 +222,6 @@ public class DialogStudent extends JDialog {
             for (Map.Entry<Exam, Float> entry : student.getExamsGrades()
                     .entrySet()) {
                 JTextField g = new JTextField();
-                g.setPreferredSize(new Dimension(DialogStudent.LABEL_WIDTH,
-                        DialogStudent.LABEL_HEIGHT));
                 g.setText(entry.getValue().toString());
                 JLabel gLabel = new JLabel(entry.getKey().getName());
                 gLabel.setFont(boldFont);
@@ -254,11 +240,7 @@ public class DialogStudent extends JDialog {
 
         JPanel panBtn = new JPanel();
         JButton saveButton = new JButton("OK");
-        saveButton.setPreferredSize(new Dimension(
-                DialogStudent.LABEL_WIDTH / 2, DialogStudent.LABEL_HEIGHT));
         JButton cancelButton = new JButton("Annuler");
-        cancelButton.setPreferredSize(new Dimension(
-                DialogStudent.LABEL_WIDTH / 2, DialogStudent.LABEL_HEIGHT));
         /*
          * c.gridx = 1; c.gridy = 5; c.gridwidth = 1;
          */
@@ -270,7 +252,11 @@ public class DialogStudent extends JDialog {
 
         panGen.add(panBtn, BorderLayout.SOUTH);
 
-        this.getContentPane().add(panGen, BorderLayout.CENTER);
+        this.getContentPane().add(outerPanNom, BorderLayout.NORTH);
+        this.getContentPane().add(outerPanGrades, BorderLayout.CENTER);
+        this.getContentPane().add(panBtn, BorderLayout.SOUTH);
+
+        this.pack();
 
         cancelButton.addActionListener(new ActionListener() {
             @Override
