@@ -153,8 +153,7 @@ public class GroupTab extends JPanel // implements Observer
                 Student stu = parent.getController().getStudent(stud_id);
                 // System.out.println(stu);
                 if (numberOfClicks == 2 && !target.isCellEditable(row, column)) {
-                    DialogStudent new_student = new DialogStudent(stu, parent
-                            .getController());
+                    DialogStudent new_student = new DialogStudent(stu, parent);
                     DialogStatus st = new_student.showDialog();
                     if (st == DialogStatus.OBJECT_UPDATED) {
                         // updateStudentList(groupID);
@@ -183,8 +182,7 @@ public class GroupTab extends JPanel // implements Observer
     class MoreListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent event) {
-            DialogStudent new_student = new DialogStudent(null,
-                    parent.getController());
+            DialogStudent new_student = new DialogStudent(null, parent);
             DialogStatus st = new_student.showDialog();
             if (st == DialogStatus.OBJECT_UPDATED) {
                 // updateStudentList(groupID);
@@ -277,8 +275,7 @@ public class GroupTab extends JPanel // implements Observer
         @Override
         public void actionPerformed(ActionEvent event) {
             Group current_group = parent.getController().getSelectedGroup();
-            DialogGroup dgroup = new DialogGroup(current_group,
-                    parent.getController());
+            DialogGroup dgroup = new DialogGroup(current_group, parent);
             boolean option = dgroup.showDialog();
             if (option) {
                 // updateGroupList();

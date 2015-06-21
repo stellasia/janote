@@ -19,6 +19,7 @@ import javax.swing.JTextField;
 
 import com.janote.controller.MainController;
 import com.janote.model.entities.Group;
+import com.janote.view.gui.MainWindow;
 
 @SuppressWarnings("serial")
 public class DialogGroup extends JDialog {
@@ -30,11 +31,11 @@ public class DialogGroup extends JDialog {
     private final MainController cont;
     private Group group;
 
-    public DialogGroup(Group g, MainController cont) {
+    public DialogGroup(Group g, MainWindow parent) {
         super();
 
         this.setSize(500, 400);
-        this.setLocationRelativeTo(null);
+        this.setLocationRelativeTo(parent);
         this.setResizable(false);
         this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE); // when the
                                                                  // close cross
@@ -53,7 +54,7 @@ public class DialogGroup extends JDialog {
             this.group = g;
             this.setTitle("Informations sur le groupe " + group.getId());
         }
-        this.cont = cont;
+        this.cont = parent.getController();
 
         this.initComponent();
     }
@@ -89,7 +90,6 @@ public class DialogGroup extends JDialog {
         panDesc.setPreferredSize(new Dimension(400, 400));
         panDesc.setBorder(BorderFactory
                 .createTitledBorder("Description (optionel)"));
-        // panDesc.add(desc);
 
         JPanel content = new JPanel();
         // content.setBackground(Color.white);

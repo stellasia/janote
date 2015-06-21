@@ -80,7 +80,7 @@ public class GroupSelector extends JPanel {
         public void actionPerformed(ActionEvent arg0) {
             // JOptionPane.showMessageDialog(null, "Add group action.",
             // "Temporary", JOptionPane.INFORMATION_MESSAGE);
-            DialogGroup zd = new DialogGroup(null, parent.getController());
+            DialogGroup zd = new DialogGroup(null, parent);
             boolean option = zd.showDialog();
             if (option) {
                 // parent.getGroupTab().updateGroupList();

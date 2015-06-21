@@ -30,6 +30,7 @@ import com.janote.controller.MainController;
 import com.janote.model.entities.Exam;
 import com.janote.model.entities.Gender;
 import com.janote.model.entities.Student;
+import com.janote.view.gui.MainWindow;
 
 /**
  * @author estelle
@@ -50,7 +51,7 @@ public class DialogStudent extends JDialog {
 
     private DialogStatus status;
 
-    public DialogStudent(Student stu, MainController cont) {
+    public DialogStudent(Student stu, MainWindow parent) {
         super();
 
         this.setModal(true); // VERY IMPORTANT ! Allow to block any other input,
@@ -65,10 +66,10 @@ public class DialogStudent extends JDialog {
             this.student = stu;
             this.setTitle("Informations sur l'étudiant  " + student.getId());
         }
-        this.cont = cont;
+        this.cont = parent.getController();
 
         this.setSize(500, 270);
-        this.setLocationRelativeTo(null);
+        this.setLocationRelativeTo(parent);
         this.setResizable(true);
         this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE); // when the
                                                                  // close
