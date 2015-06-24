@@ -42,6 +42,8 @@ public class DialogStudent extends JDialog {
     // public static final int LABEL_WIDTH = 150;
     // public static final int LABEL_HEIGHT = 30;
 
+    private final Integer TEXT_FIELD_SIZE = 20;
+
     private Student student;
     private final MainController cont;
 
@@ -68,17 +70,10 @@ public class DialogStudent extends JDialog {
         }
         this.cont = parent.getController();
 
-        this.setSize(500, 270);
         this.setLocationRelativeTo(parent);
         this.setResizable(true);
-        this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE); // when the
-                                                                 // close
-                                                                 // cross is
-                                                                 // clicked,
-                                                                 // just
-                                                                 // close the
-                                                                 // dialog
-                                                                 // window
+        this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+        // when the close cross is clicked, just close the dialog window
 
         this.status = DialogStatus.NOTHING_CHANGE; // default is everything OK
                                                    // status
@@ -103,9 +98,7 @@ public class DialogStudent extends JDialog {
         JPanel outerPanNom = new JPanel();
         outerPanNom.setLayout(new GridBagLayout());
         outerPanNom.setBorder(BorderFactory.createTitledBorder("Général"));
-        name = new JTextField();
-        // name.setMargin(new Insets(2, 5, 2, 5));
-
+        name = new JTextField(TEXT_FIELD_SIZE);
         name.setText(this.student.getName());
         JLabel nomLabel = new JLabel("Nom : ");
         Font font = nomLabel.getFont();
@@ -121,7 +114,7 @@ public class DialogStudent extends JDialog {
         c.gridwidth = 2;
         outerPanNom.add(name, c);
 
-        surname = new JTextField();
+        surname = new JTextField(TEXT_FIELD_SIZE);
         surname.setText(this.student.getSurname());
         JLabel prenomLabel = new JLabel("Prénom : ");
         prenomLabel.setFont(boldFont);
@@ -150,7 +143,7 @@ public class DialogStudent extends JDialog {
         outerPanNom.add(gender, c);
         panGen.add(outerPanNom);
 
-        birth = new JTextField();
+        birth = new JTextField(TEXT_FIELD_SIZE);
         birth.setText(this.student.getBirthdayAsString());
         JLabel birthLabel = new JLabel("Date de naissance : ");
         birthLabel.setFont(boldFont);
@@ -163,7 +156,7 @@ public class DialogStudent extends JDialog {
         c.gridwidth = 2;
         outerPanNom.add(birth, c);
 
-        email = new JTextField();
+        email = new JTextField(TEXT_FIELD_SIZE);
         email.setText(this.student.getEmail());
         JLabel emailLabel = new JLabel("Adresse e-mail : ");
         emailLabel.setFont(boldFont);
@@ -195,7 +188,7 @@ public class DialogStudent extends JDialog {
         c.gridwidth = 2;
         outerPanGrades.add(repeating, c);
 
-        JTextField average = new JTextField();
+        JTextField average = new JTextField(10);
         average.setText(this.student.getAverage_grade().toString());
         average.setEditable(false);
         average.setForeground(Color.RED);

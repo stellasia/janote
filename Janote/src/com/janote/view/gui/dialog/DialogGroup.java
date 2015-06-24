@@ -4,7 +4,6 @@
 package com.janote.view.gui.dialog;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -34,7 +33,6 @@ public class DialogGroup extends JDialog {
     public DialogGroup(Group g, MainWindow parent) {
         super();
 
-        this.setSize(500, 400);
         this.setLocationRelativeTo(parent);
         this.setResizable(false);
         this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE); // when the
@@ -45,6 +43,7 @@ public class DialogGroup extends JDialog {
                                                                  // window
 
         this.setModal(true);
+        this.setResizable(true);
 
         if (g == null) {
             this.group = new Group();
@@ -68,36 +67,40 @@ public class DialogGroup extends JDialog {
 
         // group name
         JPanel panName = new JPanel();
-        // panNom.setBackground(Color.white);
-        panName.setPreferredSize(new Dimension(400, 70));
-        name = new JTextField();
-        name.setPreferredSize(new Dimension(350, 25));
+        name = new JTextField(30);
         name.setText(this.group.getName());
         panName.setBorder(BorderFactory
                 .createTitledBorder("Nom du nouveau groupe"));
-        // nomLabel = new JLabel("Saisir un nom :");
-        // panNom.add(nomLabel);
         panName.add(name);
 
         // groups description
-        desc = new JTextArea();
-        desc.setPreferredSize(new Dimension(350, 200));
+        desc = new JTextArea(10, 30);
+        desc.setLineWrap(true);
         desc.setText(this.group.getDescription());
 
         JScrollPane panDesc = new JScrollPane(desc,
                 JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
                 JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        panDesc.setPreferredSize(new Dimension(400, 400));
         panDesc.setBorder(BorderFactory
                 .createTitledBorder("Description (optionel)"));
 
         JPanel content = new JPanel();
-        // content.setBackground(Color.white);
-        content.add(panName);
-        content.add(panDesc);
+        content.add(panName, BorderLayout.NORTH);
+        content.add(panDesc, BorderLayout.CENTER);
 
         JPanel control = new JPanel();
         JButton okBouton = new JButton("OK");
+        JButton cancelBouton = new JButton("Annuler");
+        control.add(okBouton);
+        control.add(cancelBouton);
+
+        // content.add(control, BorderLayout.SOUTH);
+        this.getContentPane().add(panName, BorderLayout.NORTH);
+        this.getContentPane().add(panDesc, BorderLayout.CENTER);
+        this.getContentPane().add(control, BorderLayout.SOUTH);
+
+        this.pack();
+
         okBouton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent arg0) {
@@ -134,7 +137,6 @@ public class DialogGroup extends JDialog {
             }
         });
 
-        JButton cancelBouton = new JButton("Annuler");
         cancelBouton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent arg0) {
@@ -142,11 +144,6 @@ public class DialogGroup extends JDialog {
             }
         });
 
-        control.add(okBouton);
-        control.add(cancelBouton);
-
-        this.getContentPane().add(content, BorderLayout.CENTER);
-        this.getContentPane().add(control, BorderLayout.SOUTH);
     }
 
     public boolean addGroup(Group gr) {
