@@ -35,6 +35,7 @@ public class ExamTab extends JPanel {
     protected JTable tabData;
     protected ExamTableModel model;
     protected GroupSelector groupSelector;
+    protected JButton btnNewExam;
 
     private ArrayList<Group> groups;
     protected int groupID = 1; //
@@ -90,8 +91,10 @@ public class ExamTab extends JPanel {
         this.add(groupSelector, BorderLayout.NORTH);
         this.add(scroll, BorderLayout.CENTER);
 
-        JButton btnNewExam = new JButton("Ajouter un exam");
+        btnNewExam = new JButton("Ajouter un exam");
         btnNewExam.setBackground(Color.GREEN);
+        btnNewExam.setEnabled(false); // cannot add exam until a group is
+                                      // selected
         btnNewExam.addActionListener(new ActionListener() {
 
             @Override
@@ -119,5 +122,7 @@ public class ExamTab extends JPanel {
         // System.out.println(title);
         model.changeData(title, data);
         groupSelector.setSelectedGroup(g);
+        if (g != null)
+            btnNewExam.setEnabled(true);
     }
 }
