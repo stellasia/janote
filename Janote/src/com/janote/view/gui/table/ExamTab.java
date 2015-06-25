@@ -5,6 +5,8 @@ package com.janote.view.gui.table;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
@@ -20,6 +22,8 @@ import com.janote.model.entities.Group;
 import com.janote.model.entities.Student;
 import com.janote.view.gui.GroupSelector;
 import com.janote.view.gui.MainWindow;
+import com.janote.view.gui.dialog.DialogNewExam;
+import com.janote.view.gui.dialog.DialogStatus;
 
 /**
  * @author estelle
@@ -51,6 +55,10 @@ public class ExamTab extends JPanel {
 
         model = new ExamTableModel(this.data, this.titles);
         tabData = new JTable(model);
+
+        // in this table, selection is made by columns not by row as usual
+        tabData.setColumnSelectionAllowed(true);
+        tabData.setRowSelectionAllowed(false);
 
         ArrayList<Group> grset = this.parent.getController().getGroupList();
         this.groups = grset;
@@ -84,6 +92,20 @@ public class ExamTab extends JPanel {
 
         JButton btnNewExam = new JButton("Ajouter un exam");
         btnNewExam.setBackground(Color.GREEN);
+        btnNewExam.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent arg0) {
+                Exam exam = new Exam();
+                DialogNewExam new_exam = new DialogNewExam(exam, parent
+                        .getController());
+                DialogStatus st = new_exam.showDialog();
+                if (st == DialogStatus.OBJECT_UPDATED) {
+                    // updateStudentList(groupID);
+                }
+            }
+
+        });
         this.add(btnNewExam, BorderLayout.SOUTH);
 
     }
