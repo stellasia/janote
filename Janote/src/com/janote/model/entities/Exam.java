@@ -1,6 +1,6 @@
 package com.janote.model.entities;
 
-public class Exam {
+public class Exam extends AbsEntity {
 
     protected Integer id;
     protected String name;
@@ -33,6 +33,7 @@ public class Exam {
     /**
      * @return the id
      */
+    @Override
     public Integer getId() {
         return id;
     }
@@ -62,6 +63,7 @@ public class Exam {
      * @param id
      *            the id to set
      */
+    @Override
     public void setId(Integer id) {
         this.id = id;
     }

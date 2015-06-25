@@ -138,7 +138,7 @@ public class DialogNewExam extends JDialog {
                             "Erreur", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
-                addExam(e);
+                addOrUpdateExam(e);
 
                 setVisible(false);
                 dispose();
@@ -154,8 +154,11 @@ public class DialogNewExam extends JDialog {
 
     }
 
-    public boolean addExam(Exam e) {
-
-        return false;
+    public boolean addOrUpdateExam(Exam e) {
+        if (this.exam.getId() == null)
+            this.cont.addExam(this.exam);
+        else
+            this.cont.updateExam(this.exam);
+        return true;
     }
 }

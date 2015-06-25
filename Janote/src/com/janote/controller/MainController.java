@@ -126,6 +126,36 @@ public class MainController {
         }
     }
 
+    public boolean addExam(Exam exam) {
+        if (exam.getId() == null) {
+            // System.out.println("MainController.addStudent");
+            // System.out.println(stu.toString());
+            exam.setGroup_id(selectedGroup.getId());
+            examDAO.add(exam);
+
+            this.teacher.addExam(exam, selectedGroup);
+        }
+        else
+            throw new IllegalArgumentException(
+                    "Can not add a student that already have a non null id.");
+        return true;
+    }
+
+    public boolean updateExam(Exam exam) {
+        if (exam.getId() != null) {
+            // System.out.println("MainController.addStudent");
+            // System.out.println(stu.toString());
+            if (!examDAO.update(exam))
+                return false;
+
+            // this.teacher.updateExsam(exam);
+        }
+        else
+            throw new IllegalArgumentException(
+                    "Can not update a student that does not already have an id.");
+        return true;
+    }
+
     public boolean setSelectedGroup(Group g) {
         if (this.teacher.getGroups().contains(g)) {
             this.selectedGroup = g;
@@ -137,20 +167,6 @@ public class MainController {
     public String[] getGroupColTitlesView() {
         return this.groupColTitlesView;
     }
-
-    /*
-     * public ArrayList<String> getExamColTitlesView() { /* String[] names = new
-     * String[3]; names[0] = "id"; names[1] = "Nom"; names[2] = "Prénom"; return
-     * names; ArrayList<String> names = new ArrayList<String>();
-     * names.add("id"); names.add("Nom"); names.add("Prénom");
-     * 
-     * ArrayList<Exam> exams; try { exams = selectedGroup.getExams();
-     * System.out.println(exams.toString()); for (Exam e : exams) {
-     * names.add(e.getName()); } } catch (NullPointerException e) { System.err
-     * .println(
-     * "MainController.getExamColTitlesView: Could not update the exam column titles"
-     * ); } System.out.println(names.toString()); return names; }
-     */
 
     public Teacher getTeacher() {
         Teacher teacher = new Teacher();

@@ -109,8 +109,12 @@ public class Teacher extends AbsEntity {
 
     public void addStudent(Student s, Group g) {
         g.addStudent(s);
-        System.out.println(g.toString());
         this.observableAdded(s);
+    }
+
+    public void addExam(Exam e, Group g) {
+        g.addExam(e);
+        this.observableAdded(e);
     }
 
     public void updateStudent(Student stu) {

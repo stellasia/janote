@@ -145,6 +145,10 @@ public class Group extends AbsEntity {
         this.teacher_id = teacher_id;
     }
 
+    public void addExam(Exam e) {
+        this.exams.add(e);
+    }
+
     @Override
     public String toString() {
         String short_description = this.description;
