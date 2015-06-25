@@ -39,9 +39,6 @@ import com.janote.view.gui.MainWindow;
 @SuppressWarnings("serial")
 public class DialogStudent extends JDialog {
 
-    // public static final int LABEL_WIDTH = 150;
-    // public static final int LABEL_HEIGHT = 30;
-
     private final Integer TEXT_FIELD_SIZE = 20;
 
     private Student student;
@@ -234,15 +231,8 @@ public class DialogStudent extends JDialog {
         JPanel panBtn = new JPanel();
         JButton saveButton = new JButton("OK");
         JButton cancelButton = new JButton("Annuler");
-        /*
-         * c.gridx = 1; c.gridy = 5; c.gridwidth = 1;
-         */
         panBtn.add(saveButton, BorderLayout.LINE_START);
-        /*
-         * c.gridx = 2; c.gridy = 5; c.gridwidth = 1;
-         */
         panBtn.add(cancelButton, BorderLayout.LINE_END);
-
         panGen.add(panBtn, BorderLayout.SOUTH);
 
         this.getContentPane().add(outerPanNom, BorderLayout.NORTH);
@@ -254,7 +244,6 @@ public class DialogStudent extends JDialog {
         cancelButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent arg0) {
-                // setVisible(false);
                 dispose();
             }
         });
@@ -295,7 +284,6 @@ public class DialogStudent extends JDialog {
             this.cont.addStudent(stu);
         else
             this.cont.updateStudent(stu);
-        // student = stu;
         return true;
     }
 }

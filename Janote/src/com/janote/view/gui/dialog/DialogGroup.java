@@ -23,7 +23,7 @@ import com.janote.view.gui.MainWindow;
 @SuppressWarnings("serial")
 public class DialogGroup extends JDialog {
     private final boolean sendData = false;
-    // private JLabel nomLabel, descLabel;
+
     private JTextField name;
     private JTextArea desc;
 
@@ -117,21 +117,6 @@ public class DialogGroup extends JDialog {
                 }
                 addGroup(gr);
 
-                // if (cont.addOrUpdateGroup(gr)) {
-                // JOptionPane.showMessageDialog(null,
-                // "Le groupe a bien été ajouté.", "Succès",
-                // JOptionPane.INFORMATION_MESSAGE);
-                // sendData = true;
-                // setVisible(false);
-                // dispose();
-                // }
-                // else {
-                // JOptionPane.showMessageDialog(null,
-                // "L'ajout du groupe a échoué... ", "Erreur",
-                // JOptionPane.ERROR_MESSAGE);
-                // System.err.println("The group " + gr
-                // + " couldn't be added....");
-                // }
                 setVisible(false);
                 dispose();
             }
