@@ -100,8 +100,8 @@ public class ExamTab extends JPanel {
             @Override
             public void actionPerformed(ActionEvent arg0) {
                 Exam exam = new Exam();
-                DialogNewExam new_exam = new DialogNewExam(exam, parent
-                        .getController());
+                DialogNewExam new_exam = new DialogNewExam(exam, groupSelector
+                        .getSelectedGroup(), parent.getController());
                 DialogStatus st = new_exam.showDialog();
                 if (st == DialogStatus.OBJECT_UPDATED) {
                     // updateStudentList(groupID);

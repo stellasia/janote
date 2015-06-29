@@ -17,6 +17,8 @@ import javax.swing.JTextField;
 
 import com.janote.controller.MainController;
 import com.janote.model.entities.Exam;
+import com.janote.model.entities.Group;
+import com.janote.view.gui.table.GroupGrades;
 
 public class DialogNewExam extends JDialog {
 
@@ -30,9 +32,10 @@ public class DialogNewExam extends JDialog {
 
     private final MainController cont;
     private Exam exam;
+    private final Group group;
     private final DialogStatus status;
 
-    public DialogNewExam(Exam e, MainController cont) {
+    public DialogNewExam(Exam e, Group g, MainController cont) {
         super();
 
         this.setSize(500, 400);
@@ -47,7 +50,9 @@ public class DialogNewExam extends JDialog {
 
         this.setModal(true);
 
-        if (e == null) {
+        this.group = g;
+
+        if (e.getId() == null) {
             this.exam = new Exam();
             this.setTitle("Enregistrer un nouvel exam");
         }
@@ -110,6 +115,8 @@ public class DialogNewExam extends JDialog {
 
         // Student grade list
         JPanel studentGrades = new JPanel();
+        GroupGrades gg = new GroupGrades(this, this.group);
+        studentGrades.add(gg);
         content.add("Notes", studentGrades);
 
         // Control buttons
