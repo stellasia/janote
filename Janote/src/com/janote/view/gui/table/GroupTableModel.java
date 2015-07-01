@@ -75,6 +75,13 @@ public class GroupTableModel extends DefaultTableModel {
                     return s.getEmail();
                 case REPEATING:
                     return s.isRepeating();
+                case AVERAGE:
+                    Object grade = s.getAverage_grade();
+                    if (grade instanceof String)
+                        return grade;
+                    else
+                        return String.format("%2.1f", (Float) grade);
+                    // return s.getAverage_grade();
             }
         }
         return null;

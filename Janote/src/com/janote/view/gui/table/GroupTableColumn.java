@@ -1,7 +1,14 @@
 package com.janote.view.gui.table;
 
 public enum GroupTableColumn {
-    ID(0), NAME(1), SURNAME(2), GENDER(3), BIRTHDAY(4), EMAIL(5), REPEATING(6);
+    ID(0),
+    NAME(1),
+    SURNAME(2),
+    GENDER(3),
+    BIRTHDAY(4),
+    EMAIL(5),
+    REPEATING(6),
+    AVERAGE(7);
 
     private Integer val;
 

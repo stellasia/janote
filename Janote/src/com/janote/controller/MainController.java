@@ -37,8 +37,8 @@ public class MainController {
      */
     private final String groupColTitlesView[] = { "id", "Nom", "Prénom",
                                                  "Sexe", "Naissance", "Email",
-                                                 "Redoublant" }; // column
-                                                                 // titles
+                                                 "Redoublant",
+                                                 "Moyenne générale" };
 
     /**
      * The currently displayed group.
