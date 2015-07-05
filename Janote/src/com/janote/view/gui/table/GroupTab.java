@@ -133,26 +133,20 @@ public class GroupTab extends JPanel // implements Observer
             public void mouseClicked(MouseEvent e) {
                 int numberOfClicks = e.getClickCount();
                 JTable target = (JTable) e.getSource();
-                int row, column;
+                int row;
                 try {
                     row = target.convertRowIndexToModel(target.getSelectedRow());
-                    column = target.convertColumnIndexToModel(target
-                            .getSelectedColumn());
                 }
                 catch (ArrayIndexOutOfBoundsException exception) {
                     System.err
                             .println("GroupTab.addMonseListener:: Could not find a matching row in the table.");
                     return;
                 }
-                // System.out.println("GroupTab clicked -> numberOfClicks " +
-                // numberOfClicks + ", row " + row + ",col " + column);
-                int stud_id = (int) target.getModel().getValueAt(row,
-                        GroupTableColumn.ID.value());
-                // System.out.println("GroupTab -> mouseListener -> " +
-                // stud_id);
-                Student stu = parent.getController().getStudent(stud_id);
+                // System.out.println("GroupTab -> mouseListener -> " + data);
+                // System.out.println("GroupTab -> mouseListener -> " + row);
+                Student stu = data.get(row);
                 // System.out.println(stu);
-                if (numberOfClicks == 2 && !target.isCellEditable(row, column)) {
+                if (numberOfClicks == 2) {
                     DialogStudent new_student = new DialogStudent(stu, parent);
                     DialogStatus st = new_student.showDialog();
                     if (st == DialogStatus.OBJECT_UPDATED) {
@@ -293,6 +287,7 @@ public class GroupTab extends JPanel // implements Observer
     public void updateStudentList(Group g, ArrayList<Student> data) {
         // System.out.println("GroupTab.updateStudentList");
         // System.out.println(data);
+        this.data = data;
         model.changeData(data);
         groupSelector.setSelectedGroup(g);
     }
