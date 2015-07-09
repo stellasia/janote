@@ -115,7 +115,7 @@ public class DialogNewExam extends JDialog {
 
         // Student grade list
         JPanel studentGrades = new JPanel();
-        GroupGrades gg = new GroupGrades(this, this.group);
+        GroupGrades gg = new GroupGrades(this, this.group, this.exam);
         studentGrades.add(gg);
         content.add("Notes", studentGrades);
 

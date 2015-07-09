@@ -7,6 +7,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
+import com.janote.model.entities.Exam;
 import com.janote.model.entities.Group;
 import com.janote.model.entities.Student;
 
@@ -17,23 +18,23 @@ public class GroupGrades extends JPanel {
     protected ArrayList<Student> data;
 
     protected Group gr;
+    protected Exam exam;
 
-    public GroupGrades(JDialog Pparent, Group group) {
+    public GroupGrades(JDialog Pparent, Group group, Exam e) {
         this.data = null;
         this.parent = Pparent;
         this.gr = group;
-
+        this.exam = e;
         this.init();
     }
 
     public void init() {
-        String[] titles = { "Nom", "Prénom", "Note" };
-        Object[][] data = new Object[this.gr.getStudents().size()][3];
+        String[] titles = { "Nom Prénom", "Note" };
+        Object[][] data = new Object[this.gr.getStudents().size()][2];
         for (int i = 0; i < this.gr.getStudents().size(); i++) {
             Student s = this.gr.getStudents().get(i);
-            data[i][0] = s.getName();
-            data[i][1] = s.getSurname();
-            data[i][2] = "";
+            data[i][0] = s.getName() + " " + s.getSurname();
+            data[i][1] = s.getGrade(exam);
         }
         tabData = new JTable(data, titles);
         tabData.setRowHeight(30);
