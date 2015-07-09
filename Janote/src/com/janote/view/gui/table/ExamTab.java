@@ -5,8 +5,6 @@ package com.janote.view.gui.table;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
@@ -22,8 +20,8 @@ import com.janote.model.entities.Group;
 import com.janote.model.entities.Student;
 import com.janote.view.gui.GroupSelector;
 import com.janote.view.gui.MainWindow;
-import com.janote.view.gui.dialog.DialogNewExam;
-import com.janote.view.gui.dialog.DialogStatus;
+
+//import com.janote.view.gui.dialog.DialogNewExam;
 
 /**
  * @author estelle
@@ -39,12 +37,14 @@ public class ExamTab extends JPanel {
 
     private ArrayList<Group> groups;
     protected int groupID = 1; //
-    protected ArrayList<Student> data;
+    protected ArrayList<Exam> exams;
+    protected ArrayList<Student> students;
     protected ArrayList<String> titles; // column titles
 
     public ExamTab(MainWindow Pparent) {
         // this.titles = titles;
-        this.data = null;
+        this.exams = null;
+        this.students = null;
         this.groupID = 0;
         this.parent = Pparent;
     }
@@ -54,7 +54,7 @@ public class ExamTab extends JPanel {
 
         // Object[][] data = { { 1, 2, 3 }, { 10, 20, 30 } };
 
-        model = new ExamTableModel(this.data, this.titles);
+        model = new ExamTableModel(this.exams, this.students, this.titles);
         tabData = new JTable(model);
 
         // in this table, selection is made by columns not by row as usual
@@ -85,6 +85,23 @@ public class ExamTab extends JPanel {
         TableCellRenderer renderer = new TabRowRenderer();
         tabData.setDefaultRenderer(Object.class, renderer); // row colors
         tabData.getTableHeader().setReorderingAllowed(false);
+        /*
+         * tabData.addMouseListener(new MouseAdapter() {
+         * 
+         * @Override public void mouseClicked(MouseEvent e) { int numberOfClicks
+         * = e.getClickCount(); JTable target = (JTable) e.getSource(); int
+         * clicked_row = target.getSelectedRow(); int clicked_column =
+         * target.getSelectedColumn(); int column; try { column =
+         * target.convertColumnIndexToModel(clicked_column); } catch
+         * (ArrayIndexOutOfBoundsException exception) { System.err .println(
+         * "ExamTab.addMonseListener:: Could not find a matching column in the table."
+         * ); return; } Exam exam = getExam(column); if (numberOfClicks == 2 &&
+         * !target.isCellEditable(clicked_row, clicked_column)) { DialogNewExam
+         * new_exam = new DialogNewExam(exam, groupSelector.getSelectedGroup(),
+         * parent .getController()); DialogStatus st = new_exam.showDialog(); if
+         * (st == DialogStatus.OBJECT_UPDATED) { // updateStudentList(groupID);
+         * } } } });
+         */
 
         JScrollPane scroll = new JScrollPane(tabData);
         this.setLayout(new BorderLayout());
@@ -95,32 +112,28 @@ public class ExamTab extends JPanel {
         btnNewExam.setBackground(Color.GREEN);
         btnNewExam.setEnabled(false); // cannot add exam until a group is
                                       // selected
-        btnNewExam.addActionListener(new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent arg0) {
-                Exam exam = new Exam();
-                DialogNewExam new_exam = new DialogNewExam(exam, groupSelector
-                        .getSelectedGroup(), parent.getController());
-                DialogStatus st = new_exam.showDialog();
-                if (st == DialogStatus.OBJECT_UPDATED) {
-                    // updateStudentList(groupID);
-                }
-            }
-
-        });
+        /*
+         * btnNewExam.addActionListener(new ActionListener() {
+         * 
+         * @Override public void actionPerformed(ActionEvent arg0) { Exam exam =
+         * new Exam(); DialogNewExam new_exam = new DialogNewExam(exam,
+         * groupSelector .getSelectedGroup(), parent.getController());
+         * DialogStatus st = new_exam.showDialog(); if (st ==
+         * DialogStatus.OBJECT_UPDATED) { // updateStudentList(groupID); } }
+         * 
+         * });
+         */
         this.add(btnNewExam, BorderLayout.SOUTH);
 
     }
 
     // *****************************************
     // @Override
-    public void updateStudentList(Group g, ArrayList<Student> data,
-            ArrayList<Exam> title) {
+    public void updateStudentList(Group g) {
         // System.out.println("GroupTab.updateStudentList");
         // System.out.println(data);
         // System.out.println(title);
-        model.changeData(title, data);
+        model.changeData(g.getExams(), g.getStudents());
         groupSelector.setSelectedGroup(g);
         if (g != null)
             btnNewExam.setEnabled(true);

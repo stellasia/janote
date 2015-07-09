@@ -179,8 +179,23 @@ public class Student extends AbsEntity {
         return new ArrayList<Float>(exams.values());
     }
 
+    /**
+     * Returns the grade of this Student at Exam e
+     * 
+     * Use the exam_id to identify them instead of map.get probably because of
+     * the mutable nature of Exam (?)
+     * 
+     * @param e
+     * @return
+     */
     public Float getGrade(Exam e) {
-        return this.exams.get(e);
+        for (Map.Entry<Exam, Float> entry : this.exams.entrySet()) {
+            Exam this_exam = entry.getKey();
+            Float value = entry.getValue();
+            if (e.getId() == this_exam.getId())
+                return value;
+        }
+        return null;
     }
 
     /**

@@ -16,13 +16,16 @@ import com.janote.model.entities.Student;
 public class ExamTableModel extends DefaultTableModel {
 
     // *****************************************
-    private ArrayList<Student> data;
+    private ArrayList<Exam> exams;
+    private ArrayList<Student> students;
     private ArrayList<String> title;
 
     // *****************************************
-    public ExamTableModel(ArrayList<Student> data, ArrayList<String> title) {
+    public ExamTableModel(ArrayList<Exam> exams, ArrayList<Student> students,
+            ArrayList<String> title) {
         // System.out.println("GroupTableModel");
-        this.data = data;
+        this.exams = exams;
+        this.students = students;
         this.title = title;
     }
 
@@ -43,8 +46,8 @@ public class ExamTableModel extends DefaultTableModel {
      */
     @Override
     public int getRowCount() {
-        if (this.data != null)
-            return this.data.size();
+        if (this.students != null)
+            return this.students.size();
         return 0;
     }
 
@@ -56,7 +59,7 @@ public class ExamTableModel extends DefaultTableModel {
     public Object getValueAt(int row, int col) {
         Student s;
         try {
-            s = this.data.get(row);
+            s = this.students.get(row);
         }
         catch (NullPointerException e) {
             return null;
@@ -77,24 +80,16 @@ public class ExamTableModel extends DefaultTableModel {
     }
 
     public Float getGrade(int row, int col) {
-        // get the exam corresponding to col
-        int stud_id = (int) this.getValueAt(row, 0);
-        // get the student corresponding to row
-        String exam_name = this.getColumnName(col);
-        // System.out.println("ExamTableModel.getGrade");
-        // System.out.println(stud_id);
-        // System.out.println(exam_name);
-        // get the grade of student for exam
-        for (Student s : this.data) {
-            if (s.getId() == stud_id) {
-                for (Exam e : s.getExams()) {
-                    if (e.getName().equals(exam_name)) {
-                        return s.getGrade(e);
-                    }
-                }
-            }
+        try {
+            // get the student corresponding to row
+            Student stu = this.students.get(row);
+            // get the exam corresponding to col
+            Exam exam = this.exams.get(col - 3);
+            return stu.getGrade(exam);
         }
-        return new Float(-100);
+        catch (Exception e) {
+            return new Float(-100);
+        }
     }
 
     // *****************************************
@@ -140,7 +135,7 @@ public class ExamTableModel extends DefaultTableModel {
 
     // *****************************************
     public void removeRow(Student row) {
-        this.data.remove(row);
+        this.students.remove(row);
 
         // Update table
         this.fireTableDataChanged();
@@ -151,17 +146,17 @@ public class ExamTableModel extends DefaultTableModel {
         // System.out.println("GroupTableModel.addRow");
         // System.out.println(row.toString());
         // System.out.println(data.toString());
-        if (this.data == null)
-            this.data = new ArrayList<Student>();
-        this.data.add(row);
+        if (this.students == null)
+            this.students = new ArrayList<Student>();
+        this.students.add(row);
 
         // Update table
         this.fireTableDataChanged();
     }
 
     public void updateRow(Student row) {
-        Integer index = this.getIndexOf(row);
-        this.data.set(index, row);
+        Integer index = this.students.indexOf(row);
+        this.students.set(index, row);
         this.fireTableDataChanged();
     }
 
@@ -184,19 +179,20 @@ public class ExamTableModel extends DefaultTableModel {
         for (Exam e : newExams) {
             this.title.add(e.getName());
         }
-        this.data = newData;
+        this.students = newData;
+        this.exams = newExams;
         this.fireTableStructureChanged();
         // this.fireTableDataChanged();
     }
 
-    public Integer getIndexOf(Student student) {
-        if (student.getId() == null)
-            return null;
-        for (int i = 0; i < this.data.size(); i++) {
-            Student s = this.data.get(i);
-            if (s.getId() == student.getId())
-                return i;
-        }
-        return null;
-    }
+    // public Integer getIndexOf(Student student) {
+    // if (student.getId() == null)
+    // return null;
+    // for (int i = 0; i < this.students.size(); i++) {
+    // Student s = this.data.get(i);
+    // if (s.getId() == student.getId())
+    // return i;
+    // }
+    // return null;
+    // }
 }

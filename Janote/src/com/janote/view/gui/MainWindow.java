@@ -332,9 +332,8 @@ public class MainWindow extends JFrame implements Observer {
             this.groupTab.updateStudentList(this.cont.getSelectedGroup(),
                     students);
 
-            ArrayList<Exam> exams = this.cont.getExamList();
-            this.examTab.updateStudentList(this.cont.getSelectedGroup(),
-                    students, exams);
+            // ArrayList<Exam> exams = this.cont.getExamList();
+            this.examTab.updateStudentList(this.cont.getSelectedGroup());
         }
     }
 
