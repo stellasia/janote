@@ -3,6 +3,7 @@ package com.janote.view.gui.dialog;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.HashMap;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -18,6 +19,7 @@ import javax.swing.JTextField;
 import com.janote.controller.MainController;
 import com.janote.model.entities.Exam;
 import com.janote.model.entities.Group;
+import com.janote.model.entities.Student;
 import com.janote.view.gui.table.GroupGrades;
 
 public class DialogNewExam extends JDialog {
@@ -29,6 +31,7 @@ public class DialogNewExam extends JDialog {
     private JTextField name;
     private JTextArea desc;
     private JTextField coeff;
+    private GroupGrades gg;
 
     private final MainController cont;
     private Exam exam;
@@ -115,7 +118,7 @@ public class DialogNewExam extends JDialog {
 
         // Student grade list
         JPanel studentGrades = new JPanel();
-        GroupGrades gg = new GroupGrades(this, this.group, this.exam);
+        gg = new GroupGrades(this, this.group.getStudentGrades(this.exam));
         studentGrades.add(gg);
         content.add("Notes", studentGrades);
 
@@ -135,10 +138,12 @@ public class DialogNewExam extends JDialog {
             @Override
             public void actionPerformed(ActionEvent arg0) {
                 Exam e = null;
+                HashMap<Student, Float> grades;
                 try {
                     Float c = Float.parseFloat(coeff.getText());
                     e = new Exam(exam.getId(), name.getText(), desc.getText(),
                             c, cont.getSelectedGroup().getId());
+                    grades = gg.getGrades();
                 }
                 catch (IllegalArgumentException exception) {
                     JOptionPane.showMessageDialog(null, "Exam invalide",

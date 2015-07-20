@@ -163,8 +163,7 @@ public class Student extends AbsEntity {
      * @return a list of all exams the student is supposed to have taken
      */
     public ArrayList<Exam> getExams() {
-        ArrayList<Exam> list = new ArrayList<Exam>();
-        list.addAll(exams.keySet());
+        ArrayList<Exam> list = new ArrayList<Exam>(exams.keySet());
         return list;
     }
 

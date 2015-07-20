@@ -72,6 +72,25 @@ public class Group extends AbsEntity {
     }
 
     /**
+     * 
+     * @return a 2D-array listing the student name and grades
+     */
+    public Object[][] getStudentGrades(Exam e) {
+        Object[][] result = new Object[this.students.size()][2];
+        for (int i = 0; i < this.students.size(); i++) {
+            Student stu = this.students.get(i);
+            result[i][0] = String.format("%s %s", stu.getName(),
+                    stu.getSurname());
+            for (int j = 0; j < this.exams.size(); j++) {
+                Exam exam = this.exams.get(j);
+                if (exam.getId() == e.getId())
+                    result[i][1] = stu.getGrade(exam);
+            }
+        }
+        return result;
+    }
+
+    /**
      * @param name
      *            the name to set
      */
