@@ -7,10 +7,12 @@ import com.janote.observer.Observer;
 
 public class AbsEntity implements Observable {
 
-    protected Integer id;
+    protected Integer id = -1;
     protected boolean modified = false;
 
     private final ArrayList<Observer> observers;
+
+    public int prime = 37;
 
     public AbsEntity() {
         this.observers = new ArrayList<Observer>();
@@ -87,12 +89,22 @@ public class AbsEntity implements Observable {
     }
 
     @Override
-    public boolean equals(Object g) {
-        if (g == null)
-            return false;
-        if (this.id == ((AbsEntity) g).getId()) {
-            return true;
-        }
-        return false;
+    public int hashCode() {
+        return this.prime + this.id.hashCode();
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        AbsEntity other = (AbsEntity) obj;
+        if (this.id != other.getId())
+            return false;
+        return true;
+    }
+
 }

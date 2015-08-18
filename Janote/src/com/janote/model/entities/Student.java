@@ -188,13 +188,12 @@ public class Student extends AbsEntity {
      * @return
      */
     public Float getGrade(Exam e) {
-        for (Map.Entry<Exam, Float> entry : this.exams.entrySet()) {
-            Exam this_exam = entry.getKey();
-            Float value = entry.getValue();
-            if (e.getId() == this_exam.getId())
-                return value;
-        }
-        return null;
+        return this.exams.get(e);
+        /*
+         * for (Map.Entry<Exam, Float> entry : this.exams.entrySet()) { Exam
+         * this_exam = entry.getKey(); Float value = entry.getValue(); if
+         * (e.getId() == this_exam.getId()) return value; } return null;
+         */
     }
 
     /**
